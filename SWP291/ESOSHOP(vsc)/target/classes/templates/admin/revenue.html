@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+    <link rel="stylesheet" href="/css/admin.css">
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="/css/fontawesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+
+    <style>
+        .image-container {
+            width: 150px;
+            /* Đặt chiều rộng của khung hình */
+            height: 200px;
+            /* Đặt chiều cao của khung hình */
+            overflow: hidden;
+            /* Ẩn bất kỳ phần nào của ảnh bị tràn ra ngoài khung */
+        }
+
+        #selectedImage {
+            width: 100%;
+            /* Đặt chiều rộng của ảnh là 100% để nó phù hợp với khung hình */
+            height: auto;
+
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <div class="container_all">
+
+        <div class="sidebar" style="overflow: hidden;">
+            <div class="row flex-column" style="margin-top: 150px; ">
+
+
+                <div class="col-6"><span
+                        style="font-size: 30px; color: white; font-weight: bold; margin-left: 50px;">Miracle</span>
+                </div>
+                <div class="col mt-5 d-flex sidebar_btn flex-column" style="width: 100vw;">
+                    <button class="d-flex align-items-center"
+                        style="margin-left: 40px; height: 45px; border: none; background-color: transparent;"
+                        onclick="toggleMenu()">
+                        <div style="width: 30px; margin-right: 7px;">
+                            <i class="fa-solid fa-user " style="color: #ffffff;"></i>
+                        </div>
+                        <!-- <button type="button" style="border: none; background-color: transparent;"
+                            ><span style="color: white;">User</span></button> -->
+                        <span style="color: white; margin-right: 60px;">User</span>
+                        <div style="width: 30px;">
+                            <i class="fa-solid fa-caret-down ml-3" style="color: white;"></i>
+                        </div>
+                    </button>
+                    <div id="userSubMenu" style="display: none; ">
+                        <div>
+                            <a href="" style="color: black; text-decoration: none; display: block; padding: 10px;">
+                                <span>
+                                    <i class="fa-solid fa-user-pen"></i>
+                                </span>
+                                <span style="margin-left: 10px;">Staff</span>
+                            </a>
+                        </div>
+                        <div>
+                            <a style="color: black; text-decoration: none; display: block; padding: 10px;" href="#"
+                                aria-expanded="false">
+                                <span>
+                                    <i class="fa-solid fa-user-large"></i>
+                                </span>
+                                <span style="margin-left: 10px;">Customer</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-10 mt-4 d-flex   sidebar_btn " style="width: 100vw;">
+                    <div class="d-flex align-items-center" style="margin-left: 50px; height: 45px;">
+                        <div style="width: 30px;" class="mr-3 "><i class="fa-solid fa-box-open "
+                                style="color: #ffffff;"></i>
+                        </div>
+
+                        <a href="#" style="color: white; text-decoration:none ; ">Product</a>
+                    </div>
+
+
+                </div>
+                <div class="col-10 mt-4 d-flex  sidebar_btn" style="width: 100vw;">
+                    <div class="d-flex align-items-center" style="margin-left: 50px; height: 45px;">
+                        <div style="width: 30px;" class="mr-3"><i class="fa-solid fa-grip" style="color: white;"></i>
+                        </div>
+
+                        <a href="#" style="color: white; text-decoration:none ;">Category</a>
+                    </div>
+
+
+                </div>
+                <div class="col-10 mt-4 d-flex  sidebar_btn" style="width: 100vw;">
+                    <div class="d-flex align-items-center" style="margin-left: 50px; height: 45px;">
+                        <div style="width: 30px;" class="mr-3"><i class="fa-solid fa-clipboard-list "
+                                style="color: #ffffff;"></i></div>
+
+                        <a href="#" style="color: white; text-decoration:none ;">Order</a>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <!-- Navbar brand -->
+                <a class="navbar-brand" href="#">
+                    <img id="MDB-logo"
+                        src="https://mdbcdn.b-cdn.net/wp-content/uploads/2018/06/logo-mdb-jquery-small.png"
+                        alt="MDB Logo" draggable="false" height="30" />
+                </a>
+
+                <!-- Toggle button -->
+                <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+                    data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <!-- Collapsible wrapper -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Left links -->
+
+                    <!-- Left links -->
+
+                    <form class="d-flex align-items-center w-100 form-search mr-2">
+                        <div class="input-group">
+                            <input type="search" class="form-control" placeholder="Search" aria-label="Search" />
+                        </div>
+                        <a href="#!" class="text-white"><i class="fas fa-search ps-3"></i></a>
+                    </form>
+
+                    <ul class="navbar-nav ms-3">
+
+                        <li class="nav-item mr-2">
+
+                        </li>
+                        <li class="nav-item" style="width: 85px;">
+                            <a class="nav-link d-flex align-items-center" href="#!">Sign In</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Collapsible wrapper -->
+            </div>
+        </div>
+
+        <div class="content-container " style="padding-top: 70px;">
+            <section style="background-color: #eee;" class="content">
+                <div class="container py-5">
+                    <h2>Welcome EVO</h2>
+
+
+
+
+                    <div class="row">
+                        <div class="col-2">
+                            <form id="formCategory">
+                                <select class="form-select" aria-label="Default select example">
+                                    <option value="0">Category</option>
+                                    <option value="1">Phone</option>
+                                    <option value="2">Tablet</option>
+                                    <option value="3">Laptop</option>
+
+                                </select>
+                            </form>
+                        </div>
+
+                        <div class="col-2">
+                            <form id="formBrand">
+                                <select class="form-select" aria-label="Default select example">
+                                    <option value="0">Brand</option>
+                                    <option value="1">Apple</option>
+                                    <option value="2">Samsung</option>
+                                    <option value="3">Oppo</option>
+
+                                </select>
+                            </form>
+                        </div>
+
+                        <div class="col-2">
+                            <form id="form">
+                                <select class="form-select" aria-label="Default select example">
+                                    <option value="0">Sold</option>
+                                    <option value="1">Highest-Lowest</option>
+                                    <option value="2">Lowest-Highest</option>
+
+
+                                </select>
+                            </form>
+                        </div>
+
+
+
+                        <div class="col-6 ml-3">
+                            <form>
+                                <label for="startDate">From:</label>
+                                <input type="date" id="startDate">
+                                <label for="endDate">To:</label>
+                                <input type="date" id="endDate">
+                                <button class="btn btn-outline-dark">Search</button>
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <div class="container mt-5">
+                        <table class="table" style="background-color: white; border-radius: 10px;" >
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Brand</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Price</th>
+
+                                    <th scope="col">Sold</th>
+                                    <th scope="col">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Iphone15</td>
+                                    <td>Apple</td>
+                                    <td>Phone</td>
+                                    <td>150000</td>
+                                    <td>20</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Zfold</td>
+                                    <td>Samsung</td>
+                                    <td>Phone</td>
+                                    <td>120000</td>
+                                    <td>15</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Iphone X</td>
+                                    <td>Apple</td>
+                                    <td>Phone</td>
+                                    <td>120000</td>
+                                    <td>12</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row flex-column justify-content-end">
+                        <div class="col-3" style="font-weight: bold; font-size: 20px;">Revenue: <span
+                                style="color: red;" id="totalRevenue"></span></div>
+                        <div class="col-3 mt-2">
+                            <button type="button" class="btn btn-info ml-auto" onclick="exportToExcel()">Export</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <script>
+        let menuExpanded = false;
+
+        function toggleMenu() {
+            const userSubMenu = document.getElementById("userSubMenu");
+            if (!menuExpanded) {
+                userSubMenu.style.display = "block";
+                menuExpanded = true;
+            } else {
+                userSubMenu.style.display = "none";
+                menuExpanded = false;
+            }
+        }
+        // Lấy danh sách các hàng trong bảng
+        const rows = document.querySelectorAll(" table tbody tr");
+
+        // Khởi tạo biến để lưu tổng doanh thu
+        let totalRevenue = 0;
+
+        // Lặp qua từng hàng trong bảng và tính tổng doanh thu cho mỗi sản phẩm
+        rows.forEach((row) => {
+            const price = parseFloat(row.cells[4].textContent);
+            const sold = parseFloat(row.cells[5].textContent);
+            const total = price * sold;
+            row.cells[6].textContent = total; // Cập nhật ô "Total" trong hàng
+            totalRevenue += total; // Cộng vào tổng doanh thu
+        });
+
+        // Hiển thị tổng doanh thu
+        const totalRevenueElement = document.getElementById("totalRevenue");
+        totalRevenueElement.textContent = totalRevenue;
+    </script>
+    <script>
+        function exportToExcel() {
+            const table = document.querySelector('.table');
+            const totalRevenue = document.getElementById('totalRevenue').textContent;
+
+            const rows = table.querySelectorAll('tr');
+            const data = {['ID', 'Product', 'Brand', 'Category', 'Price', 'Sold', 'Total']};
+            
+            // Bắt đầu từ index 1 để loại bỏ hàng header lặp lại
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i];
+                const rowData = Array.from(row.children)
+                    .map(cell => cell.textContent);
+                data.push(rowData);
+            }
+            data.push(['', '', '', '', '', 'Revenue:', totalRevenue]);
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+            XLSX.writeFile(wb, 'data.xlsx');
+        }
+    </script>
+</body>
+
+
+</html>

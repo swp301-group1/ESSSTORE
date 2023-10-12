@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+    <link rel="stylesheet" href="/css/admin.css">
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="/css/fontawesome.min.css">
+
+    <style>
+        .image-container {
+            width: 150px;
+            /* Đặt chiều rộng của khung hình */
+            height: 200px;
+            /* Đặt chiều cao của khung hình */
+            overflow: hidden;
+            /* Ẩn bất kỳ phần nào của ảnh bị tràn ra ngoài khung */
+        }
+
+        #selectedImage {
+            width: 100%;
+            /* Đặt chiều rộng của ảnh là 100% để nó phù hợp với khung hình */
+            height: auto;
+
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <div class="container_all">
+
+        <div class="sidebar" style="overflow: hidden;">
+            <div class="row flex-column" style="margin-top: 150px; ">
+
+
+                <div class="col-6"><span
+                        style="font-size: 30px; color: white; font-weight: bold; margin-left: 50px;">Miracle</span>
+                </div>
+                <div class="col mt-5 d-flex sidebar_btn flex-column" style="width: 100vw;">
+                    <button class="d-flex align-items-center"
+                        style="margin-left: 40px; height: 45px; border: none; background-color: transparent;"
+                        onclick="toggleMenu()">
+                        <div style="width: 30px; margin-right: 7px;">
+                            <i class="fa-solid fa-user " style="color: #ffffff;"></i>
+                        </div>
+                        <!-- <button type="button" style="border: none; background-color: transparent;"
+                            ><span style="color: white;">User</span></button> -->
+                        <span style="color: white; margin-right: 60px;">User</span>
+                        <div style="width: 30px;">
+                            <i class="fa-solid fa-caret-down ml-3" style="color: white;"></i>
+                        </div>
+                    </button>
+                    <div id="userSubMenu" style="display: none; ">
+                        <div>
+                            <a href="" style="color: black; text-decoration: none; display: block; padding: 10px;">
+                                <span>
+                                    <i class="fa-solid fa-user-pen"></i>
+                                </span>
+                                <span style="margin-left: 10px;">Staff</span>
+                            </a>
+                        </div>
+                        <div>
+                            <a style="color: black; text-decoration: none; display: block; padding: 10px;" href="#"
+                                aria-expanded="false">
+                                <span>
+                                    <i class="fa-solid fa-user-large"></i>
+                                </span>
+                                <span style="margin-left: 10px;">Customer</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-10 mt-4 d-flex   sidebar_btn " style="width: 100vw;">
+                    <div class="d-flex align-items-center" style="margin-left: 50px; height: 45px;">
+                        <div style="width: 30px;" class="mr-3 "><i class="fa-solid fa-box-open "
+                                style="color: #ffffff;"></i>
+                        </div>
+
+                        <a href="#" style="color: white; text-decoration:none ; ">Product</a>
+                    </div>
+
+
+                </div>
+                <div class="col-10 mt-4 d-flex  sidebar_btn" style="width: 100vw;">
+                    <div class="d-flex align-items-center" style="margin-left: 50px; height: 45px;">
+                        <div style="width: 30px;" class="mr-3"><i class="fa-solid fa-grip" style="color: white;"></i>
+                        </div>
+
+                        <a href="#" style="color: white; text-decoration:none ;">Category</a>
+                    </div>
+
+
+                </div>
+                <div class="col-10 mt-4 d-flex  sidebar_btn" style="width: 100vw;">
+                    <div class="d-flex align-items-center" style="margin-left: 50px; height: 45px;">
+                        <div style="width: 30px;" class="mr-3"><i class="fa-solid fa-clipboard-list "
+                                style="color: #ffffff;"></i></div>
+
+                        <a href="#" style="color: white; text-decoration:none ;">Order</a>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <!-- Navbar brand -->
+                <a class="navbar-brand" href="#">
+                    <img id="MDB-logo"
+                        src="https://mdbcdn.b-cdn.net/wp-content/uploads/2018/06/logo-mdb-jquery-small.png"
+                        alt="MDB Logo" draggable="false" height="30" />
+                </a>
+
+                <!-- Toggle button -->
+                <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+                    data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <!-- Collapsible wrapper -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Left links -->
+
+                    <!-- Left links -->
+
+                    <form class="d-flex align-items-center w-100 form-search mr-2">
+                        <div class="input-group">
+                            <input type="search" class="form-control" placeholder="Search" aria-label="Search" />
+                        </div>
+                        <a href="#!" class="text-white"><i class="fas fa-search ps-3"></i></a>
+                    </form>
+
+                    <ul class="navbar-nav ms-3">
+
+                        <li class="nav-item mr-2">
+
+                        </li>
+                        <li class="nav-item" style="width: 85px;">
+                            <a class="nav-link d-flex align-items-center" href="#!">Sign In</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Collapsible wrapper -->
+            </div>
+        </div>
+
+        <div class="content-container " style="padding-top: 70px;">
+            <section style="background-color: #eee;" class="content">
+                <div class="container py-5">
+                    
+
+
+                    <div class="container mt-2">
+                        <div class="row ">
+                            <div class="col-4">
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <p class="mb-0 text-secondary">Total Orders(last 7 days)</p>
+                                                <h4 class="my-1 text-info">4805</h4>
+                                                <p class="mb-0 font-13">+2.5% from last week</p>
+                                            </div>
+                                            <div
+                                                class="widgets-icons-2 rounded-circle bg-gradient-scooter text-white ms-auto">
+                                                <i class="fa fa-shopping-cart"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="card radius-10 border-start border-0 border-3 border-danger">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <p class="mb-0 text-secondary">Total Revenue(last 7 days)</p>
+                                                <h4 class="my-1 text-danger">$84,245</h4>
+                                                <p class="mb-0 font-13">+5.4% from last week</p>
+                                            </div>
+                                            <div
+                                                class="widgets-icons-2 rounded-circle bg-gradient-bloody text-white ms-auto">
+                                                <i class="fa fa-dollar"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="card radius-10 border-start border-0 border-3 border-warning">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <p class="mb-0 text-secondary">Total Customers</p>
+                                                <h4 class="my-1 text-warning">8.4K</h4>
+                                                <p class="mb-0 font-13">+8.4% from last week</p>
+                                            </div>
+                                            <div
+                                                class="widgets-icons-2 rounded-circle bg-gradient-blooker text-white ms-auto">
+                                                <i class="fa fa-users"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container d-flex mt-4 ">
+                        
+                            <div class="card col-6 border-light text-bg-light mb-3 " style="margin-right: 20px;">
+                                <div class="card-header text-info " style="font-weight: bold;">Top sale product</div>
+                                <div class="card-body">
+                                   
+                                    <table class="table">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Product</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">Total order</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr>
+                                            <th scope="row">1</th>
+                                            <td>Iphone15</td>
+                                            <td>150000</td>
+                                            <td>20</td>
+                                          </tr>
+                                          <tr>
+                                            <th scope="row">2</th>
+                                            <td>Zfold</td>
+                                            <td>120000</td>
+                                            <td>15</td>
+                                          </tr>
+                                          <tr>
+                                            <th scope="row">3</th>
+                                            <td >Iphone X</td>
+                                            <td>120000</td>
+                                            <td>12</td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                      <div class="row justify-content-end">
+                                        <div class="col-3">
+                                            <button type="button" class="btn btn-info ml-auto">Export</button>
+                                        </div>
+                                      </div>
+                                </div>
+                            </div>
+                          
+                            <div class="card col-6 border-light text-bg-light mb-3 " >
+                                <div class="card-header text-info" style="font-weight: bold;">Top feedback product</div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Product</th>
+                                            <th scope="col">Total feedback</th>
+                                            <th scope="col">Average</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr>
+                                            <th scope="row">1</th>
+                                            <td>Iphone15</td>
+                                            <td>23</td>
+                                            <td>4.8</td>
+                                          </tr>
+                                          <tr>
+                                            <th scope="row">2</th>
+                                            <td>Zfold</td>
+                                            <td>12</td>
+                                            <td>4.5</td>
+                                          </tr>
+                                          <tr>
+                                            <th scope="row">3</th>
+                                            <td >Iphone X</td>
+                                            <td>11</td>
+                                            <td>4.4</td>
+                                          </tr>
+                                        </tbody>
+                                        
+                                      </table>
+                                      <div class="row justify-content-end">
+                                        <div class="col-3">
+                                            <button type="button" class="btn btn-info ml-auto">Export</button>
+                                        </div>
+                                      </div>
+                                </div>
+                            </div>
+                       
+                    </div>
+
+
+
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        let menuExpanded = false;
+
+        function toggleMenu() {
+            const userSubMenu = document.getElementById("userSubMenu");
+            if (!menuExpanded) {
+                userSubMenu.style.display = "block";
+                menuExpanded = true;
+            } else {
+                userSubMenu.style.display = "none";
+                menuExpanded = false;
+            }
+        }
+    </script>
+
+
+
+
+</body>
+
+
+</html>
