@@ -1,0 +1,23 @@
+.image-container {
+    width: 150px;
+    /* Đặt chiều rộng của khung hình */
+    height: 200px;
+    /* Đặt chiều cao của khung hình */
+    overflow: hidden;
+    /* Ẩn bất kỳ phần nào của ảnh bị tràn ra ngoài khung */
+}
+
+#selectedImage {
+    width: 100%;
+    /* Đặt chiều rộng của ảnh là 100% để nó phù hợp với khung hình */
+    height: auto;
+}
+
+.imagePreview {
+
+    width: 170px;
+    height: 250px;
+    object-fit: cover;
+    /* Đảm bảo rằng ảnh không vượt quá kích thước của phần tử cha */
+
+}
