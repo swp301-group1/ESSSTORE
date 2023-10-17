@@ -24,7 +24,7 @@
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="/css/fontawesome.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <style>
         .image-container {
             width: 150px;
@@ -172,20 +172,12 @@
         <div class="content-container " style="padding-top: 70px;">
             <section style="background-color: #eee;" class="content">
                 <div class="container py-5">
-                    <h2>Welcome EVO</h2>
-
-
-
-
+                    <h2>Revenue</h2>
                     <div class="row">
                         <div class="col-2">
-                            <form id="formCategory">
-                                <select class="form-select" aria-label="Default select example">
+                            <form >
+                                <select class="form-select" id="formCategory" aria-label="Default select example">
                                     <option value="0">Category</option>
-                                    <option value="1">Phone</option>
-                                    <option value="2">Tablet</option>
-                                    <option value="3">Laptop</option>
-
                                 </select>
                             </form>
                         </div>
@@ -204,12 +196,10 @@
 
                         <div class="col-2">
                             <form id="form">
-                                <select class="form-select" aria-label="Default select example">
+                                <select class="form-select" id="sort" aria-label="Default select example">
                                     <option value="0">Sold</option>
                                     <option value="1">Highest-Lowest</option>
                                     <option value="2">Lowest-Highest</option>
-
-
                                 </select>
                             </form>
                         </div>
@@ -222,7 +212,7 @@
                                 <input type="date" id="startDate">
                                 <label for="endDate">To:</label>
                                 <input type="date" id="endDate">
-                                <button class="btn btn-outline-dark">Search</button>
+                                <button class="btn btn-outline-dark" onclick="getRevenue()" type="button">Search</button>
                             </form>
                         </div>
                     </div>
@@ -242,7 +232,7 @@
                                     <th scope="col">Total</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="revenues">
                                 <tr>
                                     <th scope="row">1</th>
                                     <td>Iphone15</td>
@@ -250,24 +240,6 @@
                                     <td>Phone</td>
                                     <td>150000</td>
                                     <td>20</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Zfold</td>
-                                    <td>Samsung</td>
-                                    <td>Phone</td>
-                                    <td>120000</td>
-                                    <td>15</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Iphone X</td>
-                                    <td>Apple</td>
-                                    <td>Phone</td>
-                                    <td>120000</td>
-                                    <td>12</td>
                                     <td></td>
                                 </tr>
                             </tbody>
@@ -285,58 +257,84 @@
         </div>
     </div>
     <script>
-        let menuExpanded = false;
-
-        function toggleMenu() {
-            const userSubMenu = document.getElementById("userSubMenu");
-            if (!menuExpanded) {
-                userSubMenu.style.display = "block";
-                menuExpanded = true;
-            } else {
-                userSubMenu.style.display = "none";
-                menuExpanded = false;
-            }
-        }
-        // Lấy danh sách các hàng trong bảng
-        const rows = document.querySelectorAll(" table tbody tr");
-
-        // Khởi tạo biến để lưu tổng doanh thu
-        let totalRevenue = 0;
-
-        // Lặp qua từng hàng trong bảng và tính tổng doanh thu cho mỗi sản phẩm
-        rows.forEach((row) => {
-            const price = parseFloat(row.cells[4].textContent);
-            const sold = parseFloat(row.cells[5].textContent);
-            const total = price * sold;
-            row.cells[6].textContent = total; // Cập nhật ô "Total" trong hàng
-            totalRevenue += total; // Cộng vào tổng doanh thu
+        window.addEventListener('load', function() {
+            getCategories();
+            getRevenue();
         });
 
-        // Hiển thị tổng doanh thu
-        const totalRevenueElement = document.getElementById("totalRevenue");
-        totalRevenueElement.textContent = totalRevenue;
-    </script>
-    <script>
-        function exportToExcel() {
-            const table = document.querySelector('.table');
-            const totalRevenue = document.getElementById('totalRevenue').textContent;
+        var currentDate = new Date();
+        var day = currentDate.getDate();
+        var month = currentDate.getMonth() + 1; 
+        var year = currentDate.getFullYear();
+        var endDate = year + "-" + (month < 10 ? "0" : "") + month + "-" + (day < 10 ? "0" : "") + day;
+        if(month==0){
+            year=year-1;
+        }
+        else{
+            month=month-1;
+        }
+        var startDate = year + "-" + (month < 10 ? "0" : "") + month + "-" + (day < 10 ? "0" : "") + day;
+        $("#startDate").val(startDate);
+        $("#endDate").val(endDate);
+        function getRevenue(){
+            // Gán giá trị vào trường input date
+            var formData = new FormData();
+            formData.append("from", $("#startDate").val());
+            formData.append("to", $("#endDate").val());
+            $.ajax({
+                type: "POST",
+                url: 'http://localhost:8080/admin/dashboard/revenue',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    if( $("#formCategory").val()>0){
+                        data = data.filter(function(re) {
+                            return re.category.id == $("#formCategory").val();
+                        });
+                    }
+                    sortBySoled(data,$("#sort").val());
+                    html ='';
+                    var totalRevenue =0;
+                    data.forEach(function(re){
+                        html+='<tr>\n'+
+                            '    <th scope="row">'+(data.indexOf(re)+1)+'</th>\n'+
+                            '    <td>'+re.name+'</td>\n'+
+                            '    <td>'+re.brand.brandName+'</td>\n'+
+                            '    <td>'+re.category.name+'</td>\n'+
+                            '    <td>'+re.price+'</td>\n'+
+                            '    <td>'+re.soled+'</td>\n'+
+                            '    <td>'+re.total+'</td>\n'+
+                            '</tr>';
+                            totalRevenue+=re.total;
+                    })
+                    $("#revenues").html(html);
+                    $("#totalRevenue").text(totalRevenue);
+                }
+            });
+        }
+        function sortBySoled(data,sort){
+            data.sort(function(a, b) {
+                if(sort==1) return b.soled - a.soled;
+                if(sort==2)  return a.soled - b.soled;
+            });
+        }
 
-            const rows = table.querySelectorAll('tr');
-            const data = {['ID', 'Product', 'Brand', 'Category', 'Price', 'Sold', 'Total']};
-            
-            // Bắt đầu từ index 1 để loại bỏ hàng header lặp lại
-            for (let i = 1; i < rows.length; i++) {
-                const row = rows[i];
-                const rowData = Array.from(row.children)
-                    .map(cell => cell.textContent);
-                data.push(rowData);
-            }
-            data.push(['', '', '', '', '', 'Revenue:', totalRevenue]);
-            const ws = XLSX.utils.aoa_to_sheet(data);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-            XLSX.writeFile(wb, 'data.xlsx');
+        function getCategories() {
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/staff/categories",
+                dataType: "json",
+                contentType: "application/json",
+                success: function(data) {
+                    console.log(data);
+                    html = '<option value="0">Category</option>';
+                    data.forEach(function(cate) {
+                        html+= '<option value="'+cate.id+'">'+cate.name+'</option>'
+                    });
+                    $("#formCategory").html(html);
+                },
+            });
         }
     </script>
 </body>

@@ -4,22 +4,18 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 
 import com.shopping.esoshop.model.Page;
 import com.shopping.esoshop.model.Product;
 import com.shopping.esoshop.service.*;
 
-import jakarta.servlet.http.HttpSession;
-
-
 // import jakarta.servlet.http.HttpSession;
 
 @RestController
 public class HomeController {
     
-	private int sizepage =2;
+	private int sizepage =8;
 	@Autowired
 	private DaoService daoService;
 	

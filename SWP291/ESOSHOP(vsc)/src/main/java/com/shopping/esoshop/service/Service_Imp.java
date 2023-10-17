@@ -1,5 +1,6 @@
 package com.shopping.esoshop.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -206,5 +207,22 @@ public class Service_Imp implements DaoService {
 	@Override
 	public List<Product> getAllProductByCategory(int categoryid) {
 		return dao.getAllProductByCategory(categoryid);
+	}
+	@Override
+	public List<TopSaleProduct> getTopSaleProducts() {
+		return dao.getTopSaleProducts();
+	}
+	@Override
+	public List<TopFeedbackProduct> topFeedbackProducts() {
+		return dao.topFeedbackProducts();
+	}
+
+	@Override
+	public List<Revenue> getRevenues( Date form, Date to) {
+		return dao.getRevenues(form, to);
+	}
+	@Override
+	public boolean deleteOrderCancelAfterTime(Date time) {
+		return dao.deleteOrderCancelAfterTime(time);
 	}
 }

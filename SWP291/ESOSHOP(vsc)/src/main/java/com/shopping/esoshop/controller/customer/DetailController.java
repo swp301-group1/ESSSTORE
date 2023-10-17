@@ -21,10 +21,6 @@ public class DetailController {
 			@PathVariable("id")String id) {
 		// product
 		model.addAttribute("product", daoService.getProductbyId(id));
-		// feeback of product
-		model.addAttribute("feedbacks",daoService.getFeedBack(id));
-		// report rating product
-		model.addAttribute("ratings", daoService.getReportRating(id));
 		// save session url to back add to cart more
 		String urlback = "/detail"+id+"";
 		if((String)session.getAttribute("urlback")==null){

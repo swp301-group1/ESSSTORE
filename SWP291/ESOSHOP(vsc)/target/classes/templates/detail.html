@@ -21,6 +21,26 @@
 	<link rel="stylesheet" href="css/templatemo.css">
 	<link rel="stylesheet" href="css/navbar.css">
 	<link rel="stylesheet" href="css/detail.css">
+	<style>
+		.product-card{
+			height: 450px;
+		
+		}
+		
+		.card-body{
+			height: 150px !important;
+		}
+		
+		.card-image{
+			height: 300px;
+		}
+		
+		.card-img{
+			height: 100%;
+		}
+		
+	</style>
+
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -77,7 +97,7 @@ https://templatemo.com/tm-559-zay-shop
 	<!-- Container wrapper -->
 </nav>
 <!-- Navbar -->
-<body>
+<body style="overflow-x:hidden">
 	<!-- Open Content -->
 	<section class="bg-light">
 		<div class="container pb-5">
@@ -202,148 +222,133 @@ https://templatemo.com/tm-559-zay-shop
 	</section>
 	<!-- Close Content -->
 	<!-- Start Article -->
-	<div class="container mt-5 mb-5" style="width: 100vw;">
-		<div class="row " style="width: 100vw;">
-			<div class="col-sm-3">
-				<div class="rating-block">
-					<h4>Average user rating</h4>
-					<h2 class="bold padding-bottom-7">4.3 <small>/ 5</small></h2>
-					<button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-						<span class="fa-solid fa-star" aria-hidden="true"></span>
-					</button>
-					<button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-						<span class="fa-solid fa-star" aria-hidden="true"></span>
-					</button>
-					<button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-						<span class="fa-solid fa-star" aria-hidden="true"></span>
-					</button>
-					<button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
-						<span class="fa-solid fa-star" aria-hidden="true"></span>
-					</button>
-					<button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
-						<span class="fa-solid fa-star" aria-hidden="true"></span>
-					</button>
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<h4>Rating </h4>
-				<div class="row d-flex">
-					<div class="col-2">
-						5 <span class="fa-solid fa-star"></span>
+	<div class="container mt-5 mb-5" style="overflow: hidden;">
+        <div class="row " style="width: 100vw;">
+			<div class="col-sm-5" id="feedbacks">
+                <hr />
+                <div class="review-block">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <img src="/img/user.png" style="height: 40px;" class="img-rounded">
+                            <div class="review-block-name"><span style="font-weight: bold;">nktailor</span></div>
+                            <div class="review-block-date">January 29, 2016<br /></div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="review-block-rate">
+                                <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                    <span class="fa-solid fa-star" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                    <span class="fa-solid fa-star" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                    <span class="fa-solid fa-star" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+                                    <span class="fa-solid fa-star" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+                                    <span class="fa-solid fa-star" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                            <div class="review-block-title">this was nice in buy</div>
+                            <div class="review-block-description">this was nice in buy. this was nice in buy. this was
+                                nice in buy. this was nice in buy this was nice in buy this was nice in buy this was
+                                nice in buy this was nice in buy</div>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="rating-block" >
+                    <h4>Average user rating</h4>
+                    <h2 class="bold padding-bottom-7">4.3 <small>/ 5</small></h2>
+					<div id="avgrating">
+					
 					</div>
-					<div class="col-4">
-						<div class="progress" style="height:9px; margin:8px 0;">
-							<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="5"
-								aria-valuemin="0" aria-valuemax="5" th:style="${'width:' +ratings.getPercent(5)+'%'}">
-								<span class="sr-only">80% Complete (danger)</span>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <h4>Rating </h4>
+				<div id="rating">
+					<div class="row d-flex mt-2">
+						<div class="col-2">
+							4 <span class="fa-solid fa-star"></span>
+						</div>
+						<div class="col-4">
+							<div class="progress" style="height:9px; margin:8px 0;">
+								<div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="4"
+									aria-valuemin="0" aria-valuemax="5" style="width: 80%">
+									<span class="sr-only">80% Complete (danger)</span>
+								</div>
 							</div>
 						</div>
+						<div class="col-3">1</div>
 					</div>
-					<div class="col-3" th:text="${ratings.Rating[5]}"></div>
-				</div>
-				<div class="row d-flex mt-2">
-					<div class="col-2">
-						4 <span class="fa-solid fa-star"></span>
-					</div>
-
-					<div class="col-4">
-						<div class="progress" style="height:9px; margin:8px 0;">
-							<div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="4"
-								aria-valuemin="0" aria-valuemax="5" th:style="${'width:' +ratings.getPercent(4)+'%'}">
-								<span class="sr-only">80% Complete (danger)</span>
+					<div class="row d-flex mt-2">
+						<div class="col-2">
+							4 <span class="fa-solid fa-star"></span>
+						</div>
+						<div class="col-4">
+							<div class="progress" style="height:9px; margin:8px 0;">
+								<div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="4"
+									aria-valuemin="0" aria-valuemax="5" style="width: 80%">
+									<span class="sr-only">80% Complete (danger)</span>
+								</div>
 							</div>
 						</div>
+						<div class="col-3">1</div>
 					</div>
-					<div class="col-3" th:text="${ratings.Rating[4]}"></div>
-				</div>
-				<div class="row d-flex mt-2">
-					<div class="col-2">
-						3 <span class="fa-solid fa-star"></span>
-					</div>
-
-					<div class="col-4">
-						<div class="progress" style="height:9px; margin:8px 0;">
-							<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="3"
-								aria-valuemin="0" aria-valuemax="5" th:style="${'width:' +ratings.getPercent(3)+'%'}">
-								<span class="sr-only">80% Complete (danger)</span>
+					<div class="row d-flex mt-2">
+						<div class="col-2">
+							3 <span class="fa-solid fa-star"></span>
+						</div>
+						<div class="col-4">
+							<div class="progress" style="height:9px; margin:8px 0;">
+								<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="3"
+									aria-valuemin="0" aria-valuemax="5" style="width: 60%">
+									<span class="sr-only">80% Complete (danger)</span>
+								</div>
 							</div>
 						</div>
+						<div class="col-3">1</div>
 					</div>
-					<div class="col-3" th:text="${ratings.Rating[3]}"></div>
-				</div>
-
-				<div class="row d-flex mt-2">
-					<div class="col-2">
-						2 <span class="fa-solid fa-star"></span>
-					</div>
-
-					<div class="col-4">
-						<div class="progress" style="height:9px; margin:8px 0;">
-							<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="2"
-								aria-valuemin="0" aria-valuemax="5" th:style="${'width:' +ratings.getPercent(2)+'%'}">
-								<span class="sr-only">80% Complete (danger)</span>
+					<div class="row d-flex mt-2">
+						<div class="col-2">
+							2 <span class="fa-solid fa-star"></span>
+						</div>
+						<div class="col-4">
+							<div class="progress" style="height:9px; margin:8px 0;">
+								<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="2"
+									aria-valuemin="0" aria-valuemax="5" style="width: 40%">
+									<span class="sr-only">80% Complete (danger)</span>
+								</div>
 							</div>
 						</div>
+						<div class="col-3">1</div>
 					</div>
-
-					<div class="col-3" th:text="${ratings.Rating[2]}"></div>
-				</div>
-
-				<div class="row d-flex mt-2">
-					<div class="col-2">
-						1 <span class="fa-solid fa-star"></span>
-					</div>
-					<div class="col-4">
-						<div class="progress" style="height:9px; margin:8px 0;">
-							<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="1"
-								aria-valuemin="0" aria-valuemax="5" th:style="${'width:' +ratings.getPercent(1)+'%'}">
-								<span class="sr-only">80% Complete (danger)</span>
+					<div class="row d-flex mt-2">
+						<div class="col-2">
+							1 <span class="fa-solid fa-star"></span>
+						</div>
+						<div class="col-4">
+							<div class="progress" style="height:9px; margin:8px 0;">
+								<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="1"
+									aria-valuemin="0" aria-valuemax="5" style="width: 20%">
+									<span class="sr-only">80% Complete (danger)</span>
+								</div>
 							</div>
 						</div>
+						<div class="col-3">1</div>
 					</div>
-					<div class="col-3" th:text="${ratings.Rating[1]}"></div>
-				</div>
-			</div>
-		</div>
+			    </div>		
+            </div>
 
-		<div class="row">
-			<div class="col-sm-7">
-				<hr />
-				<div class="review-block" th:each="fb: ${feedbacks}">
-					<div class="row">
-						<div class="col-sm-3">
-							<img src="img/account.png.crdownload" style="height: 40px;" class="img-rounded">
-							<div class="review-block-name">
-								<span style="font-weight: bold;" th:text="${fb.customer.name}">
-
-								</span>
-							</div>
-							<div class="review-block-date">
-								<p1 th:text="${fb.time}"></p1><br />
-							</div>
-						</div>
-						<div class="col-sm-9">
-							<div class="review-block-rate">
-								<th:block th:each="num: ${#numbers.sequence(1,5)}">
-									<th:block th:if="${num<= fb.star}">
-										<span class="fa fa-star checked"></span>
-									</th:block>
-									<th:block th:if="${num> fb.star}">
-										<span class="fa fa-star"></span>
-									</th:block>
-								</th:block>
-							</div>
-							<div class="review-block-description">
-								<span th:text="${fb.commen}">
-
-								</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+        </div>
+        <div class="row">
+        </div>
+    </div>
 
 	<div class="container-fluid mb-5">
 		<div class="row justify-content-center container_hotNews">
@@ -495,8 +500,8 @@ https://templatemo.com/tm-559-zay-shop
 	 }
 	 function getItemProduct(product) {
 		var html = '<div class="col-md-2">\n' +
-			'                        <div class="card mb-4 product-wap rounded-0">\n' +
-			'                            <div class="card rounded-0" style="min-height: 212.67px;">\n' +
+			'                        <div class="card mb-4 product-wap rounded-0 product-card">\n' +
+			'                            <div class="card rounded-0 card-image" style="min-height: 212.67px;">\n' +
 			'                                <img class="card-img rounded-0 img-fluid" style="max-height=212.67px" src="img/' +
 			product.color[0].image + '">\n' +
 			'                                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">\n' +
@@ -506,7 +511,7 @@ https://templatemo.com/tm-559-zay-shop
 			'                                    </ul>\n' +
 			'                                </div>\n' +
 			'                            </div>\n' +
-			'                            <div class="card-body" style="min-height: 130px;">\n' +
+			'                            <div class="card-body" style="min-height: 100px;">\n' +
 			'                                <a href="/detail'+product.id+'" class="h3 text-decoration-none">' + product.name +'</a>\n' +
 			'                                <ul class="list-unstyled d-flex justify-content-center mb-1">\n' +
 			'                                    <li>\n' +
@@ -524,6 +529,108 @@ https://templatemo.com/tm-559-zay-shop
 		return html;
 	}
 </script>
+<script th:inline="javascript">
+	window.onload=getfeedback();
+	function getfeedback(){
+		$.ajax({
+			type: 'GET',
+			url: 'http://localhost:8080/product/feedback/' + ([[${product}]]).id,
+			dataType: 'json',
+			contentType: 'application/json',
+			success: function(data) {
+				$("#feedbacks").html(listFeddback(data));
+				
+			}
+		});
+	}
+	function listFeddback(feedbacks){
+		var html='';
+		feedbacks.forEach(function(feedback){
+			html= html + '<div class="review-block">\n'+
+				'	<div class="row">\n'+
+				'		<div class="col-sm-3">\n'+
+				'			<img src="/img/user.png" style="height: 40px;" class="img-rounded">\n'+
+				'			<div class="review-block-name"><span style="font-weight: bold;">'+feedback.customer.name+'</span></div>\n'+
+				'			<div class="review-block-date">'+feedback.date+feedback.time+'<br /></div>\n'+
+				'		</div>\n'+
+				'		<div class="col-sm-9">\n'+
+				'			<div class="review-block-rate">\n'+
+					         showstar(feedback.star)+
+				'			</div>\n'+
+				'			<div class="review-block-title">this was nice in buy</div>\n'+
+				'			<div class="review-block-description">'+feedback.commen+'</div>\n'+
+				'		</div>\n'+
+				'	</div>\n'+
+				'	<hr />\n'+
+				'</div>';
+		})
+		return html;
+	}
+
+
+</script>
+<script th:inline="javascript">
+
+	window.onload=getReportRating();
+	function getReportRating(){
+		$.ajax({
+			type: 'GET',
+			url: 'http://localhost:8080/product/reportrating/' + ([[${product}]]).id,
+			dataType: 'json',
+			contentType: 'application/json',
+			success: function(data) {
+				var html  ='';
+				console.log(data);
+			    $("#avgrating").html(avgStar(data.rating,data.total));
+
+				for(let i= data.rating.length-1;i>0;i--){
+				    html = html+ '<div class="row d-flex mt-2">\n'+
+						'	<div class="col-2">\n'+
+						'		'+i+' <span class="fa-solid fa-star"></span>\n'+
+						'	</div>\n'+
+						'	<div class="col-4">\n'+
+						'		<div class="progress" style="height:9px; margin:8px 0;">\n'+
+						'			<div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="4"\n'+
+						'				aria-valuemin="0" aria-valuemax="5" style="width: '+sumPesent(data.rating[i],data.total)+'%">\n'+
+						'				<span class="sr-only">'+sumPesent(data.rating[i],data.total)+'% Complete (danger)</span>\n'+
+						'			</div>\n'+
+						'		</div>\n'+
+						'	</div>\n'+
+						'	<div class="col-3">'+data.rating[i]+'</div>\n'+
+						'</div>';
+				}
+				$("#rating").html(html);
+			}
+		});
+	}
+	function sumPesent(number,total){
+		return  Math.round((number/total)*100);
+	}
+	function showstar(number){
+		var html ='';
+		for(let i=1;i<=5;i++){
+			if(i<=number){
+				html+='   <span class="fa fa-star" style="color: orange;"></span>';
+			}
+			else{
+				html+='  <span class="fa fa-star" ></span>';
+			}
+		}
+		return html;
+	}
+	function avgStar(data,total){
+		var sum = 0;
+		for(let i=1;i<=data.length;i++){
+			sum=sum+(i*data[i]);
+		}
+		return showstar(Math.round(sum/total));
+	}
+</script>
+
+
+
+
 </body>
+
 
 </html>

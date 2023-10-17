@@ -1,6 +1,7 @@
 package com.shopping.esoshop.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -899,6 +900,30 @@ public class Dao_Imp implements Dao {
 		return null;
 	}
 
+	@Override
+	public List<TopFeedbackProduct> topFeedbackProducts() {
+		String sql = "select top 5 fb.ProductID ,p.ProductName ,count(Commen) as 'TotalFeedback',AVG(fb.Star) as 'Average' from feedbacks as fb\r\n" + //
+				"inner join products as p on p.ProductID = fb.ProductID\r\n" + //
+				"group by fb.ProductID ,p.ProductName order by Average desc, TotalFeedback desc";
+			List<TopFeedbackProduct> topFeedbackProducts = new ArrayList<>();
+			try {
+				Connection conn =DBHelper.makeConnection();
+				PreparedStatement psm = conn.prepareStatement(sql);
+			    ResultSet rs = psm.executeQuery();
+				while(rs.next()){
+					TopFeedbackProduct topFeedbackProduct = new TopFeedbackProduct();
+					topFeedbackProduct.setId(rs.getString(1));
+					topFeedbackProduct.setName(rs.getString(2));
+					topFeedbackProduct.setTotalFeedback(rs.getInt(3));
+					topFeedbackProduct.setAvgRating(rs.getDouble(4));
+				    topFeedbackProducts.add(topFeedbackProduct);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		return topFeedbackProducts;
+	}
+
 	// staff
 	@Override
 	public Staff getStaffById(int staffId) {
@@ -1064,7 +1089,31 @@ public class Dao_Imp implements Dao {
 		}
 		return null;
 	}
-
+	@Override
+	public List<TopSaleProduct> getTopSaleProducts() {
+		String sql = "select top 5 p.ProductID,p.ProductName ,sum(odl.Price*odl.Quantity) as 'Income' ,count(odl.ProductID) as 'TotalOrder' from products as p\r\n" + //
+				"inner join order_details as odl on odl.ProductID = p.ProductID\r\n" + //
+				"group by p.ProductID,p.ProductName\r\n" + //
+				"order by TotalOrder desc";
+	    try {
+			List<TopSaleProduct> topSaleProducts = new ArrayList<>();
+			Connection conn = DBHelper.makeConnection();
+			PreparedStatement psm = conn.prepareStatement(sql);
+			ResultSet rs = psm.executeQuery();
+			while(rs.next()){
+				TopSaleProduct tsp = new TopSaleProduct();
+				tsp.setId(rs.getString(1));
+				tsp.setName(rs.getString(2));
+				tsp.setIncome(rs.getDouble(3));
+				tsp.setTotalOrder(rs.getInt(4));
+				topSaleProducts.add(tsp);
+			}
+			return topSaleProducts;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+	}
 	// bill
 	@Override
 	public List<Bill> getAllBillsOfCustomer(Customer customer) {
@@ -1198,7 +1247,7 @@ public class Dao_Imp implements Dao {
 				b.setOrderDate(rs.getDate("OrderDate"));
 				b.setOrderTime(rs.getTime("OrderDate"));
 				b.setStatus(rs.getInt("Status"));
-				b.setAddress(rs.getString("Address"));
+				b.setAddress(rs.getString("Address")); 
 				return b;
 			}
 		} catch (Exception e) {
@@ -1243,6 +1292,63 @@ public class Dao_Imp implements Dao {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		return false;
+	}
+	
+	@Override
+	public List<Revenue> getRevenues(Date form, Date to) {
+		String sql ="select p.ProductID ,p.ProductName,br.BrandID ,cate.CategoryID,odl.Price ,sum(odl.Quantity) as 'Sold',(odl.Price*sum(odl.Quantity)) as 'Total' from orders as od\r\n" + //
+				"inner join order_details as odl on odl.OrderID = od.OrderID\r\n" + //
+				"inner join products as p on p.ProductID = odl.ProductID\r\n" + //
+				"inner join categories as cate on cate.CategoryID = p.CategoryID\r\n" + //
+				"inner join brands as br on br.BrandID = p.BrandID\r\n" + //
+				"where  od.OrderDate >= ? and od.OrderDate <= ?\r\n" + //
+				"group by  p.ProductID ,p.ProductName,br.BrandID ,cate.CategoryID,odl.Price \r\n";
+		List<Revenue> revenues = new ArrayList<>();
+		try {
+			Connection conn = DBHelper.makeConnection();
+			PreparedStatement psm = conn.prepareStatement(sql);
+			psm.setDate(1, form);
+			psm.setDate(2, to);
+			ResultSet rs = psm.executeQuery();
+			while(rs.next()){
+				Revenue revenue = new Revenue();
+				revenue.setId(rs.getString(1));
+				revenue.setName(rs.getString(2));
+				revenue.setBrand(getBrandbyId(rs.getInt(3)));
+				revenue.setCategory(getCategorybyId(rs.getInt(4)));
+				revenue.setPrice(rs.getDouble(5));
+				revenue.setSoled(rs.getInt(6));
+				revenue.setTotal(rs.getInt(7));
+				revenues.add(revenue);
+			}
+		} catch (Exception e) {
+			return null;
+		}
+		return revenues;
+	}
+	@Override
+	public boolean deleteOrderCancelAfterTime(Date time) {
+		String sql1 = "DELETE odl\r\n" + //
+				"FROM order_details odl\r\n" + //
+				"INNER JOIN orders as od on od.OrderID = odl.OrderID \r\n" + //
+				"where od.OrderDate <= ? and od.Status = -1\r\n";
+	    String sql2 = "delete from orders where OrderDate <= ? and Status = -1";
+				try {
+					Connection conn = DBHelper.makeConnection();
+					PreparedStatement psm = conn.prepareStatement(sql1);
+					psm.setDate(1, time);
+					if(psm.executeUpdate()>0){
+						psm.clearParameters();
+						psm = conn.prepareStatement(sql2);
+						psm.setDate(1, time);
+						if(psm.executeUpdate()>0){
+							return true;
+						}
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 		return false;
 	}
 }

@@ -15,7 +15,6 @@
   <link rel="stylesheet" href="css/templatemo.css">
   <link rel="stylesheet" href="css/payment.css">
 
-  <link rel="stylesheet" href="css/home.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
@@ -76,7 +75,9 @@
             if (bill.status == 0) {
               viewbill.innerHTML = getBill(bill);
             } else if (bill.status == 1 ) {
-              viewbill.innerHTML = 'pay success!<a href="/order_history">feedbacks</a>';
+              viewbill.innerHTML = '<a href="/order_history"> Feedback <a>'+getBill(bill);
+              $("#cancel").css("display","none");
+              $("#pay").css("display","none");
             }
             console.log(bill);
             function cancelNow(Id){
@@ -101,7 +102,7 @@
                 '                  Hey ' + bill.customer.name + ',\n' +
                 '                </h2>\n' +
                 '                <p class="fs-sm">\n' +
-                '                  This is the receipt for a payment of <strong>$312.00</strong> (USD) you made to Spacial Themes.\n' +
+                '                  This is the receipt for a payment of <strong>$312.00</strong> (USD) you made to Spacial Themes. \n' +
                 '                </p>\n' +
                 '                <div class="border-top border-gray-200 mt-4 py-4">\n' +
                 '                  <div class="row">\n' +
@@ -237,6 +238,8 @@
 <script>
 
 </script>
+
+
 </body>
 
 </html>

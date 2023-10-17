@@ -310,10 +310,9 @@
 				<div class="row">
 					<div class="col-md-6 pb-4">
 						<div class="d-flex">
-							<select class="form-control">
-								<option>Price</option>
-								<option>Lower to Higher</option>
-								<option>Higher to Lower</option>
+							<select class="form-control" id ="sortprice">
+								<option value="0" checked>Lower to Higher</option>
+								<option value="1">Higher to Lower</option>
 							</select>
 						</div>
 					</div>
@@ -408,6 +407,31 @@
 
 	<!-- List Product-->
 	<script>
+		window.addEventListener('load', function() {
+			getProducts(1);
+			getbrand();
+			getCategories();
+			
+        });
+
+		var npage;
+		function sortByPrice(){
+
+		}
+		function selectCate(id){
+			$.ajax({
+				type: 'GET',
+				url: 'http://localhost:8080/getproduct/page/' + npage,
+				dataType: 'json',
+				contentType: 'application/json',
+				success: function(data) {
+					data = data.filter(function(p) {
+						return  p.category.id == id.value;
+					});
+					$("#list_product").html(getlistProduct(data));
+				}
+			});
+		}
 		function searchByName(name) {
 			$.ajax({
 				type: 'GET',
@@ -415,29 +439,32 @@
 				dataType: 'json',
 				contentType: 'application/json',
 				success: function(data) {
-					console.log(data);
-					var list_product = document.getElementById('list_product');
-					list_product.innerHTML = getlistProduct(data);
+					$("#list_product").html(getlistProduct(data));
 				}
 			});
 		}
-		getProducts(1);
 
 		function getProducts(n) {
 			getPage(n);
+			npage=n;
 			$.ajax({
 				type: 'GET',
 				url: 'http://localhost:8080/getproduct/page/' + n,
 				dataType: 'json',
 				contentType: 'application/json',
 				success: function(data) {
-					console.log(data);
-					var list_product = document.getElementById('list_product');
-					list_product.innerHTML = getlistProduct(data);
+					sortByPrice(data,$("#sortprice").val());
+					$("#list_product").html(getlistProduct(data));
 				}
 			});
 		}
 
+        function sortByPrice(data,sort){
+            data.sort(function(a, b) {
+                if(sort==1) return b.price - a.price;
+                if(sort==0)  return a.price - b.price;
+            });
+        }
 		function getPage(n) {
 			$.ajax({
 				type: 'GET',
@@ -445,6 +472,7 @@
 				dataType: 'json',
 				contentType: 'application/json',
 				success: function(data) {
+					npage=data.pageActive;
 					var pages1 = document.getElementById('pages1');
 					var pages2 = document.getElementById('pages2');
 					var html = '';
@@ -464,50 +492,41 @@
 				}
 			});
 		}
-
+		
 		function getlistProduct(data) {
-			var htmlTong = '';
-			data.forEach(function(p) {
-				htmlTong = htmlTong + getItemProduct(p);
+			var html = '';
+			data.forEach(function(product) {
+				html+= '<div class="col-md-3">\n' +
+					'                        <div class="card mb-4 product-wap rounded-0" product-card>\n' +
+					'                            <div class="card rounded-0 card-image" style="min-height: 212.67px;">\n' +
+					'                                <img class="card-img rounded-0 img-fluid" style="max-height=212.67px" src="img/' +
+					product.color[0].image + '">\n' +
+					'                                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">\n' +
+					'                                    <ul class="list-unstyled">\n' +
+					'                                        <li><a class="btn btn-success text-white mt-2" href="/detail' +
+					product.id + '"><i class="far fa-eye"></i></a></li>\n' +
+					'                                    </ul>\n' +
+					'                                </div>\n' +
+					'                            </div>\n' +
+					'                            <div class="card-body" style="min-height: 130px;">\n' +
+					'                                <a href="/detail'+product.id+'" class="h3 text-decoration-none">' + product.name +
+					'</a>\n' +
+					'                                <ul class="list-unstyled d-flex justify-content-center mb-1">\n' +
+					'                                    <li>\n' +
+					'                                        <i class="text-warning fa fa-star"></i>\n' +
+					'                                        <i class="text-warning fa fa-star"></i>\n' +
+					'                                        <i class="text-warning fa fa-star"></i>\n' +
+					'                                        <i class="text-muted fa fa-star"></i>\n' +
+					'                                        <i class="text-muted fa fa-star"></i>\n' +
+					'                                    </li>\n' +
+					'                                </ul>\n' +
+					'                                <p class="text-center mb-0">' + product.unit + product.price + '</p>\n' +
+					'                            </div>\n' +
+					'                        </div>\n' +
+					'                    </div>';
 			})
-			return htmlTong;
-		}
-
-		function getItemProduct(product) {
-			var html = '<div class="col-md-3">\n' +
-				'                        <div class="card mb-4 product-wap rounded-0">\n' +
-				'                            <div class="card rounded-0" style="min-height: 212.67px;">\n' +
-				'                                <img class="card-img rounded-0 img-fluid" style="max-height=212.67px" src="img/' +
-				product.color[0].image + '">\n' +
-				'                                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">\n' +
-				'                                    <ul class="list-unstyled">\n' +
-				'                                        <li><a class="btn btn-success text-white mt-2" href="/detail' +
-				product.id + '"><i class="far fa-eye"></i></a></li>\n' +
-				'                                    </ul>\n' +
-				'                                </div>\n' +
-				'                            </div>\n' +
-				'                            <div class="card-body" style="min-height: 130px;">\n' +
-				'                                <a href="shop-single.html" class="h3 text-decoration-none">' + product.name +
-				'</a>\n' +
-				'                                <ul class="list-unstyled d-flex justify-content-center mb-1">\n' +
-				'                                    <li>\n' +
-				'                                        <i class="text-warning fa fa-star"></i>\n' +
-				'                                        <i class="text-warning fa fa-star"></i>\n' +
-				'                                        <i class="text-warning fa fa-star"></i>\n' +
-				'                                        <i class="text-muted fa fa-star"></i>\n' +
-				'                                        <i class="text-muted fa fa-star"></i>\n' +
-				'                                    </li>\n' +
-				'                                </ul>\n' +
-				'                                <p class="text-center mb-0">' + product.unit + product.price + '</p>\n' +
-				'                            </div>\n' +
-				'                        </div>\n' +
-				'                    </div>';
 			return html;
 		}
-	</script>
-	<script>
-		getbrand();
-
 		function getbrand() {
 			$.ajax({
 				type: 'GET',
@@ -515,8 +534,6 @@
 				dataType: 'json',
 				contentType: 'application/json',
 				success: function(data) {
-					console.log(data);
-					var listbrand = document.getElementById('brands');
 					var item = '';
 					data.forEach(function(brand) {
 						item += '<li>\n'+
@@ -524,11 +541,10 @@
 							'				<label class="form-check-label" for="flexCheckIndeterminate">'+brand.brandName+'</label>\n'+
 							'	   </li>';
 					})
-					listbrand.innerHTML = item;
+					$("#brands").html(item);
 				}
 			});
 		}
-		getCategories();
 
 		function getCategories() {
 			$.ajax({
@@ -537,15 +553,14 @@
 				dataType: "json",
 				contentType: "application/json",
 				success: function(data) {
-					console.log(data);
 					html = '';
 					data.forEach(function(cate) {
 						html = html + '<li>\n'+
-							'			<input class="form-check-input" value="'+cate.id+'" name="category" type="radio"  >\n'+
+							'			<input class="form-check-input" value="'+cate.id+'" onclick="selectCate(this)" name="category" type="radio"  >\n'+
 							'				<label class="form-check-label" for="flexCheckIndeterminate">'+cate.name+'</label>\n'+
 							'	    	</li>';
 					});
-					document.getElementById("categories").innerHTML = html;
+					$("#categories").html(html);
 				},
 			});
 		}
@@ -556,6 +571,11 @@
 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 		<strong id="mess">Mess</strong>
 	</div>
+
+	<script>
+
+		
+	</script>
 </body>
 
 </html>

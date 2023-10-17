@@ -145,8 +145,9 @@
   </div>
 </section>
 
-<script>
+<script th:inline="javascript">
   var otp;
+  var url = [[${session.url}]]
   $("#btncheckaccount").click("click", function() {
     var formData = new FormData();
     formData.append("email",$("#emailOTP").val());
@@ -202,7 +203,12 @@
         console.log(data);
         if(data.loginsucces){
           showMess("login succes", 5000);
+         if(url!=null){
+          window.location="http://localhost:8080/"+url;
+         }
+         else{
           window.location="http://localhost:8080/home";
+         }
         }
         else if(!data.loginsucces){
           showMess("Cannot found account!",5000);

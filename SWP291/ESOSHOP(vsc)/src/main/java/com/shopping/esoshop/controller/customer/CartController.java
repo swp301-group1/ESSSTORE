@@ -50,6 +50,10 @@ public class CartController {
 				return "redirect:/cart";
 			}
 		}
+		else if(customer==null){
+			session.setAttribute("url", "detail"+id);
+			return "/login";
+		}
 		return "redirect:/detail"+id;
 	}
 	

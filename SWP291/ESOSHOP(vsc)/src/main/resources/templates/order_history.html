@@ -21,8 +21,6 @@
     <link rel="stylesheet" type="text/css" href="css/slick.min.css">
     <link rel="stylesheet" type="text/css" href="css/slick-theme.css">
 
-    <link rel="stylesheet" href="css/home.css">
-
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/templatemo.css">
 
@@ -243,6 +241,12 @@ https://templatemo.com/tm-559-zay-shop
                 </div>
 
                 <div class="col-4">
+                    <div class="col-4 ml-3">
+                            <label for="startDate">From:</label>
+                            <input type="date" id="startDate">
+                            <label for="endDate">To:</label>
+                            <input type="date" id="endDate">
+                    </div>
                     <div class="osahan-account-page-right shadow-sm bg-white p-4 h-100"
                         style=" max-height: 750px !important; overflow-y: scroll;">
                         <div class="tab-content" id="myTabContent">
@@ -498,8 +502,6 @@ https://templatemo.com/tm-559-zay-shop
                 contentType: 'application/json',
                 success: function(data) {
                     seeMore(data[0].orderId);
-                    console.log(data);
-                    var bills = document.getElementById('bills');
                     var html = '';
                     formData = data;
                     data.forEach(function(bill) {
@@ -549,7 +551,7 @@ https://templatemo.com/tm-559-zay-shop
                             '    </div>\n' +
                             '</div>';
                     })
-                    bills.innerHTML = html;
+                   $("#bills").html(html);
                     
                 }
             });
@@ -578,12 +580,14 @@ https://templatemo.com/tm-559-zay-shop
                 contentType: 'application/json',
                 success: function(bill) {
                     console.log(bill);
-                    document.getElementById("status").innerHTML=getStatus(bill.status);
+                    $("#status").html(getStatus(bill.status));
                     $("#orderId").text(bill.orderId);
                     $("#address").text(bill.customer.address);
                     $("#orderdate").text(bill.orderTime +"/"+ bill.orderDate);
                     $("#totalamount").text(bill.totalAmount);
-                    var orderdetail = document.getElementById('orderdetail');
+                    if(bill.status==0){
+                        $("#status").html( $("#status").html()+'<a href="/bill'+bill.orderId+'">Pay now '+bill.orderId+'<a>');
+                    }
                     var html = '';
                     bill.orderdetails.forEach(function(odl) {
                         html = html + '<td class="px-0"><img src="img/' + odl.image +
@@ -601,13 +605,14 @@ https://templatemo.com/tm-559-zay-shop
                             '    </td>\n' +
                             '</tr>';
                     })
-                    orderdetail.innerHTML = html;
+                    $("#orderdetail").html(html);
                 }
             });
         }
 
         function getInforFeedBack(productId) {
             $("#productId_feedback").val(productId.value);
+            $("#fbfor").text(productId.value);
         }
 
         function doFeedback() {

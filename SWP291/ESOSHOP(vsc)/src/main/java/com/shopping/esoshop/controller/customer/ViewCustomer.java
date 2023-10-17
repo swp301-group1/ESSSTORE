@@ -12,8 +12,8 @@ import jakarta.servlet.http.HttpSession;
 public class ViewCustomer {
     	
 	@GetMapping(value = {"/","index","home"})
-	public String getHome() {
-		return"index";
+	public String getHome(HttpSession session) {
+		 return"index";
 	}
 	
 	@GetMapping("/register")

@@ -3,7 +3,6 @@ package com.shopping.esoshop.controller.customer;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -78,5 +77,14 @@ public class Responsedata {
 		@PathVariable("category")Integer category){
 			return ResponseEntity.ok().body(daoService.getAllProductByCategory(category));
 	}
-
+	@GetMapping("product/feedback/{productId}")
+	public ResponseEntity<List<Feedback>> getFeedbackOfProduct(
+		@PathVariable("productId")String productId){
+		return ResponseEntity.ok().body(daoService.getFeedBack(productId));
+	}
+	@GetMapping("product/reportrating/{productId}")
+	public ResponseEntity<ReportRating> getReportRateting(
+		@PathVariable("productId")String productId){
+		return ResponseEntity.ok().body(daoService.getReportRating(productId));
+	}
 }

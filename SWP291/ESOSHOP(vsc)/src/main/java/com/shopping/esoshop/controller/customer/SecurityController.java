@@ -2,16 +2,8 @@ package com.shopping.esoshop.controller.customer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.shopping.esoshop.model.Account;
 import com.shopping.esoshop.model.Customer;
@@ -29,9 +21,6 @@ public class SecurityController {
 	public final static String Account = "account";
 	public final static String Customer = "customer";
 
-	private String otp = "";
-	private Account newAccount = null;
-	private Customer newCustomer = null;
 
 	@Autowired
 	private MailService mailService;
