@@ -1,0 +1,61 @@
+ <script>
+        function exportToExcel() {
+            var table = document.querySelector('.table');
+            var totalRevenue = document.getElementById('totalRevenue').textContent;
+
+            var rows = table.querySelectorAll('tr');
+
+            // Tạo một chuỗi XML cho tệp Excel
+            var excelData = '<?xml version="1.0"?>';
+            excelData += '<ss:Workbook xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">';
+            excelData += '<ss:Worksheet ss:Name="Sheet1">';
+            excelData += '<ss:Table>';
+
+            // Dòng tiêu đề
+            excelData += '<ss:Row>';
+            Array.from(rows[0].children).forEach(function (cell) {
+                excelData += '<ss:Cell>';
+                excelData += '<ss:Data ss:Type="String">' + cell.textContent + '</ss:Data>';
+                excelData += '</ss:Cell>';
+            });
+            excelData += '</ss:Row>';
+
+            // Dữ liệu từ bảng
+            for (let i = 1; i < rows.length; i++) {
+                excelData += '<ss:Row>';
+                Array.from(rows[i].children).forEach(function (cell) {
+                    excelData += '<ss:Cell>';
+                    excelData += '<ss:Data ss:Type="String">' + cell.textContent + '</ss:Data>';
+                    excelData += '</ss:Cell>';
+                });
+                excelData += '</ss:Row>';
+            }
+
+            // Dòng tổng doanh thu
+            excelData += '<ss:Row>';
+            excelData += '<ss:Cell/>';
+            excelData += '<ss:Cell/>';
+            excelData += '<ss:Cell/>';
+            excelData += '<ss:Cell/>';
+            excelData += '<ss:Cell/>';
+            excelData += '<ss:Cell>Revenue:</ss:Cell>';
+            excelData += '<ss:Cell>';
+            excelData += '<ss:Data ss:Type="String">' + totalRevenue + '</ss:Data>';
+            excelData += '</ss:Cell>';
+            excelData += '</ss:Row>';
+
+            excelData += '</ss:Table>';
+            excelData += '</ss:Worksheet>';
+            excelData += '</ss:Workbook>';
+
+            var blob = new Blob([excelData], { type: 'application/vnd.ms-excel' });
+            var url = window.URL.createObjectURL(blob);
+
+            // Tạo một thẻ a để tải xuống tệp Excel
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'data.xls';
+            a.click();
+        }
+
+    </script>
