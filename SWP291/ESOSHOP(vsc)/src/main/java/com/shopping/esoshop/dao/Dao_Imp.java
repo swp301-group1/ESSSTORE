@@ -36,7 +36,8 @@ public class Dao_Imp implements Dao {
 				"      ,[CategoryID]\r\n" + //
 				"      ,[BrandID]\r\n" + //
 				"      ,[DateCreate]\r\n" + //
-				"  FROM [dbo].[products]  order by [DateCreate] desc";
+			    "      ,[Status]\r\n" + //
+				"  FROM [dbo].[products] where Status =1  order by [DateCreate] desc";
 		try {
 			List<Product> list = new ArrayList<Product>();
 			PreparedStatement psm = DBHelper.makeConnection().prepareStatement(sql);
@@ -56,6 +57,7 @@ public class Dao_Imp implements Dao {
 				p.setBrand(getBrandbyId(rs.getInt("BrandID")));
 				p.setDateCreate(rs.getDate("DateCreate"));
 				p.setTimeCreate(rs.getTime("DateCreate"));
+				p.setStatus(rs.getInt("Status"));
 				if (p.getColor().isEmpty()) {
 					List<Color> cl = new ArrayList<>();
 					cl.add(new Color());
@@ -81,7 +83,8 @@ public class Dao_Imp implements Dao {
 				"      ,[CategoryID]\r\n" + //
 				"      ,[BrandID]\r\n" + //
 				"      ,[DateCreate]\r\n" + //
-				"  FROM [dbo].[products] where CategoryID =?  order by [DateCreate] desc";
+				"      ,[Status]\r\n" + //
+				"  FROM [dbo].[products] where CategoryID =? and Status =1  order by [DateCreate] desc";
 		try {
 			List<Product> list = new ArrayList<Product>();
 			PreparedStatement psm = DBHelper.makeConnection().prepareStatement(sql);
@@ -102,6 +105,7 @@ public class Dao_Imp implements Dao {
 				p.setBrand(getBrandbyId(rs.getInt("BrandID")));
 				p.setDateCreate(rs.getDate("DateCreate"));
 				p.setTimeCreate(rs.getTime("DateCreate"));
+				p.setStatus(rs.getInt("Status"));
 				if (p.getColor().isEmpty()) {
 					List<Color> cl = new ArrayList<>();
 					cl.add(new Color());
@@ -127,7 +131,8 @@ public class Dao_Imp implements Dao {
 				"      ,[CategoryID]\r\n" + //
 				"      ,[BrandID]\r\n" + //
 				"      ,[DateCreate]\r\n" + //
-				"  FROM [dbo].[products]  order by [DateCreate] desc";
+				"      ,[Status]\r\n" + //
+				"  FROM [dbo].[products] where Status =1  order by [DateCreate] desc";
 		try {
 			List<Product> list = new ArrayList<Product>();
 			PreparedStatement psm = DBHelper.makeConnection().prepareStatement(sql);
@@ -149,6 +154,7 @@ public class Dao_Imp implements Dao {
 					p.setBrand(getBrandbyId(rs.getInt("BrandID")));
 					p.setDateCreate(rs.getDate("DateCreate"));
 					p.setTimeCreate(rs.getTime("DateCreate"));
+					p.setStatus(rs.getInt("Status"));
 					if (p.getColor().isEmpty()) {
 						List<Color> cl = new ArrayList<>();
 						cl.add(new Color());
@@ -188,6 +194,7 @@ public class Dao_Imp implements Dao {
 				p.setContents(rs.getString("Contents"));
 				p.setCategory(getCategorybyId(rs.getInt("CategoryID")));
 				p.setSupplier(getSupplierbyId(rs.getInt("SupplierID")));
+				p.setStatus(rs.getInt("Status"));
 				list.add(p);
 			}
 			conn.close();
@@ -212,7 +219,8 @@ public class Dao_Imp implements Dao {
 				"      ,[CategoryID]\r\n" + //
 				"      ,[BrandID]\r\n" + //
 				"      ,[DateCreate]\r\n" + //
-				"  FROM [dbo].[products] where ProductID = ?";
+				"      ,[Status]\r\n" + //
+				"  FROM [dbo].[products] where ProductID = ? and Status =1";
 		try {
 			PreparedStatement psm = DBHelper.makeConnection().prepareStatement(sql);
 			psm.setString(1, productId);
@@ -232,6 +240,7 @@ public class Dao_Imp implements Dao {
 				p.setBrand(getBrandbyId(rs.getInt("BrandID")));
 				p.setDateCreate(rs.getDate("DateCreate"));
 				p.setTimeCreate(rs.getTime("DateCreate"));
+				p.setStatus(rs.getInt("Status"));
 				return p;
 			}
 
@@ -254,7 +263,8 @@ public class Dao_Imp implements Dao {
 				"           ,[CategoryID]\r\n" + //
 				"           ,[BrandID]\r\n" + //
 				"           ,[DateCreate])\r\n" +
-				"     VALUES(?,?,?,?,?,?,?,?,?,?,getdate())";
+				"           ,[Status]\r\n" + //
+				"     VALUES(?,?,?,?,?,?,?,?,?,?,getdate(),1)";
 		try {
 			Connection conn = DBHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);

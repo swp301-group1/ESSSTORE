@@ -26,8 +26,8 @@ public class DashboardController {
        return ResponseEntity.ok().body(daoServicel.topFeedbackProducts());
    }  
 
-   @PostMapping("admin/dashboard/revenue")
-   public ResponseEntity<List<Revenue>> getRevenue(
+    @PostMapping("admin/dashboard/revenue")
+    public ResponseEntity<List<Revenue>> getRevenue(
     @RequestParam("from")Date from,
     @RequestParam("to") Date to){
        return ResponseEntity.ok().body(daoServicel.getRevenues(from,to));

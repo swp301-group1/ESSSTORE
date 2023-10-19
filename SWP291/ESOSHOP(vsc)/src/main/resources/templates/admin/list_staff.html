@@ -50,8 +50,6 @@
 
         <div class="sidebar" style="overflow: hidden;">
             <div class="row flex-column" style="margin-top: 150px; ">
-
-
                 <div class="col-6"><span
                         style="font-size: 30px; color: white; font-weight: bold; margin-left: 50px;">Miracle</span>
                 </div>
@@ -71,7 +69,7 @@
                     </button>
                     <div id="userSubMenu" style="display: none; ">
                         <div>
-                            <a href="" style="color: black; text-decoration: none; display: block; padding: 10px;">
+                            <a th:href="@{/admin/list_staff}" style="color: black; text-decoration: none; display: block; padding: 10px;">
                                 <span>
                                     <i class="fa-solid fa-user-pen"></i>
                                 </span>
@@ -79,7 +77,7 @@
                             </a>
                         </div>
                         <div>
-                            <a style="color: black; text-decoration: none; display: block; padding: 10px;" href="#"
+                            <a style="color: black; text-decoration: none; display: block; padding: 10px;" th:href="@{/admin/list_customer}"
                                 aria-expanded="false">
                                 <span>
                                     <i class="fa-solid fa-user-large"></i>
@@ -122,7 +120,6 @@
                 </div>
             </div>
         </div>
-
         <div class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
                 <!-- Navbar brand -->

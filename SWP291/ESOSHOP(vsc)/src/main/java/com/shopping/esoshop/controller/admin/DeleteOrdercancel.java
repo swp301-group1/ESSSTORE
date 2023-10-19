@@ -16,7 +16,7 @@ public class DeleteOrdercancel {
     private DaoService daoService;
     @Scheduled(cron = "0 0 0 */4 * *")
     public void reportCurrentTime() {
-        LocalDate time = LocalDate.now().minusDays(1);
+        LocalDate time = LocalDate.now().minusDays(4);
        System.out.println(daoService.deleteOrderCancelAfterTime(Date.valueOf(time)));
     }
 }

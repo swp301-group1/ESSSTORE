@@ -32,6 +32,7 @@ public class Product {
 	private Date DateCreate;
 
 	private Time TimeCreate;
+	private int status;
 
 	public Product(String id, String name, List<Color> color, int size, int quantity, double price, String unit,
 			String contents, Supplier supplier, Category category,Brand brand) {
@@ -158,12 +159,18 @@ public class Product {
 		TimeCreate = timeCreate;
 	}
 	
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", color=" + color + ", size=" + size + ", quantity=" + quantity
 				+ ", price=" + price + ", unit=" + unit + ", contents=" + contents + ", supplier=" + supplier
-				+ ", category=" + category + ", brand=" + brand + ", DateCreate=" + DateCreate + ", TimeCreate="
-				+ TimeCreate + "]";
+				+ ", category=" + category.getName() + ", brand=" + brand + ", DateCreate=" + DateCreate + ", TimeCreate="
+				+ TimeCreate + ", status=" + status + "]";
 	}
 	
 

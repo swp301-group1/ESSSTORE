@@ -9,27 +9,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
-
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-
     <link rel="stylesheet" href="/css/dashboard.css">
-
     <link rel="stylesheet" href="/css/admin.css">
     <link rel="stylesheet" href="/css/list_customer.css">
-
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="/css/fontawesome.min.css">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <style>
-       
-        
-
         .order-button {
             cursor: pointer;
         }
@@ -45,13 +37,10 @@
 
 <body>
 
-
     <div class="container_all">
 
         <div class="sidebar" style="overflow: hidden;">
             <div class="row flex-column" style="margin-top: 150px; ">
-
-
                 <div class="col-6"><span
                         style="font-size: 30px; color: white; font-weight: bold; margin-left: 50px;">Miracle</span>
                 </div>
@@ -71,7 +60,8 @@
                     </button>
                     <div id="userSubMenu" style="display: none; ">
                         <div>
-                            <a href="" style="color: black; text-decoration: none; display: block; padding: 10px;">
+                            <a th:href="@{/admin/list_staff}"
+                                style="color: black; text-decoration: none; display: block; padding: 10px;">
                                 <span>
                                     <i class="fa-solid fa-user-pen"></i>
                                 </span>
@@ -79,8 +69,8 @@
                             </a>
                         </div>
                         <div>
-                            <a style="color: black; text-decoration: none; display: block; padding: 10px;" href="#"
-                                aria-expanded="false">
+                            <a style="color: black; text-decoration: none; display: block; padding: 10px;"
+                                th:href="@{/admin/list_customer}" aria-expanded="false">
                                 <span>
                                     <i class="fa-solid fa-user-large"></i>
                                 </span>
@@ -98,7 +88,6 @@
                         <a href="#" style="color: white; text-decoration:none ; ">Product</a>
                     </div>
 
-
                 </div>
                 <div class="col-10 mt-4 d-flex  sidebar_btn" style="width: 100vw;">
                     <div class="d-flex align-items-center" style="margin-left: 50px; height: 45px;">
@@ -108,7 +97,6 @@
                         <a href="#" style="color: white; text-decoration:none ;">Category</a>
                     </div>
 
-
                 </div>
                 <div class="col-10 mt-4 d-flex  sidebar_btn" style="width: 100vw;">
                     <div class="d-flex align-items-center" style="margin-left: 50px; height: 45px;">
@@ -117,7 +105,6 @@
 
                         <a href="#" style="color: white; text-decoration:none ;">Order</a>
                     </div>
-
 
                 </div>
             </div>
@@ -171,7 +158,6 @@
                 <div class="container py-5">
                     <h2>Welcome EVO</h2>
 
-
                     <div class="container">
                         <div class="container">
                             <div class="row">
@@ -189,11 +175,6 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-
-
-
-
-
                                                     <tr>
                                                         <td>
                                                             <img src="/img/user.png" alt="">
@@ -220,7 +201,6 @@
                                                                         class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
                                                                 </span>
                                                             </button>
-
 
                                                         </td>
                                                     </tr>
@@ -254,8 +234,6 @@
                                                         </td>
                                                     </tr>
 
-
-
                                                 </tbody>
                                             </table>
                                         </div>
@@ -266,16 +244,11 @@
                         </div>
                     </div>
 
-
                 </div>
             </section>
         </div>
 
     </div>
-
-
-
-
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -316,7 +289,6 @@
                                     </div>
                                 </div>
                                 <hr>
-
 
                                 <div class="row">
                                     <div class="col-sm-3">
@@ -365,11 +337,7 @@
                                                         <span style="color: red;">01/01/2023</span>
                                                     </div>
 
-
                                                 </div>
-
-
-
 
                                                 <div class="row d-flex pt-2 mt-3 ">
                                                     <div class="col-6">
@@ -389,7 +357,7 @@
                                                         <table class="table  border-gray-200 mt-3 product-table ">
                                                             <thead>
                                                                 <tr>
-                                                                  
+
                                                                     <th scope="col"
                                                                         class="fs-sm text-dark text-uppercase-bold-sm px-0">
                                                                         Product</th>
@@ -409,7 +377,7 @@
                                                             </thead>
                                                             <tbody>
                                                                 <tr>
-                                                                   
+
                                                                     <td class="px-0">Iphone15</td>
                                                                     <td class="text-center px-0">White</td>
                                                                     <td class="text-center px-0">1</td>
@@ -425,7 +393,7 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                   
+
                                                                     <td class="px-0">ZFold</td>
                                                                     <td class="text-center px-0">Black</td>
                                                                     <td class="text-center px-0">2</td>
@@ -452,16 +420,11 @@
                                     </div>
                                 </div>
 
-
                             </div>
 
                         </div>
                     </div>
                 </div>
-
-
-
-
 
                 <script>
                     let menuExpanded = false;
@@ -478,7 +441,6 @@
                     }
                 </script>
 
-
                 <script>
                     // Sử dụng biến cờ để theo dõi trạng thái bảng sản phẩm
                     let productTableVisible = false;
@@ -492,7 +454,6 @@
                             productTable.style.maxHeight = "0";
                             productTable.style.opacity = "0";
                             productTable.style.display = "table";
-
                             // Sử dụng requestAnimationFrame để thực hiện hiệu ứng mượt mà
                             let maxHeight = productTable.scrollHeight;
                             let currentHeight = 0;
@@ -508,15 +469,14 @@
                                     animationFrameId = requestAnimationFrame(animate);
                                 }
                             }
-
                             animationFrameId = requestAnimationFrame(animate);
                         } else {
                             // Nếu bảng sản phẩm đã hiển thị, thực hiện hiệu ứng ẩn và đóng bảng
                             cancelAnimationFrame(animationFrameId);
-                            productTable.style.maxHeight = productTable.scrollHeight + "px"; // Set max height to the full height of the table
+                            productTable.style.maxHeight = productTable.scrollHeight +
+                            "px"; // Set max height to the full height of the table
                             productTable.style.opacity = "1";
-
-                            setTimeout(function () {
+                            setTimeout(function() {
                                 productTable.style.maxHeight = "0";
                                 productTable.style.opacity = "0";
                                 productTable.style.display = "none";
@@ -525,9 +485,10 @@
                         }
                     }
                 </script>
-
+                <script>
+                    
+                </script>
 
 </body>
-
 
 </html>

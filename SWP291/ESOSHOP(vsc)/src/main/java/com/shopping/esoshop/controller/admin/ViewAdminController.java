@@ -37,7 +37,7 @@ public class ViewAdminController {
         return "/admin/revenue";
     }
 
-    @GetMapping("/admin/listcustomer")
+    @GetMapping("/admin/list_customer")
     public String showListCustomer(HttpSession session) {
         Account admin = (Account)session.getAttribute("admin");
         if(admin==null){
@@ -46,7 +46,7 @@ public class ViewAdminController {
         return "/admin/list_customer";
     }
 
-    @GetMapping("/admin/liststaff")
+    @GetMapping("/admin/list_staff")
     public String showListStaff(HttpSession session) {
         Account admin = (Account)session.getAttribute("admin");
         if(admin==null){
