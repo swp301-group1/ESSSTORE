@@ -1,0 +1,37 @@
+.card-cart {
+    margin: auto;
+    max-width: 1200px;
+    width: 95%;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 1rem;
+    border: transparent;
+}
+
+/* Đặt chiều rộng cố định cho mỗi cột */
+.column-image {
+    width: 100px; /* Đặt chiều rộng ảnh */
+}
+
+.column-product-name {
+    width: 200px; /* Đặt chiều rộng tên sản phẩm */
+}
+
+.column-color {
+    width: 100px; /* Đặt chiều rộng màu sắc */
+}
+
+.column-price {
+    width: 100px; /* Đặt chiều rộng giá */
+}
+
+.column-quantity {
+    width: 80px; /* Đặt chiều rộng số lượng */
+}
+
+.column-checkbox {
+    width: 50px; /* Đặt chiều rộng checkbox */
+}
+
+.column-delete {
+    width: 100px; /* Đặt chiều rộng nút Xóa */
+}
