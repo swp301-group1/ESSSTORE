@@ -1,14 +1,14 @@
 .navbar-dark .nav-item .nav-link {
     color: #fff;
   }
-  
+
   .navbar-dark .nav-item .nav-link:hover {
     background-color: rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
     border-radius: 0.25rem;
     color: #fff;
   }
-  
+
   .fa-li {
     position: relative;
     left: 0;
@@ -19,7 +19,7 @@
     background-color: yellow; /* Màu nền của tiêu đề */
     color: #fff; /* Màu văn bản của tiêu đề */
     text-align: center; /* Canh giữa nội dung tiêu đề */
-  
+
 }
 
 #logo{
@@ -164,10 +164,11 @@
 
 .filterCategory{
     border-radius: 10px;
+
     height: 350px;
     width: 150px;
-    
-    background-color: floralwhite;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+    background-color: white;
 }
 
 
@@ -182,7 +183,7 @@
 .product{
     border-radius: 10px;
     background-color: white;
-    
+
     height: 240px;
 }
 
@@ -196,30 +197,30 @@
 .buttonFilterBrand{
     border-radius: 5px;
     border-color: transparent;
-    
+
 }
 
 .product_phone{
     border-radius: 10px;
-    
+
     box-shadow: 1px 1px 1px 2px rgb(105, 105, 105);
 }
 
-.product-card{
-    height: 450px;
-
-}
-
-.card-body{
-    height: 150px !important;
-}
-
-.card-image{
-    height: 300px;
-}
-
-.card-img{
-    height: 100%;
-}
 
 
+
+    .product-card{
+        height: 450px;
+    }
+
+    .card-body{
+        height : 150px !important;
+    }
+
+    .card-image{
+        height: 300px;
+    }
+
+    .card-img{
+        height: 100%;
+    }

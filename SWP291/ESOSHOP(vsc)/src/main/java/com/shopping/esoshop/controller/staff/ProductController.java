@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.shopping.esoshop.service.DaoService;
+import com.shopping.esoshop.service.IDaoService;
 
 
 @Controller
@@ -16,7 +16,7 @@ public class ProductController {
 
 
     @Autowired
-    private DaoService daoService;
+    private IDaoService daoService;
     
 
     @GetMapping("/staff/addproductdetail{productId}")

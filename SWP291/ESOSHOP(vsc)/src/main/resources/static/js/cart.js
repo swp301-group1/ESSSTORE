@@ -63,7 +63,7 @@ function updateTotal() {
 
         checkboxes.forEach((checkbox, index) => {
             const productName = document.querySelectorAll(".product_name")[index].textContent;
-            const productColor = document.querySelectorAll(".product_color")[index].textContent;
+            const productColor = document.querySelectorAll(".color")[index].textContent;
             const quantityInput = document.querySelectorAll(".quantity")[index];
             const quantity = quantityInput.value;
 
@@ -82,11 +82,11 @@ function updateTotal() {
 
     // Function to create an HTML table from the selected products
     function createProductTable(products) {
-        let tableHTML = '<table><thead><tr><th>Product</th><th style="padding-left: 100px;">Color</th><th style="padding-left: 100px;">Quantity</th></tr></thead><tbody>';
+        let tableHTML = '<table style="font-size:15px !important;"><thead style="color:blue;"><tr><th >Product</th><th style="padding-left: 60px;">Color</th><th style="padding-left: 60px;">Quantity</th></tr></thead><tbody>';
 
         products.forEach(product => {
             if (product.name && product.quantity) {
-                tableHTML += `<tr><td>${product.name}</td><td style="padding-left: 100px;">${product.color}</td><td style="padding-left: 100px;">${product.quantity}</td></tr>`;
+                tableHTML += `<tr><td>${product.name}</td><td style="padding-left: 60px;">${product.color}</td><td style="padding-left: 60px;">${product.quantity}</td></tr>`;
             }
         });
 

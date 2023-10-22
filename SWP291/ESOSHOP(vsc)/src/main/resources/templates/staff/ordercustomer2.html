@@ -24,21 +24,9 @@
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="/css/fontawesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    
-    <style>
-        
-        td img {
-            transition: transform .2s;
-        }
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-         td img:hover {
-            -ms-transform: scale(1.5);
-            /* IE 9 */
-            -webkit-transform: scale(1.5);
-            /* Safari 3-8 */
-            transform: scale(10);
-        }
-    </style>
+    
 </head>
 
 <body>
@@ -88,7 +76,7 @@
         <div class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
                 <!-- Navbar brand -->
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" th:href="@{/staff/product_management}">
                     <img id="MDB-logo"
                         src="https://mdbcdn.b-cdn.net/wp-content/uploads/2018/06/logo-mdb-jquery-small.png"
                         alt="MDB Logo" draggable="false" height="30" />
@@ -115,12 +103,9 @@
                     </form>
 
                     <ul class="navbar-nav ms-3">
-
-                        <li class="nav-item mr-2">
-
-                        </li>
-                        <li class="nav-item" style="width: 85px;">
-                            <a class="nav-link d-flex align-items-center" href="#!">Sign In</a>
+                        <li class="nav-item mr-2"></li>
+                        <li class="nav-item" style="width: 85px">
+                            <button type="button" class="btn btn-primary" id="logout">Logout</button>
                         </li>
                     </ul>
                 </div>
@@ -131,7 +116,15 @@
         <div class="content-container " style="padding-top: 10px;">
             <section style="background-color: #eee;" class="content">
                 <div class="container py-5">
-                    <table class="table mt-5">
+                    <div class="mt-2">
+                        <div class="col">
+                            <input type="datetime-local" id="birthdaytime" name="birthdaytime">
+                            <button type="button">Send</button>
+                            <button type="button"  class="btn btn-primary" onclick="showConfirm(2)">Confirm</button>
+                            <button type="button"  class="btn btn-primary" onclick="showConfirm(1)">NotConfirm</button>
+                        </div>
+                    </div>
+                    <table class="table mt-3">
                         <thead class="table-dark">
                             <tr>
                                 <th scope="col">STT</th>
@@ -248,9 +241,8 @@
                                                 </div>
                                             </div>
 
-                                            <div class="d-flex mb-3">
-                                                <button id="btnDone" value="" onclick="confirmpacking(this)" type="button"
-                                                    class="btn btn-primary">Done</button>
+                                            <div class="d-flex mb-3" id="confirm_cancel">
+
                                             </div>
                                         </div>
                                     </div>
@@ -289,11 +281,26 @@
     <script src="/js/addImage.js"></script>
     <script>
 
-        
-            function getOrders() {
+        window.load(getOrdershavepay());
+            function getOrdershavepay() {
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8080/staff/listbills',
+                    url: 'http://localhost:8080/staff/listbillpaysucces',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function(data) {
+                        console.log(data);
+                        var list_Order = document.getElementById('list_Order');
+                        list_Order.innerHTML = getListOrder(data);
+                        var TotalOrder = document.getElementById('TotalOrder');
+                        TotalOrder.innerHTML=data.length;
+                    }
+                });
+            }
+            function getOrdersConfirm() {
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8080/staff/listbillconfirmsucces',
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(data) {
@@ -321,6 +328,15 @@
                 })
                 return html;
             }
+
+        function showConfirm(status){
+            if(status===2){
+                getOrdersConfirm();
+
+            }else{
+                getOrdershavepay();
+            }
+        }
     </script>
     <script>
         // show order detail of by orderid
@@ -331,26 +347,21 @@
                 dataType: 'json',
                 contentType: 'application/json',
                 success: function(data) {
-                    document.getElementById('orderid_bill').innerHTML = 'Bill code: ' + data.orderId;
-                    document.getElementById('full-name').innerHTML = data.customer.name;
-                    document.getElementById('email').innerHTML = data.customer.email;
-                    document.getElementById('phonenumber').innerHTML = data.customer.phone;
-                    document.getElementById('address').innerHTML = data.customer.address;
-                    document.getElementById('orderdate').innerHTML = data.orderDate;
-                    document.getElementById('totalAmount').innerHTML = data.totalAmount + '$';
-                    document.getElementById('btnDone').value=data.orderId;
+                    $('#orderid_bill').text('Bill code: ' + data.orderId);
+                    $('#full-name').text(data.customer.name);
+                    $('#email').text(data.customer.email) ;
+                    $('#phonenumber').text(data.customer.phone);
+                    $('#address').text(data.customer.address);
+                    $('#orderdate').text(data.orderDate);
+                    $('#totalAmount').text(data.totalAmount + '$');
                     switch (data.status) {
-                        case -1:
-                            document.getElementById('status').innerHTML = "cancel order";
-                            break;
-                        case 0:
-                            document.getElementById('status').innerHTML = "Haven't pay";
-                            break;
                         case 1:
-                            document.getElementById('status').innerHTML = "Pay Succes";
+                            $('#status').text( "Pay Succes");
+                            $('#confirm_cancel').html('<button value="'+data.orderId+'" onclick="confirmpacking(this)" type="button"class="btn btn-primary">Confirm</button>');
                             break;
                         case 2:
-                            document.getElementById('status').innerHTML = "Confirm Succes";
+                            $('#status').text("Confirm Succes") ;
+                            $('#confirm_cancel').html('<button value="'+data.orderId+'" onclick="cancelOrder(this)" type="button"class="btn btn-danger">Cancle</button>');
                             break;
                         default:
                     }
@@ -373,15 +384,32 @@
     </script>
     <script>
         function confirmpacking(orderId){
-            $.ajax({
-                type: 'GET',
-                url: 'http://localhost:8080/staff/confirmpacking'+ orderId.value,
-                dataType: 'json',
-                contentType: 'application/json',
-                success: function(data) {
-                    alert("confirmpacking success");
-                }
-            });
+            var userInput = confirm("Are you sure you want to confirm "+orderId.value );
+            if(userInput){
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8080/staff/confirmpacking'+ orderId.value,
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function(data) {
+                        alert("confirmpacking success");
+                    }
+                });
+            }
+        }
+        function cancelOrder(orderId){
+            var userInput = confirm("Are you sure you want to Cancel "+orderId.value );
+            if(userInput){
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:8080/staff/order/cancelorder/'+ orderId.value,
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function(data) {
+                        alert("Cancel confirmpacking success");
+                    }
+                });
+           }
         }
     </script>
 </body>

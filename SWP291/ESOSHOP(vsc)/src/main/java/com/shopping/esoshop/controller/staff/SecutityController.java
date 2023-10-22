@@ -8,15 +8,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shopping.esoshop.model.Account;
-import com.shopping.esoshop.model.Staff;
-import com.shopping.esoshop.service.DaoService;
+import com.shopping.esoshop.service.IDaoService;
 
 import jakarta.servlet.http.HttpSession;
 
 @RestController
 public class SecutityController{
     @Autowired
-    private DaoService daoService;   
+    private IDaoService daoService;   
      
     @PostMapping("/staff/checklogin")
     public ResponseEntity<String> Login(HttpSession session,
@@ -26,9 +25,10 @@ public class SecutityController{
             session.setAttribute("staff", daoService.getStaffByEmail(account.getEmail()));
         return ResponseEntity.ok().body("login thanh cong");
     }
-    @GetMapping("staff/getstaff")
-    public ResponseEntity<Staff>getStaff(HttpSession session){
-        Staff staff= (Staff)session.getAttribute("staff");
-        return ResponseEntity.ok().body(staff);
+    @GetMapping("/staff/logout")
+    public ResponseEntity<Boolean>logOut(HttpSession session){
+        session.setAttribute("staff", null);
+        return ResponseEntity.ok().body(true);
     }
+
 }

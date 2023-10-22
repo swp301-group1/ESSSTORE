@@ -7,7 +7,7 @@ import java.util.List;
 import com.shopping.esoshop.model.*;
 
 public interface Dao {
-	
+	// rest is ngo dinh linh
 	// product
 	public List<Product> getAllProduct();//nguyen viet duy
 
@@ -17,7 +17,7 @@ public interface Dao {
 
 	public Product getProductbyId(String productId);//nguyen viet duy
 
-	public Product insertProduct(Product product);//nguyen viet duy
+	public boolean insertProduct(Product product);//nguyen viet duy
 
 	public List<Product> searchByName(String name);//nguyen viet duy
 	
@@ -42,7 +42,7 @@ public interface Dao {
 
 	public Account createAccount(Account account,Customer customer);//HOang DUy Vu
 
-	public List<Account> getAllAccount();
+	public List<Account> getAllAccount(int role);
 	// customer
 	public Customer getCustomerById(int id); // giang 
 
@@ -86,6 +86,7 @@ public interface Dao {
 	public Bill payBill(Bill bill);
 	
 	public List<Bill> getAllBill(int status);
+	public List<Bill> getAllBillbyOrderDate(int status,String date);
 
 	public Bill getBillById(String orderId);
 
@@ -96,5 +97,13 @@ public interface Dao {
     
 	public List<Revenue> getRevenues(Date form,Date to);
 
-	public boolean deleteOrderCancelAfterTime(Date time);
+	public boolean deleteOrderCancelAfterTime();
+
+	public User getInforCustomer(String email);
+	public User getInforStaff(String email);
+
+	public Boolean setStatusAccount(String email,int status);
+
+	public boolean posttPoneOrder(String orderId);
+	public int getTotalProductOfcart(int customerId);
 }

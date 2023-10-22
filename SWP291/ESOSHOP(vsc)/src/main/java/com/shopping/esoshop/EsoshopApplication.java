@@ -5,14 +5,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import com.shopping.esoshop.service.DaoService;
+import com.shopping.esoshop.service.IDaoService;
 
 @SpringBootApplication
 @EnableScheduling
 public class EsoshopApplication  {
 
     @Autowired
-	DaoService daoService;
+	IDaoService daoService;
 	public static void main(String[] args) {
 		SpringApplication.run(EsoshopApplication.class, args);
 	}

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.shopping.esoshop.model.Customer;
 import com.shopping.esoshop.model.Feedback;
-import com.shopping.esoshop.service.DaoService;
+import com.shopping.esoshop.service.IDaoService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpSession;
 public class FeedbackController {
     
     @Autowired
-    private DaoService daoService;
+    private IDaoService daoService;
 
     @PostMapping("/customer/feedback")
 	public ResponseEntity<Integer> doFeedBack(HttpSession session,

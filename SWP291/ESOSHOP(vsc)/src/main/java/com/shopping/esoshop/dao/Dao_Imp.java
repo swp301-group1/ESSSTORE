@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.jdbc.core.BeanPropertyRowMapper;
 // import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,13 +16,13 @@ import org.springframework.stereotype.Repository;
 
 import com.shopping.esoshop.model.*;
 import com.shopping.esoshop.utils.DBHelper;
-
 @Repository
 public class Dao_Imp implements Dao {
 
 	// @Autowired
 	// private JdbcTemplate Template;
-
+    @Autowired 
+	private DBHelper dbHelper;
 	// product
 	@Override
 	public List<Product> getAllProduct() {
@@ -36,11 +37,11 @@ public class Dao_Imp implements Dao {
 				"      ,[CategoryID]\r\n" + //
 				"      ,[BrandID]\r\n" + //
 				"      ,[DateCreate]\r\n" + //
-			    "      ,[Status]\r\n" + //
+				"      ,[Status]\r\n" + //
 				"  FROM [dbo].[products] where Status =1  order by [DateCreate] desc";
 		try {
 			List<Product> list = new ArrayList<Product>();
-			PreparedStatement psm = DBHelper.makeConnection().prepareStatement(sql);
+			PreparedStatement psm = dbHelper.makeConnection().prepareStatement(sql);
 			ResultSet rs = psm.executeQuery();
 			while (rs.next()) {
 				Product p = new Product();
@@ -70,9 +71,10 @@ public class Dao_Imp implements Dao {
 			return null;
 		}
 	}
+
 	@Override
 	public List<Product> getAllProductByCategory(int categoryid) {
-				String sql = "SELECT [ProductID]\r\n" + //
+		String sql = "SELECT [ProductID]\r\n" + //
 				"      ,[ProductName]\r\n" + //
 				"      ,[Size]\r\n" + //
 				"      ,[Quantity]\r\n" + //
@@ -87,7 +89,7 @@ public class Dao_Imp implements Dao {
 				"  FROM [dbo].[products] where CategoryID =? and Status =1  order by [DateCreate] desc";
 		try {
 			List<Product> list = new ArrayList<Product>();
-			PreparedStatement psm = DBHelper.makeConnection().prepareStatement(sql);
+			PreparedStatement psm = dbHelper.makeConnection().prepareStatement(sql);
 			psm.setInt(1, categoryid);
 			ResultSet rs = psm.executeQuery();
 			while (rs.next()) {
@@ -118,6 +120,7 @@ public class Dao_Imp implements Dao {
 			return null;
 		}
 	}
+
 	@Override
 	public List<Product> searchByName(String name) {
 		String sql = "SELECT [ProductID]\r\n" + //
@@ -135,12 +138,12 @@ public class Dao_Imp implements Dao {
 				"  FROM [dbo].[products] where Status =1  order by [DateCreate] desc";
 		try {
 			List<Product> list = new ArrayList<Product>();
-			PreparedStatement psm = DBHelper.makeConnection().prepareStatement(sql);
+			PreparedStatement psm = dbHelper.makeConnection().prepareStatement(sql);
 			ResultSet rs = psm.executeQuery();
 			while (rs.next()) {
 				Product p = new Product();
 				if (rs.getString("ProductName").toLowerCase().replaceAll(" ", "")
-				   .contains(name.trim().replaceAll(" ", ""))) {
+						.contains(name.trim().replaceAll(" ", ""))) {
 					p.setId(rs.getString("ProductID"));
 					p.setName(rs.getString("ProductName"));
 					p.setColor(getColors(rs.getString("ProductID")));
@@ -177,7 +180,7 @@ public class Dao_Imp implements Dao {
 				"FETCH NEXT ? ROWS ONLY;";
 		try {
 			List<Product> list = new ArrayList<Product>();
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setInt(1, (nPage - 1) * sizePage);
 			psm.setInt(2, sizePage);
@@ -222,7 +225,7 @@ public class Dao_Imp implements Dao {
 				"      ,[Status]\r\n" + //
 				"  FROM [dbo].[products] where ProductID = ? and Status =1";
 		try {
-			PreparedStatement psm = DBHelper.makeConnection().prepareStatement(sql);
+			PreparedStatement psm = dbHelper.makeConnection().prepareStatement(sql);
 			psm.setString(1, productId);
 			ResultSet rs = psm.executeQuery();
 			if (rs.next()) {
@@ -250,7 +253,7 @@ public class Dao_Imp implements Dao {
 	}
 
 	@Override
-	public Product insertProduct(Product product) {
+	public boolean insertProduct(Product product) {
 		String sql = "INSERT INTO [dbo].[products]\r\n" + //
 				"           ([ProductID]\r\n" + //
 				"           ,[ProductName]\r\n" + //
@@ -262,11 +265,11 @@ public class Dao_Imp implements Dao {
 				"           ,[SupplierID]\r\n" + //
 				"           ,[CategoryID]\r\n" + //
 				"           ,[BrandID]\r\n" + //
-				"           ,[DateCreate])\r\n" +
-				"           ,[Status]\r\n" + //
+				"           ,[DateCreate]\r\n" +
+				"           ,[Status])\r\n" + //
 				"     VALUES(?,?,?,?,?,?,?,?,?,?,getdate(),1)";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setString(1, product.getId());
 			psm.setString(2, product.getName());
@@ -282,12 +285,12 @@ public class Dao_Imp implements Dao {
 				for (Color color : product.getColor()) {
 					insertColors(color);
 				}
-				return product;
+				return true;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		return null;
+		return false;
 	}
 
 	// get list of page
@@ -296,7 +299,7 @@ public class Dao_Imp implements Dao {
 		String sql = "select count(*) from products";
 		try {
 
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			ResultSet rs = psm.executeQuery();
 			if (rs.next()) {
@@ -322,7 +325,7 @@ public class Dao_Imp implements Dao {
 				"      ,[BrandName]\r\n" + //
 				"  FROM [dbo].[brands] where BrandID =? ";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setInt(1, branId);
 			ResultSet rs = psm.executeQuery();
@@ -342,7 +345,7 @@ public class Dao_Imp implements Dao {
 				"  FROM [dbo].[brands]";
 		List<Brand> brands = new ArrayList<>();
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			ResultSet rs = psm.executeQuery();
 			while (rs.next()) {
@@ -366,7 +369,7 @@ public class Dao_Imp implements Dao {
 				"  FROM [dbo].[categories] \r\n" + //
 				"  where CategoryID = " + id;
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			ResultSet rs = psm.executeQuery();
 			if (rs.next()) {
@@ -386,7 +389,7 @@ public class Dao_Imp implements Dao {
 	public List<Category> getAllCategory() {
 		String sql = "select * from categories ";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			ResultSet rs = psm.executeQuery();
 			List<Category> categories = new ArrayList<Category>();
@@ -412,7 +415,7 @@ public class Dao_Imp implements Dao {
 	public Supplier getSupplierbyId(int id) {
 		String sql = "select * from suppliers where SupplierID=" + id;
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			ResultSet rs = psm.executeQuery();
 			if (rs.next()) {
@@ -437,7 +440,7 @@ public class Dao_Imp implements Dao {
 				+ "      ,[Phone]\r\n"
 				+ "  FROM [dbo].[suppliers]";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			ResultSet rs = psm.executeQuery();
 			List<Supplier> suppliers = new ArrayList<>();
@@ -466,7 +469,7 @@ public class Dao_Imp implements Dao {
 				"  FROM [dbo].[color] where ProductID =?";
 		try {
 			List<Color> colors = new ArrayList<>();
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setString(1, productid);
 			ResultSet rs = psm.executeQuery();
@@ -496,7 +499,7 @@ public class Dao_Imp implements Dao {
 				"           ,[ColorName])\r\n" + //
 				"     VALUES(?,?,?,?)";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setString(1, color.getProductId());
 			psm.setInt(2, color.getColorId());
@@ -517,7 +520,7 @@ public class Dao_Imp implements Dao {
 		String sql = "DELETE FROM [dbo].[color]\r\n" + //
 				"      WHERE [Image] =?";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setString(1, image);
 			return psm.executeUpdate() > 0;
@@ -533,7 +536,7 @@ public class Dao_Imp implements Dao {
 	public Account getAccount(String email) {
 		String sql = "select * from accounts where Email = '" + email + "'";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			ResultSet rs = psm.executeQuery();
 			if (rs.next()) {
@@ -554,7 +557,7 @@ public class Dao_Imp implements Dao {
 	public Account checkLogin(String email, String password, int role) {
 		String sql = "select * from accounts where Email = ? and Password = ? and Role=? and Status =1";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setString(1, email);
 			psm.setString(2, password);
@@ -575,15 +578,16 @@ public class Dao_Imp implements Dao {
 	}
 
 	@Override
-	public List<Account> getAllAccount() {
+	public List<Account> getAllAccount(int role) {
 		String sql = "SELECT [Email]\r\n" + //
 				"      ,[Password]\r\n" + //
 				"      ,[Role]\r\n" + //
 				"      ,[Status]\r\n" + //
-				"  FROM [dbo].[accounts]";
+				"  FROM [dbo].[accounts] where Role = ?";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
+			psm.setInt(1, role);
 			ResultSet rs = psm.executeQuery();
 			List<Account> accounts = new ArrayList<>();
 			while (rs.next()) {
@@ -620,7 +624,7 @@ public class Dao_Imp implements Dao {
 				"           ,[Email])\r\n" + //
 				"     VALUES(?,?,?,?)";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm;
 			// insert account
 			psm = conn.prepareStatement(sql1);
@@ -659,7 +663,7 @@ public class Dao_Imp implements Dao {
 				+ "  FROM [dbo].[customers]"
 				+ "  where CustomerID = ?";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setInt(1, id);
 			ResultSet rs = psm.executeQuery();
@@ -692,7 +696,7 @@ public class Dao_Imp implements Dao {
 				+ "  FROM [dbo].[customers]"
 				+ "  where Email = ?";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setString(1, email);
 			ResultSet rs = psm.executeQuery();
@@ -728,7 +732,7 @@ public class Dao_Imp implements Dao {
 				+ "  where CustomerID = ?"
 				+ "  Order by  Time desc";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setInt(1, customerId);
 			ResultSet rs = psm.executeQuery();
@@ -763,7 +767,7 @@ public class Dao_Imp implements Dao {
 				+ "  where CustomerID = ? and CartID =?"
 				+ "  Order by  Time desc";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setInt(1, customerId);
 			psm.setString(2, cartId);
@@ -796,7 +800,7 @@ public class Dao_Imp implements Dao {
 				"           ,[Color])\r\n" + //
 				"     VALUES(?,?,?,?,GETDATE(),?)";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			String cartId = cart.getCustomerId() + "-" + cart.getProduct().getId() + "-" + cart.getColorId();
 			psm.setString(1, cartId.trim());
@@ -817,7 +821,7 @@ public class Dao_Imp implements Dao {
 		String sql = "DELETE FROM [dbo].[carst]\r\n"
 				+ "      WHERE CartID = ?";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setString(1, cartId);
 			return psm.executeUpdate();
@@ -840,7 +844,7 @@ public class Dao_Imp implements Dao {
 				+ "  FROM [dbo].[feedbacks]"
 				+ " where ProductID = ? and Status =1";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setString(1, productId);
 			ResultSet rs = psm.executeQuery();
@@ -874,7 +878,7 @@ public class Dao_Imp implements Dao {
 				"           ,[Status])\r\n" + //
 				"     VALUEs(?,?,?,?,GETDATE(),0)";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setString(1, feedback.getProduct().getId());
 			psm.setInt(2, feedback.getCustomer().getId());
@@ -896,7 +900,7 @@ public class Dao_Imp implements Dao {
 				+ "order by Star desc";
 		try {
 			ReportRating reportRating = new ReportRating();
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setString(1, productID);
 			ResultSet rs = psm.executeQuery();
@@ -912,25 +916,26 @@ public class Dao_Imp implements Dao {
 
 	@Override
 	public List<TopFeedbackProduct> topFeedbackProducts() {
-		String sql = "select top 5 fb.ProductID ,p.ProductName ,count(Commen) as 'TotalFeedback',AVG(fb.Star) as 'Average' from feedbacks as fb\r\n" + //
+		String sql = "select top 5 fb.ProductID ,p.ProductName ,count(Commen) as 'TotalFeedback',AVG(fb.Star) as 'Average' from feedbacks as fb\r\n"
+				+ //
 				"inner join products as p on p.ProductID = fb.ProductID\r\n" + //
 				"group by fb.ProductID ,p.ProductName order by Average desc, TotalFeedback desc";
-			List<TopFeedbackProduct> topFeedbackProducts = new ArrayList<>();
-			try {
-				Connection conn =DBHelper.makeConnection();
-				PreparedStatement psm = conn.prepareStatement(sql);
-			    ResultSet rs = psm.executeQuery();
-				while(rs.next()){
-					TopFeedbackProduct topFeedbackProduct = new TopFeedbackProduct();
-					topFeedbackProduct.setId(rs.getString(1));
-					topFeedbackProduct.setName(rs.getString(2));
-					topFeedbackProduct.setTotalFeedback(rs.getInt(3));
-					topFeedbackProduct.setAvgRating(rs.getDouble(4));
-				    topFeedbackProducts.add(topFeedbackProduct);
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
+		List<TopFeedbackProduct> topFeedbackProducts = new ArrayList<>();
+		try {
+			Connection conn = dbHelper.makeConnection();
+			PreparedStatement psm = conn.prepareStatement(sql);
+			ResultSet rs = psm.executeQuery();
+			while (rs.next()) {
+				TopFeedbackProduct topFeedbackProduct = new TopFeedbackProduct();
+				topFeedbackProduct.setId(rs.getString(1));
+				topFeedbackProduct.setName(rs.getString(2));
+				topFeedbackProduct.setTotalFeedback(rs.getInt(3));
+				topFeedbackProduct.setAvgRating(rs.getDouble(4));
+				topFeedbackProducts.add(topFeedbackProduct);
 			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return topFeedbackProducts;
 	}
 
@@ -943,7 +948,7 @@ public class Dao_Imp implements Dao {
 				+ "  FROM [dbo].[staffs]\r\n"
 				+ "  Where StaffID = ?";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setInt(1, staffId);
 			ResultSet rs = psm.executeQuery();
@@ -964,7 +969,7 @@ public class Dao_Imp implements Dao {
 	public Staff getStaffByEmail(String email) {
 		String sql = "select StaffID,Name,Email from staffs where Email =?";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setString(1, email);
 			ResultSet rs = psm.executeQuery();
@@ -984,7 +989,7 @@ public class Dao_Imp implements Dao {
 	// order from order_detail
 	@Override
 	public String orderProduct(int customerId, List<OrderDelail> delails, String[] cartIds) {
-		Connection conn = DBHelper.makeConnection();
+		Connection conn = dbHelper.makeConnection();
 		PreparedStatement psm;
 		Customer customer = getCustomerById(customerId);
 		String sql1 = "INSERT INTO [dbo].[orders]\r\n" + //
@@ -1051,7 +1056,7 @@ public class Dao_Imp implements Dao {
 				"   SET [Status] = -1\r\n" + //
 				" WHERE OrderID = ?";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setString(1, orderId);
 			int resutl = psm.executeUpdate();
@@ -1078,7 +1083,7 @@ public class Dao_Imp implements Dao {
 				"\t  where OrderID=?";
 		List<OrderDelail> orderdelails = new ArrayList<>();
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setString(1, orderId);
 			ResultSet rs = psm.executeQuery();
@@ -1099,18 +1104,20 @@ public class Dao_Imp implements Dao {
 		}
 		return null;
 	}
+
 	@Override
 	public List<TopSaleProduct> getTopSaleProducts() {
-		String sql = "select top 5 p.ProductID,p.ProductName ,sum(odl.Price*odl.Quantity) as 'Income' ,count(odl.ProductID) as 'TotalOrder' from products as p\r\n" + //
+		String sql = "select top 5 p.ProductID,p.ProductName ,sum(odl.Price*odl.Quantity) as 'Income' ,count(odl.ProductID) as 'TotalOrder' from products as p\r\n"
+				+ //
 				"inner join order_details as odl on odl.ProductID = p.ProductID\r\n" + //
 				"group by p.ProductID,p.ProductName\r\n" + //
 				"order by TotalOrder desc";
-	    try {
+		try {
 			List<TopSaleProduct> topSaleProducts = new ArrayList<>();
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			ResultSet rs = psm.executeQuery();
-			while(rs.next()){
+			while (rs.next()) {
 				TopSaleProduct tsp = new TopSaleProduct();
 				tsp.setId(rs.getString(1));
 				tsp.setName(rs.getString(2));
@@ -1124,6 +1131,7 @@ public class Dao_Imp implements Dao {
 		}
 		return null;
 	}
+
 	// bill
 	@Override
 	public List<Bill> getAllBillsOfCustomer(Customer customer) {
@@ -1135,7 +1143,7 @@ public class Dao_Imp implements Dao {
 				"      ,[Address]\r\n" + //
 				"  FROM [dbo].[orders] where CustomerID = ? order by OrderDate desc";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setInt(1, customer.getId());
 			ResultSet rs = psm.executeQuery();
@@ -1167,22 +1175,46 @@ public class Dao_Imp implements Dao {
 				"      ,[Status]\r\n" + //
 				"      ,[Address]\r\n" + //
 				"  FROM [dbo].[orders] Where Status = ? order by [OrderDate] DESC";
-		String sql2 = "SELECT [OrderID]\r\n" + //
+		try {
+			Connection conn = dbHelper.makeConnection();
+			PreparedStatement psm = null;
+			psm = conn.prepareStatement(sql);
+			psm.setInt(1, status);
+			ResultSet rs = psm.executeQuery();
+			List<Bill> bills = new ArrayList<>();
+			while (rs.next()) {
+				Bill b = new Bill();
+				b.setOrderId(rs.getString("OrderID"));
+				b.setCustomer(getCustomerById(rs.getInt("CustomerID")));
+				b.setOrderdetails(getListOrderdetail(rs.getString("OrderID")));
+				b.setOrderDate(rs.getDate("OrderDate"));
+				b.setOrderTime(rs.getTime("OrderDate"));
+				b.setStatus(rs.getInt("Status"));
+				b.setAddress(rs.getString("Address"));
+				bills.add(b);
+			}
+			return bills;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+	}
+
+	@Override
+	public List<Bill> getAllBillbyOrderDate(int status, String date) {
+		String sql = "SELECT [OrderID]\r\n" + //
 				"      ,[CustomerID]\r\n" + //
 				"      ,[OrderDate]\r\n" + //
 				"      ,[StaffID]\r\n" + //
 				"      ,[Status]\r\n" + //
 				"      ,[Address]\r\n" + //
-				"  FROM [dbo].[orders] Where Status >=-1 order by [OrderDate] DESC";
+				"  FROM [dbo].[orders] Where Status = ? and CONVERT(DATE, OrderDate) =? order by [OrderDate] DESC";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = null;
-			if (status == -2) {
-				psm = conn.prepareStatement(sql2);
-			} else {
-				psm = conn.prepareStatement(sql);
-				psm.setInt(1, status);
-			}
+			psm = conn.prepareStatement(sql);
+			psm.setInt(1, status);
+			psm.setString(2, date);
 			ResultSet rs = psm.executeQuery();
 			List<Bill> bills = new ArrayList<>();
 			while (rs.next()) {
@@ -1213,7 +1245,7 @@ public class Dao_Imp implements Dao {
 				" ,[Address]\r\n" + //
 				" FROM [dbo].[orders] where CustomerID=? and OrderID=?";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setInt(1, customer.getId());
 			psm.setString(2, orderId);
@@ -1224,7 +1256,7 @@ public class Dao_Imp implements Dao {
 				b.setCustomer(customer);
 				b.setOrderdetails(getListOrderdetail(rs.getString("OrderID")));
 				b.setOrderDate(rs.getDate("OrderDate"));
-				b.setOrderTime(rs.getTime( "OrderDate"));
+				b.setOrderTime(rs.getTime("OrderDate"));
 				b.setStatus(rs.getInt("Status"));
 				b.setAddress(rs.getString("Address"));
 				return b;
@@ -1245,7 +1277,7 @@ public class Dao_Imp implements Dao {
 				"      ,[Address]\r\n" + //
 				"  FROM [dbo].[orders] where OrderID=?";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setString(1, orderId);
 			ResultSet rs = psm.executeQuery();
@@ -1257,7 +1289,7 @@ public class Dao_Imp implements Dao {
 				b.setOrderDate(rs.getDate("OrderDate"));
 				b.setOrderTime(rs.getTime("OrderDate"));
 				b.setStatus(rs.getInt("Status"));
-				b.setAddress(rs.getString("Address")); 
+				b.setAddress(rs.getString("Address"));
 				return b;
 			}
 		} catch (Exception e) {
@@ -1272,7 +1304,7 @@ public class Dao_Imp implements Dao {
 				"     SET [Status] = 1\r\n" + //
 				"     WHERE OrderID =?";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setString(1, bill.getOrderId());
 			int update = psm.executeUpdate();
@@ -1290,9 +1322,9 @@ public class Dao_Imp implements Dao {
 		String sql = "UPDATE [dbo].[orders] \r\n" + //
 				"    SET [StaffID] =?\r\n" + //
 				"   ,[Status] = 2\r\n" + //
-				"    WHERE OrderID = ?";
+				"    WHERE OrderID = ? and Status=1";
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setInt(1, staff.getId());
 			psm.setString(2, orderId);
@@ -1304,10 +1336,11 @@ public class Dao_Imp implements Dao {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public List<Revenue> getRevenues(Date form, Date to) {
-		String sql ="select p.ProductID ,p.ProductName,br.BrandID ,cate.CategoryID,odl.Price ,sum(odl.Quantity) as 'Sold',(odl.Price*sum(odl.Quantity)) as 'Total' from orders as od\r\n" + //
+		String sql = "select p.ProductID ,p.ProductName,br.BrandID ,cate.CategoryID,odl.Price ,sum(odl.Quantity) as 'Sold',(odl.Price*sum(odl.Quantity)) as 'Total' from orders as od\r\n"
+				+ //
 				"inner join order_details as odl on odl.OrderID = od.OrderID\r\n" + //
 				"inner join products as p on p.ProductID = odl.ProductID\r\n" + //
 				"inner join categories as cate on cate.CategoryID = p.CategoryID\r\n" + //
@@ -1316,12 +1349,12 @@ public class Dao_Imp implements Dao {
 				"group by  p.ProductID ,p.ProductName,br.BrandID ,cate.CategoryID,odl.Price \r\n";
 		List<Revenue> revenues = new ArrayList<>();
 		try {
-			Connection conn = DBHelper.makeConnection();
+			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setDate(1, form);
 			psm.setDate(2, to);
 			ResultSet rs = psm.executeQuery();
-			while(rs.next()){
+			while (rs.next()) {
 				Revenue revenue = new Revenue();
 				revenue.setId(rs.getString(1));
 				revenue.setName(rs.getString(2));
@@ -1337,28 +1370,120 @@ public class Dao_Imp implements Dao {
 		}
 		return revenues;
 	}
+
 	@Override
-	public boolean deleteOrderCancelAfterTime(Date time) {
+	public boolean deleteOrderCancelAfterTime() {
 		String sql1 = "DELETE odl\r\n" + //
 				"FROM order_details odl\r\n" + //
 				"INNER JOIN orders as od on od.OrderID = odl.OrderID \r\n" + //
-				"where od.OrderDate <= ? and od.Status = -1\r\n";
-	    String sql2 = "delete from orders where OrderDate <= ? and Status = -1";
-				try {
-					Connection conn = DBHelper.makeConnection();
-					PreparedStatement psm = conn.prepareStatement(sql1);
-					psm.setDate(1, time);
-					if(psm.executeUpdate()>0){
-						psm.clearParameters();
-						psm = conn.prepareStatement(sql2);
-						psm.setDate(1, time);
-						if(psm.executeUpdate()>0){
-							return true;
-						}
-					}
-				} catch (Exception e) {
-					// TODO: handle exception
+				"where od.Status = -1\r\n";
+		String sql2 = "delete from orders where Status = -1";
+		try {
+			Connection conn = dbHelper.makeConnection();
+			PreparedStatement psm = conn.prepareStatement(sql1);
+			if (psm.executeUpdate() > 0) {
+				psm.clearParameters();
+				psm = conn.prepareStatement(sql2);
+				if (psm.executeUpdate() > 0) {
+					return true;
 				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return false;
+	}
+
+	@Override
+	public User getInforCustomer(String email) {
+		String sql = "SELECT [CustomerID]\r\n" + //
+				"      ,[CustomerName]\r\n" + //
+				"      ,[Address]\r\n" + //
+				"      ,[PhoneNumber]\r\n" + //
+				"      ,[Email]\r\n" + //
+				"  FROM [dbo].[customers] where Email=?";
+		try {
+			Connection con = dbHelper.makeConnection();
+			PreparedStatement psm = con.prepareStatement(sql);
+			psm.setString(1, email);
+			ResultSet rs = psm.executeQuery();
+			User customer = new Customer();
+			customer.setEmail(rs.getString("Email"));
+			customer.setId(rs.getInt("CustomerID"));
+			customer.setAddress(rs.getString("Address"));
+			customer.setName(rs.getString("CustomerName"));
+			customer.setPhone(rs.getString("PhoneNumber"));
+			return customer;
+		} catch (Exception e) {
+		}
+		return new Customer();
+	}
+	@Override
+	public User getInforStaff(String email) {
+		String sql = "SELECT [StaffID]\r\n" + //
+				"      ,[Name]\r\n" + //
+				"      ,[Email]\r\n" + //
+				"  FROM [dbo].[staffs] where Email = ?";
+		try {
+			Connection con = dbHelper.makeConnection();
+			PreparedStatement psm = con.prepareStatement(sql);
+			psm.setString(1, email);
+			ResultSet rs = psm.executeQuery();
+			if(rs.next()){
+				User staff = new Staff();
+				staff.setId(rs.getInt("StaffID"));
+				staff.setName(rs.getString("Name"));
+				staff.setEmail(rs.getString("Email"));
+				return staff;
+			}
+		} catch (Exception e) {
+
+		}
+		return new Staff();
+	}
+
+	@Override
+	public Boolean setStatusAccount(String email, int status) {
+		String sql = "update accounts set Status =? where Email =? ";
+		try{
+			Connection con = dbHelper.makeConnection();
+			PreparedStatement psm= con.prepareStatement(sql);
+			psm.setInt(1, status);
+			psm.setString(2, email);
+			int resutl = psm.executeUpdate();
+			return resutl>0;
+		}catch(Exception e){
+			return false;
+		}
+	}
+
+	@Override
+	public boolean posttPoneOrder(String orderId) {
+		String sql = "Update orders set Status =-1 where OrderID=? ";
+		try {
+			Connection con = dbHelper.makeConnection();
+			PreparedStatement psm = con.prepareStatement(sql);
+			psm.setString(1, orderId);
+			int resutl = psm.executeUpdate();
+			return resutl>0;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	@Override
+	public int getTotalProductOfcart(int customerId) {
+		String sql = "select count(CartID) as total from carst where CustomerID =?";
+		try {
+			Connection con = dbHelper.makeConnection();
+			PreparedStatement psm = con.prepareStatement(sql);
+			psm.setInt(1, customerId);
+			ResultSet rs = psm.executeQuery();
+			if(rs.next()){
+				return rs.getInt(1);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return 0;
 	}
 }

@@ -1,25 +1,14 @@
 package com.shopping.esoshop.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
-
-@Table(name = "accounts")
 public class Account {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
 	private String email;
 	
-	@Column(name = "Password")
 	private String password;
 	
-	@Column(name = "Role")
 	private int role;
-	
-	@Column(name = "Status")
+
 	private int status;
 	
 	public Account(String email, int role) {

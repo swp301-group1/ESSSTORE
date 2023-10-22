@@ -114,10 +114,6 @@
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div id="alert2">
-          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-          <strong id="mess2">Mess</strong>
-        </div>
         <div class="modal-header ">
           <h5 class="modal-title " id="otpsendin">OTP Verify send in </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -159,7 +155,7 @@
       contentType: false,
       success: function(data) {
         if(data.email!='null'){
-          showMess("OTP Verify send in "+data.email,100000);
+          $("#otpsendin").text("OTP Verify send in "+data.email);
           document.getElementById("VerifyOtp").style.display="block";
           otp=data.otp;
         }
@@ -243,11 +239,6 @@
       document.getElementById('alert').style.display = "block";
       setTimeout(function() {
           document.getElementById("alert").style.display = "none";
-      }, time);
-      $("#mess2").text(mess);
-      document.getElementById('alert2').style.display = "block";
-      setTimeout(function() {
-          document.getElementById("alert2").style.display = "none";
       }, time);
   }
 </script>

@@ -21,7 +21,25 @@
     padding: 0; /* Loại bỏ padding */
     margin: 0; /* Loại bỏ margin */
     cursor: pointer; /* Biểu tượng con trỏ khi di chuột qua nút */
-   
+
     font-size: 17px;
     font-weight: bold;
   }
+
+
+
+  .product-related-card{
+    height: 450px;
+}
+
+.card-related-body{
+    height : 150px !important;
+}
+
+.card-related-image{
+    height: 300px;
+}
+
+.card-related-img{
+    height: 100%;
+}

@@ -17,7 +17,7 @@ public class HomeController {
     
 	private int sizepage =4;
 	@Autowired
-	private DaoService daoService;
+	private IDaoService daoService;
 	
 	@GetMapping("/searchproductbyname/{name}")
 	public ResponseEntity<List<Product>> searchProductByName(

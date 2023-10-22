@@ -120,7 +120,7 @@
         <div class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
                 <!-- Navbar brand -->
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" th:href="@{/staff/product_management}">
                     <img id="MDB-logo"
                         src="https://mdbcdn.b-cdn.net/wp-content/uploads/2018/06/logo-mdb-jquery-small.png"
                         alt="MDB Logo" draggable="false" height="30" />
@@ -149,7 +149,7 @@
                     <ul class="navbar-nav ms-3">
                         <li class="nav-item mr-2"></li>
                         <li class="nav-item" style="width: 85px">
-                            <a class="nav-link d-flex align-items-center" href="#!">Sign In</a>
+                            <button type="button" class="btn btn-primary" id="logout">Logout</button>
                         </li>
                     </ul>
                 </div>
@@ -501,8 +501,18 @@
                     id.value = data.id;
                     var html = "";
                     data.color.forEach(function(co) {
-                        html =
-                            html +
+                        if(data.color.indexOf(co)==0){
+                            html = html +
+                            '<th scope="col"><button type="button" class="btn-close" value="' +
+                            co.image +
+                            '"></button><img width="60px"\n' +
+                            '         src="/img/' +
+                            co.image +
+                            '">\n' +
+                            "         <th>";
+                        }
+                       else{
+                        html = html +
                             '<th scope="col"><button type="button" class="btn-close" value="' +
                             co.image +
                             '" onclick="deleteImage(this)"></button><img width="60px"\n' +
@@ -510,6 +520,7 @@
                             co.image +
                             '">\n' +
                             "         <th>";
+                       }
                     });
                     listcolorupdate.innerHTML = html;
                 },
@@ -801,14 +812,31 @@
                 processData: false,
                 contentType: false,
                 success: function(data) {
-                    $("#idproduct").val(data.id);
-                    console.log(data);
-                    alert("add success");
+                    $("#idproduct").val(data);
+                    if(data.length>0){
+                        alert("add success");
+                    }
+                    else if(data.length===0){
+                        alert("add false");
+                    }
                     getProducts();
                 },
             });
         });
-
+        // check price
+        $(document).ready(function() {
+            var $addPrice = $("#addPrice");
+            $addPrice.change("input", function() {
+                var inputValue = $addPrice.val();
+                var parsedValue = parseFloat(inputValue);
+                if (isNaN(parsedValue)) {
+                    alert("price false");
+                } 
+            });
+        });
+        
+        
+        
         $("#btnAdmoreColor").click("click", function() {
             var formData = new FormData();
             formData.append("productId", $("#updateidproduct").val());
@@ -862,10 +890,30 @@
                 url: "http://localhost:8080/staff/deletecolor" + img,
                 dataType: "json",
                 contentType: "application/json",
-                success: function(data) {},
+                success: function(data) {
+                    alert(data);
+                },
             });
             getProducts();
         }
+    </script>
+
+
+    <script>
+    $(document).ready(function(){
+        $("#logout").click('click',function(){
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/staff/logout",
+                dataType: "json",
+                contentType: "application/json",
+                success: function(data) {
+                    alert("Logout succes");
+                    window.location.reload();
+                },
+            });
+        })
+    })
     </script>
 </body>
 

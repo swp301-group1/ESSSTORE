@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.shopping.esoshop.model.Customer;
-import com.shopping.esoshop.service.DaoService;
+import com.shopping.esoshop.service.IDaoService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpSession;
 public class PayController {
 
     @Autowired 
-    private DaoService daoService;
+    private IDaoService daoService;
 
     @GetMapping(value = "/bill{orderId}")
     public String showBill(Model model, HttpSession session,

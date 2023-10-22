@@ -21,29 +21,34 @@ import com.shopping.esoshop.model.Color;
 import com.shopping.esoshop.model.Product;
 import com.shopping.esoshop.model.Staff;
 import com.shopping.esoshop.model.Supplier;
-import com.shopping.esoshop.service.DaoService;
+import com.shopping.esoshop.service.IDaoService;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 public class ResponseData {
     @Autowired
-    private DaoService daoService;
+    private IDaoService daoService;
 
-    @GetMapping("staff/listbillnotpay")
+    @GetMapping("staff/listbillconfirmsucces")
     public ResponseEntity<List<Bill>> getListOrderNotPay() {
-        return ResponseEntity.ok().body(daoService.getAllBill(0));
+        return ResponseEntity.ok().body(daoService.getAllBill(2));
     }
 
     @GetMapping("staff/listbillpaysucces")
     public ResponseEntity<List<Bill>> getListOrderPaySucces() {
         return ResponseEntity.ok().body(daoService.getAllBill(1));
     }
-
-        @GetMapping("staff/listbills")
-    public ResponseEntity<List<Bill>> getListOrder() {
-        return ResponseEntity.ok().body(daoService.getAllBill(-2));
+    @PostMapping("staff/orders")
+    public ResponseEntity<List<Bill>> getOrderOfCustomer(
+        @RequestParam("status")Integer status,
+        @RequestParam("orderdate") String orderdate) {
+        return ResponseEntity.ok().body(daoService.getAllBillbyOrderDate(status, orderdate));
     }
+
 
     @GetMapping("staff/listproducts")
     public ResponseEntity<List<Product>> getListProducts() {
@@ -80,15 +85,9 @@ public class ResponseData {
         return ResponseEntity.ok().body(daoService.getProductbyId(productId));
     }
 
-    @PostMapping(value = "staff/trypot")
-    public ResponseEntity<String> tryPot(
-            @RequestParam("name") String name,
-            @RequestParam("category") String category) {
-        return ResponseEntity.ok().body((name + "---" + category));
-    }
 
     @PostMapping(value = "/staff/addproduct")
-    public ResponseEntity<Product> createProduct(Model model, HttpSession session,
+    public ResponseEntity<String> createProduct(Model model, HttpSession session,
             @RequestParam(value = "name", defaultValue = "") String name,
             @RequestParam(value = "content", defaultValue = "") String content,
             @RequestParam(value = "category", defaultValue = "1") Integer category,
@@ -111,14 +110,18 @@ public class ResponseData {
         product.setUnit(unit);
         product.setQuantity(quantity);
         product.setSize(size);
+        product.setStatus(1);
         String finame = product.getId() + "_" + colorId + ".webp";
         List<Color> colors = new ArrayList<>();
         Color color = new Color(product.getId(), colorId, finame);
         colors.add(color);
         product.setColor(colors);
-        daoService.insertProduct(product);
-        upload(img, finame);
-        return ResponseEntity.ok().body(product);
+        boolean resutl = daoService.insertProduct(product);
+        if(resutl){
+            upload(img, finame);
+             return ResponseEntity.ok().body(product.getId());
+        }
+        return ResponseEntity.ok().body("");
     }
 
     @PostMapping("/staff/product/addmorecolor")
@@ -206,4 +209,10 @@ public class ResponseData {
         }
         return ResponseEntity.ok().body("delete false");
     }
+
+    @GetMapping("/staff/order/cancelorder/{orderid}")
+    public ResponseEntity<Boolean>cancelOrder(@PathVariable("orderid")String orderid) {
+        return ResponseEntity.ok().body(daoService.posttPoneOrder(orderid));
+    }
+    
 }

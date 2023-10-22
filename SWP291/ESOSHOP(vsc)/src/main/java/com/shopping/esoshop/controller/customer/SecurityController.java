@@ -9,9 +9,9 @@ import com.shopping.esoshop.model.Account;
 import com.shopping.esoshop.model.Customer;
 import com.shopping.esoshop.model.Mess;
 // import com.shopping.esoshop.model.User;
-import com.shopping.esoshop.service.DaoService;
+import com.shopping.esoshop.service.IDaoService;
 import com.shopping.esoshop.service.MailService;
-import com.shopping.esoshop.utils.Capcha;
+import com.shopping.esoshop.utils.OtpGenerator;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -26,8 +26,10 @@ public class SecurityController {
 	private MailService mailService;
 
 	@Autowired
-	private DaoService dao;
+	private IDaoService dao;
 
+	@Autowired
+	private OtpGenerator otpGenerator;
 	// for register
 
 	@GetMapping("register/checkaccount{email}")
@@ -50,15 +52,14 @@ public class SecurityController {
 		Account account = new Account(email, password, 1, 1);
 		Customer customer = new Customer(name, address, phone, email);
 		dao.createAccount(account, customer);
-		session.setAttribute("customer", customer);
-		session.setAttribute("account", account);
+		
 		return ResponseEntity.ok().body(true);
 	}
 
-	@PostMapping("register/veryfyotp")
+	@PostMapping("register/veryfyemail")
 	public ResponseEntity<String> veryfyemail(
 			@RequestParam(name = "email", required = false, defaultValue = "") String email){
-			String otp = Capcha.createCapcha();
+			String otp = otpGenerator.createCapcha();
 			mailService.sendEmail(email, "Login by OTP", "This is ypur OTP: " + otp);
 		return ResponseEntity.ok().body(otp);
 	}
@@ -88,7 +89,7 @@ public class SecurityController {
 		Account account = dao.getAccount(email);
 		Mess mess = new Mess();
 		if (account != null) {
-			String otp = Capcha.createCapcha();
+			String otp = otpGenerator.createCapcha();
 			mailService.sendEmail(email, "Login by OTP", "This is ypur OTP: " + otp);
 			mess.setEmail(email);
 			mess.setOTP(otp);

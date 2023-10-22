@@ -584,26 +584,24 @@ https://templatemo.com/tm-559-zay-shop
                     }
                     var html = '';
                     bill.orderdetails.forEach(function(odl) {
-                        html = html + '<td class="px-0"><img src="img/' + odl.image +
-                            '"style="height: 50px;" /></td>\n' +
-                            '    <td class="px-0">' + odl.product.name + '</td>\n' +
-                            '    <td class="text-center px-0">' + odl.nameColor + '</td>\n' +
-                            '    <td class="text-center px-0">' + odl.quantity + '</td>\n' +
-                            '    <td class="text-center px-0">' + odl.price + '</td>\n' +
-                            '    <td class="text-center px-0">' + odl.totalPrice + '</td>\n' +
-                            '    <td class="text-end px-0">\n' +
-                            '        <button value="' + odl.product.id +
-                            '" onclick="getInforFeedBack(this)" class="btn btn-success" data-bs-toggle="modal"\n' +
-                            '            data-bs-target="#exampleModal">Feedback\n' +
-                            '        </button>\n' +
-                            '    </td>\n' +
+                        html+='<tr>\n'+
+                            '    <td class="px-0"><img src="img/' + odl.image +'" alt="Image"\n'+
+                            '            style="height: 50px;" /></td>\n'+
+                            '    <td class="px-0">' + odl.product.name + '</td>\n'+
+                            '    <td class="text-center px-0">' + odl.nameColor + '</td>\n'+
+                            '    <td class="text-center px-0">' + odl.quantity + '</td>\n'+
+                            '    <td class="text-center px-0">' + odl.price + '</td>\n'+
+                            '    <td class="text-center px-0">' + odl.totalPrice + '</td>\n'+
+                            '    <td class="text-end px-0">\n'+
+                            '        <button value="'+odl.product.id+'" onclick="getInforFeedBack(this)" class="btn btn-success" data-bs-toggle="modal"\n'+
+                            '            data-bs-target="#exampleModal">FeedBack</button>\n'+
+                            '    </td>\n'+
                             '</tr>';
                     })
                     $("#orderdetail").html(html);
                 }
             });
         }
-
         function getInforFeedBack(productId) {
             $("#productId_feedback").val(productId.value);
             $("#fbfor").text(productId.value);

@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.shopping.esoshop.service.DaoService;
+import com.shopping.esoshop.service.IDaoService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpSession;
 public class DetailController {
 
 	@Autowired
-	private DaoService daoService;
+	private IDaoService daoService;
 	
 	@GetMapping("/detail{id}")
 	public String getProduct(Model model,HttpSession session,

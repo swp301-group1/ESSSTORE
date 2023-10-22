@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.shopping.esoshop.model.*;
-import com.shopping.esoshop.service.DaoService;
+import com.shopping.esoshop.service.IDaoService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpSession;
 public class OrderController {
 	
 	@Autowired
-	private DaoService daoService;
+	private IDaoService daoService;
 
 	// order product
 	@RequestMapping("/order")
