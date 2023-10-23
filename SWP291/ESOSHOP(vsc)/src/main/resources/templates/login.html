@@ -196,9 +196,8 @@
       processData: false,
       contentType: false,
       success: function(data) {
-        console.log(data);
         if(data.loginsucces){
-          showMess("login succes", 5000);
+          showMess(data.mess, 5000);
          if(url!=null){
           window.location="http://localhost:8080/"+url;
          }
@@ -207,7 +206,7 @@
          }
         }
         else if(!data.loginsucces){
-          showMess("Cannot found account!",5000);
+          showMess(data.mess,5000);
         }
       },
     });

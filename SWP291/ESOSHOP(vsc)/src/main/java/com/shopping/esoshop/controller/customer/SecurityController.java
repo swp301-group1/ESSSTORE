@@ -21,7 +21,6 @@ public class SecurityController {
 	public final static String Account = "account";
 	public final static String Customer = "customer";
 
-
 	@Autowired
 	private MailService mailService;
 
@@ -32,16 +31,16 @@ public class SecurityController {
 	private OtpGenerator otpGenerator;
 	// for register
 
-	@GetMapping("register/checkaccount{email}")
+	@GetMapping("register/checkaccount/{email}")
 	public ResponseEntity<Boolean> registerCheckAccount(
-			@PathVariable("email")String email) {
+			@PathVariable("email") String email) {
 		Account account = dao.getAccount(email);
 		if (account == null) {
 			return ResponseEntity.ok().body(true);
 		}
 		return ResponseEntity.ok().body(false);
 	}
-	
+
 	@PostMapping("/register")
 	public ResponseEntity<Boolean> doRegister(HttpSession session, Model model,
 			@RequestParam(name = "email", defaultValue = "", required = false) String email,
@@ -49,18 +48,22 @@ public class SecurityController {
 			@RequestParam(name = "phone", defaultValue = "", required = false) String phone,
 			@RequestParam(name = "address", defaultValue = "", required = false) String address,
 			@RequestParam(name = "password", defaultValue = "", required = false) String password) {
-		Account account = new Account(email, password, 1, 1);
-		Customer customer = new Customer(name, address, phone, email);
-		dao.createAccount(account, customer);
-		
-		return ResponseEntity.ok().body(true);
+		if (email.isEmpty() || name.isEmpty() || phone.isEmpty() || address.isEmpty() || password.isEmpty()) {
+			return ResponseEntity.ok().body(false);
+		} else {
+			Account account = new Account(email, password, 1, 1);
+			Customer customer = new Customer(name, address, phone, email);
+			dao.createAccount(account, customer);
+
+			return ResponseEntity.ok().body(true);
+		}
 	}
 
 	@PostMapping("register/veryfyemail")
 	public ResponseEntity<String> veryfyemail(
-			@RequestParam(name = "email", required = false, defaultValue = "") String email){
-			String otp = otpGenerator.createCapcha();
-			mailService.sendEmail(email, "Login by OTP", "This is ypur OTP: " + otp);
+			@RequestParam(name = "email", required = false, defaultValue = "") String email) {
+		String otp = otpGenerator.createCapcha();
+		mailService.sendEmail(email, "Login by OTP", "This is ypur OTP: " + otp);
 		return ResponseEntity.ok().body(otp);
 	}
 
@@ -70,15 +73,20 @@ public class SecurityController {
 	public ResponseEntity<Mess> loginByPassword(Model model, HttpSession session,
 			@RequestParam(name = "email", required = false, defaultValue = "") String email,
 			@RequestParam(name = "password", required = false, defaultValue = "") String password) {
-		Account account = dao.checkLogin(email, password, 1);
+		Account account = dao.getAccount(email);
 		Mess mess = new Mess();
+		mess.setEmail(email);
 		if (account != null) {
-			session.setAttribute(Account, account);
-			session.setAttribute(Customer, dao.getCustomerByEmail(account.getEmail()));
-			mess.setLoginsucces(true);
-			mess.setEmail(account.getEmail());
+			if (account.getPassword().equals(password)) {
+				session.setAttribute(Account, account);
+				session.setAttribute(Customer, dao.getCustomerByEmail(account.getEmail()));
+				mess.setLoginsucces(true);
+				mess.getMess().add("Login success");
+			} else {
+				mess.getMess().add("Password not true");
+			}
 		} else {
-			mess.setLoginsucces(false);
+			mess.getMess().add("Canot found account");
 		}
 		return ResponseEntity.ok().body(mess);
 	}
@@ -93,7 +101,7 @@ public class SecurityController {
 			mailService.sendEmail(email, "Login by OTP", "This is ypur OTP: " + otp);
 			mess.setEmail(email);
 			mess.setOTP(otp);
-		}else{
+		} else {
 			mess.setEmail("null");
 		}
 		return ResponseEntity.ok().body(mess);
@@ -110,7 +118,8 @@ public class SecurityController {
 			mess.setLoginsucces(true);
 			mess.setEmail(account.getEmail());
 		} else {
-			mess.setEmail("null");;
+			mess.setEmail("null");
+			;
 		}
 		return ResponseEntity.ok().body(mess);
 	}

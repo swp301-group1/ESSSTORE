@@ -139,7 +139,7 @@
       var email = $("#email").val();
       $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/register/checkaccount' + email,
+        url: 'http://localhost:8080/register/checkaccount/' + email,
         dataType: 'json',
         contentType: 'application/json',
         success: function(data) {
