@@ -3,7 +3,9 @@ package com.shopping.esoshop.controller.customer;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import com.shopping.esoshop.model.Page;
@@ -12,10 +14,12 @@ import com.shopping.esoshop.service.*;
 
 // import jakarta.servlet.http.HttpSession;
 
+@Repository
 @RestController
 public class HomeController {
     
-	private int sizepage =4;
+	@Value("${home.pagesize}")
+	private int sizepage;
 	@Autowired
 	private IDaoService daoService;
 	

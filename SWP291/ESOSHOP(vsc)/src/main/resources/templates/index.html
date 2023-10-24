@@ -49,6 +49,17 @@
 		.closebtn:hover {
 			color: black;
 		}
+		.navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+		#btdsearch {
+			background-color: transparent;
+			border:none;
+		}
 	</style>
 </head>
 
@@ -74,13 +85,14 @@
 					<input type="text" class="form-control" oninput=" searchByName(this.value)" placeholder="Search"
 						aria-label="Search" />
 				</div>
-				<a href="#!" class="text-white"><i class="fas fa-search ps-3"></i></a>
+				<button type="button" id="btdsearch" class="text-white"><i class="fas fa-search ps-3"></i></button>
 			</form>
 			<ul class="navbar-nav ms-3">
 				<li class="nav-item mr-3"
 					style="width: 45px; height: 45px; display: flex; justify-content: center; align-items: center;">
 					<a class="nav-link" th:href="@{/cart}"><i class="fa-solid fa-cart-shopping fa-lg"
 							style="float: right;"></i></a>
+							<span id="totalcart" style="padding:0; margin:0;" class="badge">0</span>
 				</li>
 				<li class="nav-item" style="position: relative; width: 145px; height: 45px;">
 					<a class="nav-link" href="#!"><i class="fa-regular fa-user fa-lg"></i></a>
@@ -100,7 +112,7 @@
 <!-- Navbar -->
 
 <body>
-	<div class="container-fluid mb-5 mt-5">
+	<div class="container-fluid mb-5 mt-5" style="padding-top:50px">
 		<div class="row d-flex justify-content-evenly">
 			<div class="col-3 filterCategory mt-3" style="width: 200px;">
 				<div class="row d-flex flex column">
@@ -317,12 +329,6 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-md-6 pb-4">
-						<div class="d-flex">
-							<input type="text" class="form-control" oninput="setTimeout(searchByName(this.value),10000)"
-								placeholder="Search" aria-label="Search" />
-						</div>
-					</div>
 				</div>
 				<div class="row" style="min-height: 600px;" id="list_product">
 
@@ -445,7 +451,9 @@
 			});
 		}
 
-		
+		$("#btdsearch").click('click',function(){
+			getProducts(npage);
+		})
 		function getProducts(n) {
 			getPage(n);
 			npage=n;
@@ -566,8 +574,29 @@
 				},
 			});
 		}
+		
+		$(document).ready(function () {
+			// Prevent page scrolling on input focus
+			$("input").on('focus', function () {
+				const listProduct = document.getElementById('list_product');
+				if (listProduct) {
+					listProduct.scrollIntoView({ behavior: 'smooth' });
+				}
+			});
+		});
 
-
+		getTotalCart();
+		function getTotalCart() {
+			$.ajax({
+				type: 'GET',
+				url: 'http://localhost:8080/customer/totalofcart',
+				dataType: 'json',
+				contentType: 'application/json',
+				success: function (data) {
+					$("#totalcart").text(data);
+				}
+			});
+		}
 	</script>
 	<div id="alert">
 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>

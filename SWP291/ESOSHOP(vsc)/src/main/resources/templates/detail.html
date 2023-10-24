@@ -22,7 +22,17 @@
 	<link rel="stylesheet" href="css/navbar.css">
 	<link rel="stylesheet" href="css/detail.css">
 	<style>
-
+		.temp-image {
+			display: none;
+			position: absolute;
+		  }
+		  .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
 
 	</style>
 
@@ -63,6 +73,7 @@ https://templatemo.com/tm-559-zay-shop
 					style="width: 45px; height: 45px; display: flex; justify-content: center; align-items: center;">
 					<a class="nav-link" th:href="@{/cart}"><i class="fa-solid fa-cart-shopping fa-lg"
 							style="float: right;"></i></a>
+							<span id="totalcart" style="padding:0; margin:0;" class="badge">0</span>
 				</li>
 				<li class="nav-item" style="position: relative; width: 145px; height: 45px;">
 					<a class="nav-link" href="#!"><i class="fa-regular fa-user fa-lg"></i></a>
@@ -83,7 +94,7 @@ https://templatemo.com/tm-559-zay-shop
 
 <body style="overflow-x:hidden">
 	<!-- Open Content -->
-	<section class="bg-light">
+	<section class="bg-light" style="padding-top:50px">
 		<div class="container pb-5">
 			<div class="row">
 				<div class="col-lg-5 mt-5">
@@ -191,6 +202,8 @@ https://templatemo.com/tm-559-zay-shop
 									<div class="col d-grid">
 										<button id="btnAddtocart" type="button" class="btn btn-success btn-lg"
 											value="addtocard">Add To Cart</button>
+											<img src="link-to-your-placeholder-image.jpg" alt="Temporary Image" id="temp-image" class="temp-image">
+
 									</div>
 								</div>
 							</form>
@@ -618,7 +631,7 @@ https://templatemo.com/tm-559-zay-shop
                 processData: false,
                 contentType: false,
                 success: function(data) {
-					alert(data);
+					getTotalCart();
                 },
             });
         });
@@ -630,10 +643,46 @@ https://templatemo.com/tm-559-zay-shop
 				dataType: 'json',
 				contentType: 'application/json',
 				success: function (data) {
-					alert(data);
+					$("#totalcart").text(data);
 				}
 			});
 		}
+
+		$("#btnAddtocart").click(function() {
+			// Lấy ảnh sản phẩm gốc
+			var productDetail = $("#product-detail");
+		    var d= $("#btnAddtocart");
+			// Tạo một bản sao của ảnh tạm thời
+			var tempImage = $("#temp-image").clone();
+			tempImage.attr("src", productDetail.attr("src")); // Đặt src của ảnh tạm thời bằng src của ảnh gốc
+		  
+			tempImage.css({
+			  display: "block",
+			  top: d.offset().top,
+			  left: d.offset().left,
+			  width: productDetail.width(),
+			  height: productDetail.height(),
+			  position: "absolute",
+			  zIndex: 999,
+			});
+		  
+			// Thêm ảnh tạm thời vào body
+			$("body").append(tempImage);
+		  
+			// Thực hiện hiệu ứng bay cho ảnh tạm thời
+			tempImage.animate({
+			  top: $(".fa-cart-shopping").offset().top,
+			  left: $(".fa-cart-shopping").offset().left,
+			  width: 0,
+			  height: 0,
+			  opacity: 0,
+			}, 1000, function() {
+			  // Khi hiệu ứng hoàn thành, ẩn ảnh tạm thời
+			  tempImage.hide();
+			  
+			});
+		  });
+		  
 	</script>
 
 </body>
