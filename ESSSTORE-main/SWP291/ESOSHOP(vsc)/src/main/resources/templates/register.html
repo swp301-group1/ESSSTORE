@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <link rel="stylesheet" href="css/login.css">
+  <title>Document</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <style>
+    #alert {
+      position: absolute;
+      padding: 10px;
+      color: white;
+      background-color: rgb(82, 132, 206);
+      width: 400px;
+      top: 30px;
+      left: 30px;
+      text-align: center;
+      z-index: 3;
+      display: none;
+    }
+
+    .closebtn {
+      margin-left: 10px;
+      color: white;
+      font-weight: bold;
+      float: right;
+      font-size: 20px;
+      line-height: 20px;
+      cursor: pointer;
+      transition: 2s;
+    }
+
+    .closebtn:hover {
+      color: black;
+    }
+  </style>
+</head>
+
+<section class="vh-100" style="overflow: hidden;">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-6 text-black mt-5">
+        <div class="flex-column align-items-center h-custom-2 " style="margin-top: 50px; margin-left: 50px;">
+          <form method="POST" style="width: 23rem;" id="formPassword">
+            <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Register</h3>
+
+            <div class="form-outline mb-4">
+              <input type="email" name="email" id="email" class="form-control form-control-lg" placeholder="Email" />
+            </div>
+            <div class="form-outline mb-4">
+              <input type="text" name="name" id="name" class="form-control form-control-lg" placeholder="name" />
+            </div>
+
+            <div class="form-outline mb-4">
+              <input type="number" name="phone" id="phone" class="form-control form-control-lg"
+                placeholder="your phone" />
+            </div>
+
+            <div class="form-outline mb-4">
+              <input type="text" name="address" id="address" class="form-control form-control-lg"
+                placeholder="your address" />
+            </div>
+
+            <div class="form-outline mb-4">
+              <input type="password" name="password" id="password" class="form-control form-control-lg"
+                placeholder="Password" />
+            </div>
+            <div class="form-outline mb-4">
+              <input type="password" name="confirmpassword" id="confirmpassword" class="form-control form-control-lg"
+                placeholder="confirmpassword" />
+            </div>
+            <div class="pt-1 mb-4">
+              <button class="btn btn-info" onlick="register()" type="button"  id="btnRegister">Register</button>
+            </div>
+            <div class="pt-1 mb-4">
+              <button class="btn btn-info" style="display:none" type="button" data-bs-toggle="modal"
+              data-bs-target="#exampleModal" id="verifyotp">Verify</button>
+            </div>
+          </form>
+          <p>You have acocunt? <a href="" th:href="@{/login}" class="link-info">login</a></p>
+        </div>
+
+      </div>
+      <div class="col-sm-6 px-0 d-none d-sm-block">
+        <img src="img/poster.jpg" alt="Login image" class="w-100 vh-100"
+          style="object-fit: cover; object-position: left;">
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header ">
+          <h5 class="modal-title " id="otpsendin">OTP Verify send in </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container_modal">
+            <div>
+              <i class="bx bxs-check-shield"></i>
+            </div>
+            <h4>Enter OTP Code</h4>
+            <form action="#" id="otpModal">
+              <div class="input-field">
+                <input type="text" id="otp" />
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="btnRegisterok" class="btn btn-primary">Verify OTP</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var otp;
+    var emailcheck=false;
+    $("#email").on('input', function() {
+      var email = $("#email").val();
+      $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/register/checkaccount' + email,
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(data) {
+          if (!data) {
+            showMess(email + " have register ", 10000,"red");
+            $("#name").css("display","none");
+            $("#phone").css("display","none");
+            $("#address").css("display","none");
+            $("#password").css("display","none");
+            $("#confirmpassword").css("display","none");
+          }
+          else{
+            $("#name").css("display","block");
+            $("#phone").css("display","block");
+            $("#address").css("display","block");
+            $("#password").css("display","block");
+            $("#confirmpassword").css("display","block");
+          }
+          emailcheck=data;
+        }
+      });
+    });
+    
+    $("#btnRegister").on('click', function() { // Changed 'click' to 'on' for click event
+    var formData = new FormData();
+    formData.append("email", $("#email").val());
+    $.ajax({
+        url: "http://localhost:8080/register/veryfyemail",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            otp = data;
+            $("#verifyotp").css("display","block");
+            showMess("OTP send in "+$("#email").val(), 10000, "");
+            $("#otpsendin").text("OTP Verify send in "+$("#email").val());
+        },
+    });
+});
+
+$("#btnRegisterok").on('click', function() { // Changed 'click' to 'on' for click event
+    var formData = new FormData();
+    formData.append("email", $("#email").val());
+    formData.append("name", $("#name").val());
+    formData.append("phone", $("#phone").val());
+    formData.append("address", $("#address").val()); // Corrected the ID to 'address'
+    formData.append("password", $("#password").val());
+    if ($("#otp").val() === otp) {
+        $.ajax({
+            url: "http://localhost:8080/register",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data) {
+                    window.location = "http://localhost:8080/login";
+                } else {
+                    showMess("Registration failed", 10000, "red");
+                }
+            },
+        });
+    }
+});
+
+$(document).ready(function () {
+    var pas = false;
+    $("#btnRegister").hide();
+    $("#password").on('input', function() {
+        var password = $("#password").val();
+        var alphanumericRegex = /^(?=.*[a-zA-Z])(?=.*\d)/;
+        if (password.length >= 8 && password.length <= 50 && alphanumericRegex.test(password)) {
+            showMess("Password meets criteria", 10000, "green"); // Changed the color to green for a valid password
+            pas = true;
+        } else {
+            showMess("Password must be 8 to 50 characters and contain both letters and numbers", 10000, "red");
+            pas = false;
+        }
+    });
+
+    // Input event listener for the "confirmpassword" field
+    $('#confirmpassword').on('input', function() {
+        var password = $("#password").val();
+        var confirmpassword = $("#confirmpassword").val();
+        if (password === confirmpassword && pas === true) {
+            $("#btnRegister").show();
+        } else {
+            $("#btnRegister").hide();
+        }
+    });
+});
+    
+  </script>
+  <div id="alert">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <strong id="mess">Mess</strong>
+  </div>
+  <script>
+    function showMess(mess, time,color) {
+      $("#mess").text(mess);
+      document.getElementById('alert').style.display = "block";
+      if(color.length!==0){
+        $("#alert").css("background-color",color);
+      }
+      else $("#alert").css("background-color","rgb(82, 132, 206)");
+      setTimeout(function() {
+        document.getElementById("alert").style.display = "none";
+      }, time);
+    }
+  </script>
+
+</html>

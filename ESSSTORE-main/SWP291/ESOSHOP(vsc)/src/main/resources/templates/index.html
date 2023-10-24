@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en" style="height: 100%; margin: 0">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+		integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+
+	<link rel="stylesheet" th:href="@{css/bootstrap.min.css}" />
+	<link rel="stylesheet" th:href="@{css/custom.css}" />
+	<link rel="stylesheet" th:href="@{css/templatemo.css}" />
+	<link rel="stylesheet" href="css/navbar.css">
+	<link rel="stylesheet" th:href="@{css/home.css}" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" />
+	<link rel="stylesheet" href="css/fontawesome.min.css" />
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<style>
+		#alert {
+			position: absolute;
+			padding: 10px;
+			color: white;
+			background-color: rgb(82, 132, 206);
+			width: 400px;
+			top: 30px;
+			left: 30px;
+			text-align: center;
+			z-index: 3;
+			display: none;
+		}
+
+		.closebtn {
+			margin-left: 10px;
+			color: white;
+			font-weight: bold;
+			float: right;
+			font-size: 20px;
+			line-height: 20px;
+			cursor: pointer;
+			transition: 2s;
+		}
+
+		.closebtn:hover {
+			color: black;
+		}
+	</style>
+</head>
+
+<!-- Start Top Nav -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+	<!-- Container wrapper -->
+	<div class="container">
+		<!-- Navbar brand -->
+		<a class="navbar-brand" th:href="@{/home}"><img id="MDB-logo"
+				src="https://mdbcdn.b-cdn.net/wp-content/uploads/2018/06/logo-mdb-jquery-small.png" alt="MDB Logo"
+				draggable="false" height="30" /></a>
+
+		<!-- Toggle button -->
+		<button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+			data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<i class="fas fa-bars"></i>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<form class="d-flex align-items-center w-100 form-search mr-2">
+				<div class="input-group">
+
+					<input type="text" class="form-control" oninput=" searchByName(this.value)" placeholder="Search"
+						aria-label="Search" />
+				</div>
+				<a href="#!" class="text-white"><i class="fas fa-search ps-3"></i></a>
+			</form>
+			<ul class="navbar-nav ms-3">
+				<li class="nav-item mr-3"
+					style="width: 45px; height: 45px; display: flex; justify-content: center; align-items: center;">
+					<a class="nav-link" th:href="@{/cart}"><i class="fa-solid fa-cart-shopping fa-lg"
+							style="float: right;"></i></a>
+				</li>
+				<li class="nav-item" style="position: relative; width: 145px; height: 45px;">
+					<a class="nav-link" href="#!"><i class="fa-regular fa-user fa-lg"></i></a>
+					<div class="nav-dropdown flex-column">
+						<a th:href="@{/login}">Login</a>
+						<a th:href="@{/logout}">Logout</a>
+						<a href="#">User Profile</a>
+						<a th:href="@{/order_history}">Order History</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<!-- Collapsible wrapper -->
+	</div>
+	<!-- Container wrapper -->
+</nav>
+<!-- Navbar -->
+
+<body>
+	<div class="container-fluid mb-5 mt-5">
+		<div class="row d-flex justify-content-evenly">
+			<div class="col-3 filterCategory mt-3" style="width: 200px;">
+				<div class="row d-flex flex column">
+					<div class="col mb-3 mt-2">
+						<span style="font-size: 20px; font-weight: bold">Danh mục nổi bật</span>
+					</div>
+
+					<div class="col mb-2">
+						<button class="btnBrand">
+							<img src="img/laptop.png" alt="" class="imgBrand" />
+							<span>Laptop</span>
+						</button>
+					</div>
+
+					<div class="col mb-2">
+						<button class="btnBrand">
+							<img src="img/tablet.png" alt="" class="imgBrand" />
+							<span>Tablet</span>
+						</button>
+					</div>
+
+					<div class="col">
+						<button class="btnBrand">
+							<img src="img/doublephone.png" alt="" class="imgBrand" />
+							<span>Phone</span>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-5 slider_container">
+				<div class="slider">
+					<!-- Additional required wrapper -->
+					<div class="slides">
+						<input type="radio" name="radio-btn" id="radio1" />
+						<input type="radio" name="radio-btn" id="radio2" />
+						<input type="radio" name="radio-btn" id="radio3" />
+						<input type="radio" name="radio-btn" id="radio4" />
+						<!-- Slides -->
+
+						<div class="slide first">
+							<img src="img/iphone.png" id="slide1" />
+						</div>
+
+						<div class="slide">
+							<img src="img/realme.png" id="slide2" />
+						</div>
+
+						<div class="slide">
+							<img src="img/zflip.png" id="slide3" />
+						</div>
+
+						<div class="slide">
+							<img src="img/xiaomi.png" id="slide4" />
+						</div>
+
+						<div class="navigation-auto">
+							<div class="auto-btn1"></div>
+							<div class="auto-btn2"></div>
+							<div class="auto-btn3"></div>
+							<div class="auto-btn4"></div>
+						</div>
+
+						<div class="navigation-manual">
+							<label for="radio1" class="manual-btn"></label>
+							<label for="radio2" class="manual-btn"></label>
+							<label for="radio3" class="manual-btn"></label>
+							<label for="radio4" class="manual-btn"></label>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-3 filterCategory mt-3" style="width: 200px">
+				<div class="row d-flex flex column">
+					<div class="col mb-3 mt-2">
+						<span style="font-size: 19px; font-weight: bold">Thương hiệu nổi bật</span>
+					</div>
+
+					<div class="col mb-2">
+						<button class="btnBrand">
+							<img src="img/Samsung.png" alt="" class="imgBrand" />
+						</button>
+					</div>
+
+					<div class="col mb-2">
+						<button class="btnBrand">
+							<img src="img/Apple.png" alt="" class="imgBrand" style="width: 60px !important" />
+						</button>
+					</div>
+
+					<div class="col">
+						<button class="btnBrand">
+							<img src="img/oppoLogo.png" alt="" class="imgBrand" />
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<!--<div class="container-fluid mb-5">
+		<div class="row justify-content-center container_hotNews">
+			<span style="
+            font-size: 30px;
+            font-weight: bold;
+            color: rgb(0, 0, 0);
+            width: 20px;
+          ">Hot</span>
+			<div class="col-md-12">
+				<div class="row justify-content-center mb-2">
+					<div class="col-3 product mr-3 ml-3">
+						<div class="row d-flex flex-column">
+							<div class="col">
+								<img src="img/iphone15_Black.webp" class="product_img" />
+							</div>
+							<div class="col">
+								<span>Iphone 15</span>
+							</div>
+							<div class="col">
+								<span>30.000.000vnd</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-3 product mr-3">
+						<div class="row d-flex flex-column">
+							<div class="col">
+								<img src="img/iphone15_Black.webp" class="product_img" />
+							</div>
+							<div class="col">
+								<span>Iphone 15</span>
+							</div>
+							<div class="col">
+								<span>30.000.000vnd</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-3 product mr-3">
+						<div class="row d-flex flex-column">
+							<div class="col">
+								<img src="img/iphone15_Black.webp" class="product_img" />
+							</div>
+							<div class="col">
+								<span>Iphone 15</span>
+							</div>
+							<div class="col">
+								<span>30.000.000vnd</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>-->
+
+	<!-- Start Content -->
+	<div class="container py-5">
+		<div class="row">
+			<div class="col-lg-3">
+				<h1 class="h2 pb-4">Categories</h1>
+				<ul class="list-unstyled templatemo-accordion">
+					<li class="pb-3">
+						<a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+							Type
+							<i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
+						</a>
+						<ul class="collapse show list-unstyled pl-3" id="categories">
+							<li>
+								<input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
+								<label class="form-check-label" for="flexCheckIndeterminate">
+									Indeterminate checkbox
+								</label>
+							</li>
+						</ul>
+					</li>
+					<li class="pb-3">
+						<a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+							Brand
+							<i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+						</a>
+						<ul id="brands" class="collapse list-unstyled pl-3">
+							<li><a class="text-decoration-none" href="#">Apple</a></li>
+							<li><a class="text-decoration-none" href="#">Samsung</a></li>
+							<li><a class="text-decoration-none" href="#">Oppo</a></li>
+							<li><a class="text-decoration-none" href="#">Xiaomi</a></li>
+							<li><a class="text-decoration-none" href="#">Asus</a></li>
+							<li><a class="text-decoration-none" href="#">Acer</a></li>
+							<li><a class="text-decoration-none" href="#">Dell</a></li>
+							<li><a class="text-decoration-none" href="#">Lenovo</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+
+			<div class="col-lg-9">
+				<div div="row">
+					<ul class="pagination pagination-lg justify-content-end" id="pages1">
+						<li class="page-item">
+							<a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark">
+								<p>1</p>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="row">
+					<div class="col-md-6 pb-4">
+						<div class="d-flex">
+							<select class="form-control" id ="sortprice">
+								<option value="0" checked>Lower to Higher</option>
+								<option value="1">Higher to Lower</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-6 pb-4">
+						<div class="d-flex">
+							<input type="text" class="form-control" oninput="setTimeout(searchByName(this.value),10000)"
+								placeholder="Search" aria-label="Search" />
+						</div>
+					</div>
+				</div>
+				<div class="row" style="min-height: 600px;" id="list_product">
+
+					<!-- list product -->
+				</div>
+				<div div="row">
+					<ul class="pagination pagination-lg justify-content-end" id="pages2">
+						<li class="page-item">
+							<a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark">
+								<p>1</p>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<footer class="bg-dark" id="tempaltemo_footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 pt-5">
+					<h2 class="h2 text-success border-bottom pb-3 border-light logo">
+						Miracle Shop
+
+					</h2>
+					<ul class="list-unstyled text-light footer-link-list">
+						<li>
+							<i class="fas fa-map-marker-alt fa-fw"></i>
+							123 Consectetur at ligula 10660
+						</li>
+						<li>
+							<i class="fa fa-phone fa-fw"></i>
+							<a class="text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
+						</li>
+						<li>
+							<i class="fa fa-envelope fa-fw"></i>
+							<a class="text-decoration-none" href="mailto:info@company.com">info@company.com</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="col-md-4 pt-5">
+					<h2 class="h2 text-light border-bottom pb-3 border-light">
+						Further Info
+					</h2>
+					<ul class="list-unstyled text-light footer-link-list">
+						<li><a class="text-decoration-none" href="#">Home</a></li>
+						<li><a class="text-decoration-none" href="#">About Us</a></li>
+						<li>
+							<a class="text-decoration-none" href="#">Shop Locations</a>
+						</li>
+						<li><a class="text-decoration-none" href="#">FAQs</a></li>
+						<li><a class="text-decoration-none" href="#">Contact</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="w-100 bg-black py-3">
+			<div class="container">
+				<div class="row pt-2">
+					<div class="col-12">
+						<p class="text-left text-light">
+							Copyright &copy; 2021 Company Name | Designed by
+							<a rel="sponsored" href="https://templatemo.com" target="_blank">TemplateMo</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!-- Footer -->
+
+	<script src="js/script.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+	<script src="js/jquery-1.11.0.min.js"></script>
+	<script src="js/jquery-migrate-1.2.1.min.js"></script>
+	<script src="js/bootstrap.bundle.min.js"></script>
+	<script src="js/templatemo.js"></script>
+	<script src="js/custom.js"></script>
+
+	<!-- List Product-->
+	<script>
+		window.addEventListener('load', function() {
+			getProducts(1);
+			getbrand();
+			getCategories();
+			
+        });
+
+		var npage;
+		function sortByPrice(){
+
+		}
+		function selectCate(id){
+			$.ajax({
+				type: 'GET',
+				url: 'http://localhost:8080/getproduct/page/' + npage,
+				dataType: 'json',
+				contentType: 'application/json',
+				success: function(data) {
+					data = data.filter(function(p) {
+						return  p.category.id == id.value;
+					});
+					$("#list_product").html(getlistProduct(data));
+				}
+			});
+		}
+		function searchByName(name) {
+			$.ajax({
+				type: 'GET',
+				url: 'http://localhost:8080/searchproductbyname/' + name,
+				dataType: 'json',
+				contentType: 'application/json',
+				success: function(data) {
+					$("#list_product").html(getlistProduct(data));
+				}
+			});
+		}
+
+		
+		function getProducts(n) {
+			getPage(n);
+			npage=n;
+			$.ajax({
+				type: 'GET',
+				url: 'http://localhost:8080/getproduct/page/' + n,
+				dataType: 'json',
+				contentType: 'application/json',
+				success: function(data) {
+					sortByPrice(data,$("#sortprice").val());
+					$("#list_product").html(getlistProduct(data));
+					console.log(data);
+				}
+			});
+		}
+
+        function sortByPrice(data,sort){
+            data.sort(function(a, b) {
+                if(sort==1) return b.price - a.price;
+                if(sort==0)  return a.price - b.price;
+            });
+        }
+		function getPage(n) {
+			$.ajax({
+				type: 'GET',
+				url: 'http://localhost:8080/page/' + n,
+				dataType: 'json',
+				contentType: 'application/json',
+				success: function(data) {
+					npage=data.pageActive;
+					var pages1 = document.getElementById('pages1');
+					var pages2 = document.getElementById('pages2');
+					var html = '';
+					for (let i = 1; i<= data.totalPage; i++) {
+						if (data.pageActive == i) {
+							html = html + '<li class="page-item" style=" margin: 2px;">\n' +
+								'		     <button value="' + i +'" class="btn btn-danger"  onclick="getProducts(this.value)" type="button">' + i + '</button>\n' +
+								'	    </li>';
+						} else {
+							html = html + '<li class="page-item">\n' +
+								'			<button class="btn btn-primary" style=" margin: 2px;" type="button" value="'+i+'" onclick="getProducts(this.value)">' + i + '</button>\n' +
+								'    	</li>';
+						}
+					}                                                                                                                                                                                                                                                 
+					pages1.innerHTML = html;
+					pages2.innerHTML = html;
+				}
+			});
+		}
+		
+		function getlistProduct(data) {
+			var html = '';
+			data.forEach(function(product) {
+				html+= '<div class="col-md-3">\n' +
+					'                        <div class="card mb-4 product-wap rounded-0" product-card>\n' +
+					'                            <div class="card rounded-0 card-image" style="min-height: 212.67px;">\n' +
+					'                                <img class="card-img rounded-0 img-fluid" style="max-height=212.67px" src="img/' +
+					product.color[0].image + '">\n' +
+					'                                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">\n' +
+					'                                    <ul class="list-unstyled">\n' +
+					'                                        <li><a class="btn btn-success text-white mt-2" href="/detail' +
+					product.id + '"><i class="far fa-eye"></i></a></li>\n' +
+					'                                    </ul>\n' +
+					'                                </div>\n' +
+					'                            </div>\n' +
+					'                            <div class="card-body" style="min-height: 130px;">\n' +
+					'                                <a href="/detail'+product.id+'" class="h3 text-decoration-none">' + product.name +
+					'</a>\n' +
+					'                                <ul class="list-unstyled d-flex justify-content-center mb-1">\n' +
+					'                                    <li>\n' +
+					'                                        <i class="text-warning fa fa-star"></i>\n' +
+					'                                        <i class="text-warning fa fa-star"></i>\n' +
+					'                                        <i class="text-warning fa fa-star"></i>\n' +
+					'                                        <i class="text-muted fa fa-star"></i>\n' +
+					'                                        <i class="text-muted fa fa-star"></i>\n' +
+					'                                    </li>\n' +
+					'                                </ul>\n' +
+					'                                <p class="text-center mb-0">' + product.unit + product.price + '</p>\n' +
+					'                            </div>\n' +
+					'                        </div>\n' +
+					'                    </div>';
+			})
+			return html;
+		}
+		function getbrand() {
+			$.ajax({
+				type: 'GET',
+				url: 'http://localhost:8080/brands',
+				dataType: 'json',
+				contentType: 'application/json',
+				success: function(data) {
+					var item = '';
+					data.forEach(function(brand) {
+						item += '<li>\n'+
+							'			<input class="form-check-input" value="'+brand.brandId+'" name="brand" type="radio">\n'+
+							'				<label class="form-check-label" for="flexCheckIndeterminate">'+brand.brandName+'</label>\n'+
+							'	   </li>';
+					})
+					$("#brands").html(item);
+				}
+			});
+		}
+
+		function getCategories() {
+			$.ajax({
+				type: "GET",
+				url: "http://localhost:8080/categories",
+				dataType: "json",
+				contentType: "application/json",
+				success: function(data) {
+					html = '';
+					data.forEach(function(cate) {
+						html = html + '<li>\n'+
+							'			<input class="form-check-input" value="'+cate.id+'" onclick="selectCate(this)" name="category" type="radio"  >\n'+
+							'				<label class="form-check-label" for="flexCheckIndeterminate">'+cate.name+'</label>\n'+
+							'	    	</li>';
+					});
+					$("#categories").html(html);
+				},
+			});
+		}
+
+
+	</script>
+	<div id="alert">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+		<strong id="mess">Mess</strong>
+	</div>
+
+	<script>
+
+		
+	</script>
+</body>
+
+</html>
