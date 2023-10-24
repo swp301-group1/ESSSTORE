@@ -568,36 +568,31 @@ https://templatemo.com/tm-559-zay-shop
 	}
 
 
-</script>
-<script th:inline="javascript">
-
-	window.onload=getReportRating();
-	function getReportRating(){
-		$.ajax({
-			type: 'GET',
-			url: 'http://localhost:8080/product/reportrating/' + ([[${product}]]).id,
-			dataType: 'json',
-			contentType: 'application/json',
-			success: function(data) {
-				var html  ='';
-				console.log(data);
-			    $("#avgrating").html(avgStar(data.rating,data.total));
-
-				for(let i= data.rating.length-1;i>0;i--){
-				    html = html+ '<div class="row d-flex mt-2">\n'+
-						'	<div class="col-2">\n'+
-						'		'+i+' <span class="fa-solid fa-star"></span>\n'+
-						'	</div>\n'+
-						'	<div class="col-4">\n'+
-						'		<div class="progress" style="height:9px; margin:8px 0;">\n'+
-						'			<div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="4"\n'+
-						'				aria-valuemin="0" aria-valuemax="5" style="width: '+sumPesent(data.rating[i],data.total)+'%">\n'+
-						'				<span class="sr-only">'+sumPesent(data.rating[i],data.total)+'% Complete (danger)</span>\n'+
-						'			</div>\n'+
-						'		</div>\n'+
-						'	</div>\n'+
-						'	<div class="col-3">'+data.rating[i]+'</div>\n'+
-						'</div>';
+		$("#btnAddtocart").click("click", function() {
+            var formData = new FormData();
+            formData.append("product_id", $("#product_id").val());
+            formData.append("product_color", $("#product_color").val());
+            formData.append("product_quanity", $("#product_quanity").val());
+            $.ajax({
+                url: "http://localhost:8080/addtocart",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+					getTotalCart();
+                },
+            });
+        });
+		getTotalCart();
+		function getTotalCart() {
+			$.ajax({
+				type: 'GET',
+				url: 'http://localhost:8080/customer/totalofcart',
+				dataType: 'json',
+				contentType: 'application/json',
+				success: function (data) {
+					
 				}
 				$("#rating").html(html);
 			}

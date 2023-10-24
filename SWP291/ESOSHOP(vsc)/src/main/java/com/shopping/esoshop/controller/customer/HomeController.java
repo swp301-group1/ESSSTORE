@@ -15,7 +15,8 @@ import com.shopping.esoshop.service.*;
 @RestController
 public class HomeController {
     
-	private int sizepage =8;
+	private int sizepage =20;
+	
 	@Autowired
 	private DaoService daoService;
 	
