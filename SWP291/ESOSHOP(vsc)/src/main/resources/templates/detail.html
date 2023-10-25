@@ -25,15 +25,15 @@
 		.temp-image {
 			display: none;
 			position: absolute;
-		  }
-		  .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-        }
+		}
 
+		.navbar {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			z-index: 1000;
+		}
 	</style>
 
 
@@ -73,7 +73,7 @@ https://templatemo.com/tm-559-zay-shop
 					style="width: 45px; height: 45px; display: flex; justify-content: center; align-items: center;">
 					<a class="nav-link" th:href="@{/cart}"><i class="fa-solid fa-cart-shopping fa-lg"
 							style="float: right;"></i></a>
-							<span id="totalcart" style="padding:0; margin:0;" class="badge">0</span>
+					<span id="totalcart" style="padding:0; margin:0;" class="badge">0</span>
 				</li>
 				<li class="nav-item" style="position: relative; width: 145px; height: 45px;">
 					<a class="nav-link" href="#!"><i class="fa-regular fa-user fa-lg"></i></a>
@@ -183,8 +183,8 @@ https://templatemo.com/tm-559-zay-shop
 									<div class="col-auto">
 										<ul class="list-inline pb-3">
 											<li class="list-inline-item text-right">
-												<input style="display: none;" type="text" id="product_id" name="product_id"
-													th:value="${product.id}">
+												<input style="display: none;" type="text" id="product_id"
+													name="product_id" th:value="${product.id}">
 												<span style="font-weight: bold;">Quantity: </span>
 												<input type="number" name="product_quanity" id="product_quanity"
 													style="display:none ;">
@@ -202,7 +202,8 @@ https://templatemo.com/tm-559-zay-shop
 									<div class="col d-grid">
 										<button id="btnAddtocart" type="button" class="btn btn-success btn-lg"
 											value="addtocard">Add To Cart</button>
-											<img src="link-to-your-placeholder-image.jpg" alt="Temporary Image" id="temp-image" class="temp-image">
+										<img src="link-to-your-placeholder-image.jpg" alt="Temporary Image"
+											id="temp-image" class="temp-image">
 
 									</div>
 								</div>
@@ -309,7 +310,8 @@ https://templatemo.com/tm-559-zay-shop
 
 			</div>
 
-			<div class="col-5 mt-5" id="feedbacks" style="border: 1px solid white; border-radius: 10px; background-color: aliceblue;">
+			<div class="col-5 mt-5" id="feedbacks"
+				style="border: 1px solid white; border-radius: 10px; background-color: aliceblue;">
 
 				<div class="review-block ">
 					<div class="row">
@@ -355,7 +357,8 @@ https://templatemo.com/tm-559-zay-shop
 		<div class="row justify-content-center container_hotNews">
 			<div class="col-3 mb-3">
 				<span style="font-size: 30px; font-weight: bold; color: rgb(0, 0, 0); width: 20px; margin-right: 10px;"
-				id="categoryname"> </span> <span  style="font-size: 30px; font-weight: bold; color: rgb(0, 0, 0); width: 20px;">Related</span>
+					id="categoryname"> </span> <span
+					style="font-size: 30px; font-weight: bold; color: rgb(0, 0, 0); width: 20px;">Related</span>
 			</div>
 			<div class="col-md-12">
 				<div class="row justify-content-center mb-2" id="list_product">
@@ -379,47 +382,47 @@ https://templatemo.com/tm-559-zay-shop
 
 	<!-- End Article -->
 
-	<!-- Start Footer -->
+	<!-- Footer -->
 	<footer class="bg-dark" id="tempaltemo_footer">
-        <div class="container">
-            <div class="row">
+		<div class="container">
+			<div class="row">
 
-                <div class="col-md-4 pt-5">
-                    <h2 class="h2 text-success border-bottom pb-3 border-light logo">EVO Shop</h2>
-                    <ul class="list-unstyled text-light footer-link-list">
-                        <li>
-                            <i class="fas fa-map-marker-alt fa-fw"></i>
-                            FPT University, Hoa Lac, Ha Noi
-                        </li>
-                        <li>
-                            <i class="fa fa-phone fa-fw"></i>
-                            <a class="text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
-                        </li>
-                        <li>
-                            <i class="fa fa-envelope fa-fw"></i>
-                            <a class="text-decoration-none" href="mailto:info@company.com">linhndhe163822@fpt.edu.vn</a>
-                        </li>
-                    </ul>
-                </div>
+				<div class="col-md-4 pt-5">
+					<h2 class="h2 text-success border-bottom pb-3 border-light logo">EVO Shop</h2>
+					<ul class="list-unstyled text-light footer-link-list">
+						<li>
+							<i class="fas fa-map-marker-alt fa-fw"></i>
+							FPT University, Hoa Lac, Ha Noi
+						</li>
+						<li>
+							<i class="fa fa-phone fa-fw"></i>
+							<a class="text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
+						</li>
+						<li>
+							<i class="fa fa-envelope fa-fw"></i>
+							<a class="text-decoration-none" href="mailto:info@company.com">linhndhe163822@fpt.edu.vn</a>
+						</li>
+					</ul>
+				</div>
 
-                <div class="col-md-4 pt-5">
-                    <h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
-                    <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="#">Home</a></li>
-                        <li><a class="text-decoration-none" href="#">About Us</a></li>
-                        <li><a class="text-decoration-none" href="#">Shop Locations</a></li>
+				<div class="col-md-4 pt-5">
+					<h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
+					<ul class="list-unstyled text-light footer-link-list">
+						<li><a class="text-decoration-none" href="#">Home</a></li>
+						<li><a class="text-decoration-none" href="#">About Us</a></li>
+						<li><a class="text-decoration-none" href="#">Shop Locations</a></li>
 
-                    </ul>
-                </div>
+					</ul>
+				</div>
 
-            </div>
+			</div>
 
-        </div>
+		</div>
 
 
 
-    </footer>
-	<!-- End Footer -->
+	</footer>
+	<!-- Footer -->
 
 	<!-- Start Script -->
 	<script src="js/jquery-1.11.0.min.js"></script>
@@ -491,35 +494,42 @@ https://templatemo.com/tm-559-zay-shop
 			});
 		}
 		function getItemProduct(product) {
+			// Truncate the product name if it's too long
+			var truncatedName = product.name.length > 18 ? product.name.substring(0, 18) + "..." : product.name;
+
 			var html = '<div class="col-2">\n' +
-				'                        <div class="card mb-4 product-wap rounded-0 product-related-card">\n' +
-				'                            <div class="card rounded-0 card-related-image" style="min-height: 212.67px;">\n' +
-				'                                <img class="card-related-img rounded-0 img-fluid" style="max-height=212.67px" src="img/' +
+				'    <div class="card mb-4 product-wap rounded-0 product-related-card">\n' +
+				'        <div class="card rounded-0 card-related-image" style="min-height: 212.67px;">\n' +
+				'            <img class="card-related-img rounded-0 img-fluid" style="max-height=212.67px" src="img/' +
 				product.color[0].image + '">\n' +
-				'                                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">\n' +
-				'                                    <ul class="list-unstyled">\n' +
-				'                                        <li><a class="btn btn-success text-white mt-2" href="/detail' +
+				'            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">\n' +
+				'                <ul class="list-unstyled">\n' +
+				'                    <li><a class="btn btn-success text-white mt-2" href="/detail' +
 				product.id + '"><i class="far fa-eye"></i></a></li>\n' +
-				'                                    </ul>\n' +
-				'                                </div>\n' +
-				'                            </div>\n' +
-				'                            <div class="card-related-body" style="min-height: 100px;">\n' +
-				'                                <a style="margin-left:30px; margin-top:20px;" href="/detail' + product.id + '" class="h3 text-decoration-none">' + product.name + '</a>\n' +
-				'                                <ul class="list-unstyled d-flex justify-content-center mb-1 mt-5">\n' +
-				'                                    <li>\n' +
-				'                                        <i class="text-warning fa fa-star"></i>\n' +
-				'                                        <i class="text-warning fa fa-star"></i>\n' +
-				'                                        <i class="text-warning fa fa-star"></i>\n' +
-				'                                        <i class="text-muted fa fa-star"></i>\n' +
-				'                                        <i class="text-muted fa fa-star"></i>\n' +
-				'                                    </li>\n' +
-				'                                </ul>\n' +
-				'                                <p class="text-center mb-1">' + product.unit + product.price + '</p>\n' +
-				'                            </div>\n' +
-				'                        </div>\n' +
-				'                    </div>';
+				'                </ul>\n' +
+				'            </div>\n' +
+				'        </div>\n' +
+				'        <div class="card-related-body" style="min-height: 130px;">\n' +
+				'           <div style="height:80px">\n' +
+				'               <a href="/detail' + product.id + '" class="h3 text-decoration-none truncated-text" title="' + product.name + '">' + truncatedName +
+				'</a>\n' +
+				'           </div>\n' +
+				'            <ul class="list-unstyled d-flex justify-content-center mb-1 ">\n' +
+				'                <li>\n' +
+				'                    <i class="text-warning fa fa-star"></i>\n' +
+				'                    <i class="text-warning fa fa-star"></i>\n' +
+				'                    <i "text-warning fa fa-star"></i>\n' +
+				'                    <i class="text-muted fa fa-star"></i>\n' +
+				'                    <i class="text-muted fa fa-star"></i>\n' +
+				'                </li>\n' +
+				'            </ul>\n' +
+				'            <p class="text-center mb-1">' + product.unit + product.price + '</p>\n' +
+				'        </div>\n' +
+				'    </div>\n' +
+				'</div>';
 			return html;
 		}
+
 	</script>
 	<script th:inline="javascript">
 		window.onload = getfeedback();
@@ -619,22 +629,22 @@ https://templatemo.com/tm-559-zay-shop
 		}
 
 
-		$("#btnAddtocart").click("click", function() {
-            var formData = new FormData();
-            formData.append("product_id", $("#product_id").val());
-            formData.append("product_color", $("#product_color").val());
-            formData.append("product_quanity", $("#product_quanity").val());
-            $.ajax({
-                url: "http://localhost:8080/addtocart",
-                type: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(data) {
+		$("#btnAddtocart").click("click", function () {
+			var formData = new FormData();
+			formData.append("product_id", $("#product_id").val());
+			formData.append("product_color", $("#product_color").val());
+			formData.append("product_quanity", $("#product_quanity").val());
+			$.ajax({
+				url: "http://localhost:8080/addtocart",
+				type: "POST",
+				data: formData,
+				processData: false,
+				contentType: false,
+				success: function (data) {
 					getTotalCart();
-                },
-            });
-        });
+				},
+			});
+		});
 		getTotalCart();
 		function getTotalCart() {
 			$.ajax({
@@ -648,41 +658,41 @@ https://templatemo.com/tm-559-zay-shop
 			});
 		}
 
-		$("#btnAddtocart").click(function() {
+		$("#btnAddtocart").click(function () {
 			// Lấy ảnh sản phẩm gốc
 			var productDetail = $("#product-detail");
-		    var d= $("#btnAddtocart");
+			var d = $("#btnAddtocart");
 			// Tạo một bản sao của ảnh tạm thời
 			var tempImage = $("#temp-image").clone();
 			tempImage.attr("src", productDetail.attr("src")); // Đặt src của ảnh tạm thời bằng src của ảnh gốc
-		  
+
 			tempImage.css({
-			  display: "block",
-			  top: d.offset().top,
-			  left: d.offset().left,
-			  width: productDetail.width(),
-			  height: productDetail.height(),
-			  position: "absolute",
-			  zIndex: 999,
+				display: "block",
+				top: d.offset().top,
+				left: d.offset().left,
+				width: productDetail.width(),
+				height: productDetail.height(),
+				position: "absolute",
+				zIndex: 999,
 			});
-		  
+
 			// Thêm ảnh tạm thời vào body
 			$("body").append(tempImage);
-		  
+
 			// Thực hiện hiệu ứng bay cho ảnh tạm thời
 			tempImage.animate({
-			  top: $(".fa-cart-shopping").offset().top,
-			  left: $(".fa-cart-shopping").offset().left,
-			  width: 0,
-			  height: 0,
-			  opacity: 0,
-			}, 1000, function() {
-			  // Khi hiệu ứng hoàn thành, ẩn ảnh tạm thời
-			  tempImage.hide();
-			  
+				top: $(".fa-cart-shopping").offset().top,
+				left: $(".fa-cart-shopping").offset().left,
+				width: 0,
+				height: 0,
+				opacity: 0,
+			}, 1000, function () {
+				// Khi hiệu ứng hoàn thành, ẩn ảnh tạm thời
+				tempImage.hide();
+
 			});
-		  });
-		  
+		});
+
 	</script>
 
 </body>

@@ -82,18 +82,19 @@ function updateTotal() {
 
     // Function to create an HTML table from the selected products
     function createProductTable(products) {
-        let tableHTML = '<table style="font-size:15px !important;"><thead style="color:blue;"><tr><th >Product</th><th style="padding-left: 60px;">Color</th><th style="padding-left: 60px;">Quantity</th></tr></thead><tbody>';
-
+        let tableHTML = '<table class="custom-table"><thead><tr><th>Product</th><th>Color</th><th>Quantity</th></tr></thead><tbody>';
+    
         products.forEach(product => {
             if (product.name && product.quantity) {
-                tableHTML += `<tr><td>${product.name}</td><td style="padding-left: 60px;">${product.color}</td><td style="padding-left: 60px;">${product.quantity}</td></tr>`;
+                tableHTML += `<tr><td>${product.name}</td><td>${product.color}</td><td>${product.quantity}</td></tr>`;
             }
         });
-
+    
         tableHTML += '</tbody></table>';
-
+    
         return tableHTML;
     }
+    
 
     // Attach event listeners to checkboxes and quantity input fields
 

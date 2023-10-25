@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html lang="en" style="height: 100%; margin: 0;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/templatemo.css">
+
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+</head>
+
+
+
+
+
+  <style>
+    .input-field{
+        border: none;
+        width: 400px;
+    }
+  </style>
+
+
+
+
+<body>
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+        <!-- Container wrapper -->
+
+
+
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between" style="width: 100%;">
+                <div class="col-3 d-flex align-items-center">
+                    <a class="navbar-brand" href="#"><img id="MDB-logo"
+                            src="https://mdbcdn.b-cdn.net/wp-content/uploads/2018/06/logo-mdb-jquery-small.png"
+                            alt="MDB Logo" draggable="false" height="30" /></a>
+                </div>
+                <div class="col-6 d-flex justify-content-end">
+                    <div class=" row ">
+                        <form class="col-6   d-flex align-items-center w-50 form-search mr-2 ">
+                            <div class="input-group">
+
+                                <input type="search" class="form-control" placeholder="Search" aria-label="Search" />
+                            </div>
+                            <a href="#!" class="text-white"><i class="fas fa-search ps-3"></i></a>
+                        </form>
+
+
+
+                        <div class="col-6 ">
+                            <ul class="navbar-nav  ">
+
+                                <li class="nav-item mr-3"
+                                    style="width: 45px; height: 45px; display: flex; justify-content: center; align-items: center;">
+                                    <a class="nav-link" href="#!"><i class="fa-solid fa-cart-shopping fa-lg"></i></a>
+                                </li>
+
+                                <li class="nav-item" style="position: relative; width: 145px; height: 45px;">
+                                    <a class="nav-link" href="#!"><i class="fa-regular fa-user fa-lg"></i></a>
+                                    <div class="nav-dropdown flex-column">
+                                        <a href="#">Login</a>
+                                        <a href="#">Logout</a>
+                                        <a href="#">User Profile</a>
+                                        <a href="#">Order History</a>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+       
+        <!-- Container wrapper -->
+    </nav>
+
+
+
+    <div class="container-fluid  " style="margin-top: 70px; margin-bottom: 100px;">
+
+
+        <form style="background-color: #eee; height: 500px;" class="content">
+            <div class="container py-5">
+
+
+                <div class="row ">
+                    <div class="col-lg-4" >
+                        <div class="card mb-4" style="height: 300px;">
+                            <div class="card-body text-center">
+                                <img
+                                    src="img/user.png"
+                                    alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                                <h5 class="my-3">John Smith</h5>
+                                <p class="text-muted mb-1">Member</p>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="card mb-4 " style="height: 400px;">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Full Name</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="input-name" class="text-muted mb-0 input-field" value="Johnatan Smith"/>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Email</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input id="input-email" class="text-muted mb-0 input-field" value="abc@gmail.com"/>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Phone</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input id="input-phone" class="text-muted mb-0 input-field" value="(097) 234-5678"/>
+                                    </div>
+                                </div>
+                               
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Address</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input id="input-address" class="text-muted mb-0 input-field" value="Bay Area, San Francisco, CA"/>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mt-5 ">
+                                   
+                                    <div class="col-2">
+                                        <button type="button" class="btn btn-primary ">Edit</button>
+                                    </div>
+                                    
+                                    <div class="col-5 ">
+                                        <button type="button" class="btn btn-danger ">Order history</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+
+   	<!-- Footer -->
+	<footer class="bg-dark" id="tempaltemo_footer">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-success border-bottom pb-3 border-light logo">EVO Shop</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li>
+                            <i class="fas fa-map-marker-alt fa-fw"></i>
+                            FPT University, Hoa Lac, Ha Noi
+                        </li>
+                        <li>
+                            <i class="fa fa-phone fa-fw"></i>
+                            <a class="text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope fa-fw"></i>
+                            <a class="text-decoration-none" href="mailto:info@company.com">linhndhe163822@fpt.edu.vn</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li><a class="text-decoration-none" href="#">Home</a></li>
+                        <li><a class="text-decoration-none" href="#">About Us</a></li>
+                        <li><a class="text-decoration-none" href="#">Shop Locations</a></li>
+                       
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+
+       
+
+    </footer>
+	<!-- Footer -->
+
+
+
+
+   
+</body>
+
+
+
+
+
+
+
+
+</html>
