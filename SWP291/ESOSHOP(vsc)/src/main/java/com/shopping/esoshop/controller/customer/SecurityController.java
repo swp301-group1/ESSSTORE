@@ -63,7 +63,7 @@ public class SecurityController {
 	public ResponseEntity<String> veryfyemail(
 			@RequestParam(name = "email", required = false, defaultValue = "") String email) {
 		String otp = otpGenerator.createCapcha();
-		mailService.sendEmail(email, "Login by OTP", "This is ypur OTP: " + otp);
+	    boolean mail = 	mailService.sendEmail(email, "Login by OTP", "This is ypur OTP: " + otp);
 		return ResponseEntity.ok().body(otp);
 	}
 
@@ -98,9 +98,13 @@ public class SecurityController {
 		Mess mess = new Mess();
 		if (account != null) {
 			String otp = otpGenerator.createCapcha();
-			mailService.sendEmail(email, "Login by OTP", "This is ypur OTP: " + otp);
-			mess.setEmail(email);
-			mess.setOTP(otp);
+			boolean mail = mailService.sendEmail(email, "Login by OTP", "This is ypur OTP: " + otp);
+			if(mail){
+				mess.setEmail(email);
+			    mess.setOTP(otp);
+			}else{
+				mess.getMess().add("Email not found!");
+			}
 		} else {
 			mess.setEmail("null");
 		}

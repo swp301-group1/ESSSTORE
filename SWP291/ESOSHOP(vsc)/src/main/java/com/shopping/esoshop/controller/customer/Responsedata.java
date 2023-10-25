@@ -117,7 +117,8 @@ public class Responsedata {
 	}
 
 	@GetMapping("/customer/totalofcart")
-	public ResponseEntity<Integer> getTotalOfCart(){
-		return ResponseEntity.ok().body(daoService.getTotalProductOfcart(1));
+	public ResponseEntity<Integer> getTotalOfCart(HttpSession session) {
+		Customer customer  = (Customer)session.getAttribute("customer");
+		return ResponseEntity.ok().body(daoService.getTotalProductOfcart(customer.getId()));
 	}
 }

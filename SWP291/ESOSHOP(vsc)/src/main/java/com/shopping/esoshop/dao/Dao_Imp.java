@@ -1486,4 +1486,60 @@ public class Dao_Imp implements Dao {
 		}
 		return 0;
 	}
+	@Override
+	public boolean updateNameProduct(String productid, String newname) {
+	    String sql = "UPDATE [dbo].[products] SET [ProductName] = ? WHERE ProductID =?";
+		try {
+			Connection con = dbHelper.makeConnection();
+			PreparedStatement psm = con.prepareStatement(sql);
+			psm.setString(1, newname);
+			psm.setString(2, productid);
+			int n= psm.executeUpdate();
+			return n>0;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	@Override
+	public boolean updateContentsProduct(String productid, String content) {
+	    String sql = "UPDATE [dbo].[products] SET [Contents] = ? WHERE ProductID =?";
+		try {
+			Connection con = dbHelper.makeConnection();
+			PreparedStatement psm = con.prepareStatement(sql);
+			psm.setString(1, content);
+			psm.setString(2, productid);
+			int n= psm.executeUpdate();
+			return n>0;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	@Override
+	public boolean updatePriceProduct(String productid, Double newprice) {
+	String sql = "UPDATE [dbo].[products] SET [Price] = ? WHERE ProductID =?";
+		try {
+			Connection con = dbHelper.makeConnection();
+			PreparedStatement psm = con.prepareStatement(sql);
+			psm.setDouble(1,newprice );
+			psm.setString(2, productid);
+			int n= psm.executeUpdate();
+			return n>0;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	@Override
+	public boolean updateQuantityProduct(String productid, int newquantity) {
+		String sql = "UPDATE [dbo].[products] SET [Quantity] = ? WHERE ProductID =?";
+		try {
+			Connection con = dbHelper.makeConnection();
+			PreparedStatement psm = con.prepareStatement(sql);
+			psm.setInt(1, newquantity);
+			psm.setString(2, productid);
+			int n= psm.executeUpdate();
+			return n>0;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 }
