@@ -19,6 +19,7 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="css/fontawesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
 
@@ -31,67 +32,52 @@
         width: 400px;
     }
   </style>
-
-
-
-
 <body>
-
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
         <!-- Container wrapper -->
-
-
-
-        <div class="container-fluid">
-            <div class="d-flex justify-content-between" style="width: 100%;">
-                <div class="col-3 d-flex align-items-center">
-                    <a class="navbar-brand" href="#"><img id="MDB-logo"
-                            src="https://mdbcdn.b-cdn.net/wp-content/uploads/2018/06/logo-mdb-jquery-small.png"
-                            alt="MDB Logo" draggable="false" height="30" /></a>
-                </div>
-                <div class="col-6 d-flex justify-content-end">
-                    <div class=" row ">
-                        <form class="col-6   d-flex align-items-center w-50 form-search mr-2 ">
-                            <div class="input-group">
-
-                                <input type="search" class="form-control" placeholder="Search" aria-label="Search" />
-                            </div>
-                            <a href="#!" class="text-white"><i class="fas fa-search ps-3"></i></a>
-                        </form>
-
-
-
-                        <div class="col-6 ">
-                            <ul class="navbar-nav  ">
-
-                                <li class="nav-item mr-3"
-                                    style="width: 45px; height: 45px; display: flex; justify-content: center; align-items: center;">
-                                    <a class="nav-link" href="#!"><i class="fa-solid fa-cart-shopping fa-lg"></i></a>
-                                </li>
-
-                                <li class="nav-item" style="position: relative; width: 145px; height: 45px;">
-                                    <a class="nav-link" href="#!"><i class="fa-regular fa-user fa-lg"></i></a>
-                                    <div class="nav-dropdown flex-column">
-                                        <a href="#">Login</a>
-                                        <a href="#">Logout</a>
-                                        <a href="#">User Profile</a>
-                                        <a href="#">Order History</a>
-                                    </div>
-                                </li>
-
-                            </ul>
-                        </div>
+        <div class="container">
+            <!-- Navbar brand -->
+            <a class="navbar-brand" th:href="@{/home}"><img id="MDB-logo"
+                    src="https://mdbcdn.b-cdn.net/wp-content/uploads/2018/06/logo-mdb-jquery-small.png" alt="MDB Logo"
+                    draggable="false" height="30" /></a>
+    
+            <!-- Toggle button -->
+            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+                data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <form class="d-flex align-items-center w-100 form-search mr-2">
+                    <div class="input-group">
+    
+                        <input type="text" class="form-control" oninput=" searchByName(this.value)" placeholder="Search"
+                            aria-label="Search" />
                     </div>
-                </div>
+                    <button type="button" id="btdsearch" class="text-white"><i class="fas fa-search ps-3"></i></button>
+                </form>
+                <ul class="navbar-nav ms-3">
+                    <li class="nav-item mr-3"
+                        style="width: 45px; height: 45px; display: flex; justify-content: center; align-items: center;">
+                        <a class="nav-link" th:href="@{/cart}"><i class="fa-solid fa-cart-shopping fa-lg"
+                                style="float: right;"></i></a>
+                        <span id="totalcart" style="padding:0; margin:0;" class="badge">0</span>
+                    </li>
+                    <li class="nav-item" style="position: relative; width: 145px; height: 45px;">
+                        <a class="nav-link" href="#!"><i class="fa-regular fa-user fa-lg"></i></a>
+                        <div class="nav-dropdown flex-column">
+                            <a th:href="@{/login}">Login</a>
+                            <a th:href="@{/logout}">Logout</a>
+                            <a href="@{/user_profile}">User Profile</a>
+                            <a th:href="@{/order_history}">Order History</a>
+                        </div>
+                    </li>
+                </ul>
             </div>
+            <!-- Collapsible wrapper -->
         </div>
-
-
-       
         <!-- Container wrapper -->
     </nav>
-
 
 
     <div class="container-fluid  " style="margin-top: 70px; margin-bottom: 100px;">
@@ -108,10 +94,8 @@
                                 <img
                                     src="img/user.png"
                                     alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-                                <h5 class="my-3">John Smith</h5>
+                                <h5 class="my-3" id="fullname1">John Smith</h5>
                                 <p class="text-muted mb-1">Member</p>
-
-
                             </div>
                         </div>
 
@@ -124,7 +108,7 @@
                                         <p class="mb-0">Full Name</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <input type="text" id="input-name" class="text-muted mb-0 input-field" value="Johnatan Smith"/>
+                                        <input type="text" id="fullname2" class="text-muted mb-0 input-field" value="Johnatan Smith"/>
                                     </div>
                                 </div>
                                 <hr>
@@ -133,7 +117,7 @@
                                         <p class="mb-0">Email</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <input id="input-email" class="text-muted mb-0 input-field" value="abc@gmail.com"/>
+                                        <input id="email" class="text-muted mb-0 input-field" value="abc@gmail.com"/>
                                     </div>
                                 </div>
                                 <hr>
@@ -142,7 +126,7 @@
                                         <p class="mb-0">Phone</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <input id="input-phone" class="text-muted mb-0 input-field" value="(097) 234-5678"/>
+                                        <input id="phone" class="text-muted mb-0 input-field" value="(097) 234-5678"/>
                                     </div>
                                 </div>
                                
@@ -152,7 +136,7 @@
                                         <p class="mb-0">Address</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <input id="input-address" class="text-muted mb-0 input-field" value="Bay Area, San Francisco, CA"/>
+                                        <input id="address" class="text-muted mb-0 input-field" value="Bay Area, San Francisco, CA"/>
                                     </div>
                                 </div>
                                 
@@ -166,18 +150,13 @@
                                         <button type="button" class="btn btn-danger ">Order history</button>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </form>
-
     </div>
-
-
    	<!-- Footer -->
 	<footer class="bg-dark" id="tempaltemo_footer">
         <div class="container">
@@ -200,24 +179,36 @@
                         </li>
                     </ul>
                 </div>
-
                 <div class="col-md-4 pt-5">
                     <h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
                     <ul class="list-unstyled text-light footer-link-list">
                         <li><a class="text-decoration-none" href="#">Home</a></li>
                         <li><a class="text-decoration-none" href="#">About Us</a></li>
                         <li><a class="text-decoration-none" href="#">Shop Locations</a></li>
-                       
+                    
                     </ul>
                 </div>
-
             </div>
-
         </div>
-
-       
-
     </footer>
-	<!-- Footer -->
+    <script>
+
+        getuserprofile();
+    function getuserprofile(){
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/customer/infor",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data) {
+                $("#fullname1").text(data.name);
+                $("#fullname2").val(data.name);
+                $("#email").val(data.email);
+                $("#phone").val(data.phone);
+                $("#address").val(data.address);
+            },
+        });
+    }
+    </script>
 </body>
 </html>

@@ -64,7 +64,12 @@ public class SecurityController {
 			@RequestParam(name = "email", required = false, defaultValue = "") String email) {
 		String otp = otpGenerator.createCapcha();
 	    boolean mail = 	mailService.sendEmail(email, "Login by OTP", "This is ypur OTP: " + otp);
-		return ResponseEntity.ok().body(otp);
+		if(mail){
+			return ResponseEntity.ok().body(otp);
+		}
+		else{
+	     	return  ResponseEntity.ok().body("null");
+		}
 	}
 
 	// for login
@@ -76,7 +81,7 @@ public class SecurityController {
 		Account account = dao.getAccount(email);
 		Mess mess = new Mess();
 		mess.setEmail(email);
-		if (account != null) {
+		if (account != null && account.getStatus()==1) {
 			if (account.getPassword().equals(password)) {
 				session.setAttribute(Account, account);
 				session.setAttribute(Customer, dao.getCustomerByEmail(account.getEmail()));
@@ -123,7 +128,6 @@ public class SecurityController {
 			mess.setEmail(account.getEmail());
 		} else {
 			mess.setEmail("null");
-			;
 		}
 		return ResponseEntity.ok().body(mess);
 	}

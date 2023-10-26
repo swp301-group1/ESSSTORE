@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/custom.css">
 	<link rel="stylesheet" href="css/templatemo.css">
-
+	<link rel="stylesheet" href="css/navbar.css">
 
 	<link rel="stylesheet" href="css/cart.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
@@ -25,7 +25,12 @@
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
+    <style>
+		#btdsearch {
+			background-color: transparent;
+			border: none;
+		}
+	</style>
 </head>
 
 
@@ -33,35 +38,44 @@
 <body style="  background: #ddd;">
 
 
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
 		<!-- Container wrapper -->
 		<div class="container">
 			<!-- Navbar brand -->
-			<a class="navbar-brand" href="#" th:href="@{/home}"><img id="MDB-logo"
+			<a class="navbar-brand" th:href="@{/home}"><img id="MDB-logo"
 					src="https://mdbcdn.b-cdn.net/wp-content/uploads/2018/06/logo-mdb-jquery-small.png" alt="MDB Logo"
 					draggable="false" height="30" /></a>
-
+	
 			<!-- Toggle button -->
 			<button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
 				data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
 				aria-label="Toggle navigation">
 				<i class="fas fa-bars"></i>
 			</button>
-
-			<!-- Collapsible wrapper -->
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<!-- Left links -->
-
-				<!-- Left links -->
 				<form class="d-flex align-items-center w-100 form-search mr-2">
 					<div class="input-group">
-						<input type="search" class="form-control" placeholder="Search" aria-label="Search" />
+	
+						<input type="text" class="form-control" oninput=" searchByName(this.value)" placeholder="Search"
+							aria-label="Search" />
 					</div>
-					<a href="#!" class="text-white"><i class="fas fa-search ps-3"></i></a>
+					<button type="button" id="btdsearch" class="text-white"><i class="fas fa-search ps-3"></i></button>
 				</form>
 				<ul class="navbar-nav ms-3">
-					<li class="nav-item mr-2">
-						<a class="nav-link d-flex align-items-center" href="#" th:herf="@{/cart}">Cart</a>
+					<li class="nav-item mr-3"
+						style="width: 45px; height: 45px; display: flex; justify-content: center; align-items: center;">
+						<a class="nav-link" href="/cart"><i class="fa-solid fa-cart-shopping fa-lg"
+								style="float: right;"></i></a>
+						<span id="totalcart" style="padding:0; margin:0;" class="badge">0</span>
+					</li>
+					<li class="nav-item" style="position: relative; width: 145px; height: 45px;">
+						<a class="nav-link" href="#!"><i class="fa-regular fa-user fa-lg"></i></a>
+						<div class="nav-dropdown flex-column">
+							<a href="/login">Login</a>
+							<a href="/logout">Logout</a>
+							<a href="/user_profile">User Profile</a>
+							<a href="/order_history">Order History</a>
+						</div>
 					</li>
 				</ul>
 			</div>
@@ -75,9 +89,6 @@
 
 
 	<div class=" card-cart" style="margin-top: 70px; margin-bottom: 100px; background-color: white;  overflow: hidden;">
-
-
-
 		<form class="row d-flex " style="margin: 0;" action="/order" method="post">
 			<div class="col-8 p-4">
 				<div class="row flex-column">
@@ -201,16 +212,10 @@
                         <li><a class="text-decoration-none" href="#">Home</a></li>
                         <li><a class="text-decoration-none" href="#">About Us</a></li>
                         <li><a class="text-decoration-none" href="#">Shop Locations</a></li>
-
                     </ul>
                 </div>
-
             </div>
-
         </div>
-
-
-
     </footer>
 	<!-- Footer -->
 
@@ -222,6 +227,20 @@
 	<script src="js/custom.js"></script>
 	<script src="js/cart.js"></script>
 
+	<script>
+		getTotalCart();
+		function getTotalCart() {
+			$.ajax({
+				type: 'GET',
+				url: 'http://localhost:8080/customer/totalofcart',
+				dataType: 'json',
+				contentType: 'application/json',
+				success: function (data) {
+					$("#totalcart").text(data);
+				}
+			});
+		}
+	</script>
 </body>
 
 </html>

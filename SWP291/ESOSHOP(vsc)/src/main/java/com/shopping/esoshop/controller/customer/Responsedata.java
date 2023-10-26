@@ -35,22 +35,6 @@ public class Responsedata {
         return ResponseEntity.ok().body(daoService.getAllCategory());
     }
 
-    // @GetMapping("/listproducts")
-	// 	public RequestEntity<List<Product>> getListProductss() {
-	// 	return new RequestEntity<List<Product>>(daoService.getAllProduct(), null, null, null, getClass());
-	// }
-
-	// @GetMapping("/detete_cart{cart_id}")
-	// public ResponseEntity<String> deleteProductOfCart(HttpSession session,
-	// 		@PathVariable("cart_id") String cartId) {
-	// 	Customer customer = (Customer)session.getAttribute("customer");
-	// 	if(customer!=null) {
-	// 		// delete product of cart
-	// 	   int n = daoService.deletCart(cartId);
-	// 	}
-	// 	return ResponseEntity.ok().body("Delete succses");
-	// }
-
 	@PostMapping("/addtocart")
 	public ResponseEntity<String> addTocart(Model model,HttpSession session,
 			@RequestParam(name = "product_id") String id,
@@ -121,4 +105,10 @@ public class Responsedata {
 		Customer customer  = (Customer)session.getAttribute("customer");
 		return ResponseEntity.ok().body(daoService.getTotalProductOfcart(customer.getId()));
 	}
+
+	@GetMapping("/customer/infor")
+    public ResponseEntity<Customer> getInforCustomer( HttpSession session) {
+				Customer customer  = (Customer)session.getAttribute("customer");
+        return ResponseEntity.ok().body((Customer) daoService.getCustomerById(customer.getId()));
+    }
 }

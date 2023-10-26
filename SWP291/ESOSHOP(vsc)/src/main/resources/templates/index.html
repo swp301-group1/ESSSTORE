@@ -10,16 +10,16 @@
 		integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
 
-	<link rel="stylesheet" th:href="@{css/bootstrap.min.css}" />
-	<link rel="stylesheet" th:href="@{css/custom.css}" />
-	<link rel="stylesheet" th:href="@{css/templatemo.css}" />
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/custom.css"/>
+	<link rel="stylesheet" href="css/templatemo.css"/>
 	<link rel="stylesheet" href="css/navbar.css">
-	<link rel="stylesheet" th:href="@{css/home.css}" />
+	<link rel="stylesheet" href="css/home.css" />
+	
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 	<link rel="stylesheet"
 		href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" />
 	<link rel="stylesheet" href="css/fontawesome.min.css" />
-
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<style>
 		#alert {
@@ -49,16 +49,18 @@
 		.closebtn:hover {
 			color: black;
 		}
+
 		.navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-        }
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			z-index: 1000;
+		}
+
 		#btdsearch {
 			background-color: transparent;
-			border:none;
+			border: none;
 		}
 	</style>
 </head>
@@ -90,17 +92,17 @@
 			<ul class="navbar-nav ms-3">
 				<li class="nav-item mr-3"
 					style="width: 45px; height: 45px; display: flex; justify-content: center; align-items: center;">
-					<a class="nav-link" th:href="@{/cart}"><i class="fa-solid fa-cart-shopping fa-lg"
+					<a class="nav-link" href="/cart"><i class="fa-solid fa-cart-shopping fa-lg"
 							style="float: right;"></i></a>
-							<span id="totalcart" style="padding:0; margin:0;" class="badge">0</span>
+					<span id="totalcart" style="padding:0; margin:0;" class="badge">0</span>
 				</li>
 				<li class="nav-item" style="position: relative; width: 145px; height: 45px;">
 					<a class="nav-link" href="#!"><i class="fa-regular fa-user fa-lg"></i></a>
 					<div class="nav-dropdown flex-column">
-						<a th:href="@{/login}">Login</a>
-						<a th:href="@{/logout}">Logout</a>
-						<a href="#">User Profile</a>
-						<a th:href="@{/order_history}">Order History</a>
+						<a href="/login">Login</a>
+						<a href="/logout">Logout</a>
+						<a href="/user_profile">User Profile</a>
+						<a href="/order_history">Order History</a>
 					</div>
 				</li>
 			</ul>
@@ -323,7 +325,7 @@
 				<div class="row">
 					<div class="col-md-6 pb-4">
 						<div class="d-flex">
-							<select class="form-control" id ="sortprice">
+							<select class="form-control" id="sortprice">
 								<option value="0" checked>Lower to Higher</option>
 								<option value="1">Higher to Lower</option>
 							</select>
@@ -351,15 +353,13 @@
 	<footer class="bg-dark" id="tempaltemo_footer">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-4 pt-5">
-					<h2 class="h2 text-success border-bottom pb-3 border-light logo">
-						Miracle Shop
 
-					</h2>
+				<div class="col-md-4 pt-5">
+					<h2 class="h2 text-success border-bottom pb-3 border-light logo">EVO Shop</h2>
 					<ul class="list-unstyled text-light footer-link-list">
 						<li>
 							<i class="fas fa-map-marker-alt fa-fw"></i>
-							123 Consectetur at ligula 10660
+							FPT University, Hoa Lac, Ha Noi
 						</li>
 						<li>
 							<i class="fa fa-phone fa-fw"></i>
@@ -367,40 +367,27 @@
 						</li>
 						<li>
 							<i class="fa fa-envelope fa-fw"></i>
-							<a class="text-decoration-none" href="mailto:info@company.com">info@company.com</a>
+							<a class="text-decoration-none" href="mailto:info@company.com">linhndhe163822@fpt.edu.vn</a>
 						</li>
 					</ul>
 				</div>
 
 				<div class="col-md-4 pt-5">
-					<h2 class="h2 text-light border-bottom pb-3 border-light">
-						Further Info
-					</h2>
+					<h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
 					<ul class="list-unstyled text-light footer-link-list">
 						<li><a class="text-decoration-none" href="#">Home</a></li>
 						<li><a class="text-decoration-none" href="#">About Us</a></li>
-						<li>
-							<a class="text-decoration-none" href="#">Shop Locations</a>
-						</li>
-						<li><a class="text-decoration-none" href="#">FAQs</a></li>
-						<li><a class="text-decoration-none" href="#">Contact</a></li>
+						<li><a class="text-decoration-none" href="#">Shop Locations</a></li>
+
 					</ul>
 				</div>
+
 			</div>
+
 		</div>
 
-		<div class="w-100 bg-black py-3">
-			<div class="container">
-				<div class="row pt-2">
-					<div class="col-12">
-						<p class="text-left text-light">
-							Copyright &copy; 2021 Company Name | Designed by
-							<a rel="sponsored" href="https://templatemo.com" target="_blank">TemplateMo</a>
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
+
+
 	</footer>
 	<!-- Footer -->
 
@@ -414,26 +401,26 @@
 
 	<!-- List Product-->
 	<script>
-		window.addEventListener('load', function() {
+		window.addEventListener('load', function () {
 			getProducts(1);
 			getbrand();
 			getCategories();
-			
-        });
+
+		});
 
 		var npage;
-		function sortByPrice(){
+		function sortByPrice() {
 
 		}
-		function selectCate(id){
+		function selectCate(id) {
 			$.ajax({
 				type: 'GET',
 				url: 'http://localhost:8080/getproduct/page/' + npage,
 				dataType: 'json',
 				contentType: 'application/json',
-				success: function(data) {
-					data = data.filter(function(p) {
-						return  p.category.id == id.value;
+				success: function (data) {
+					data = data.filter(function (p) {
+						return p.category.id == id.value;
 					});
 					$("#list_product").html(getlistProduct(data));
 				}
@@ -445,110 +432,115 @@
 				url: 'http://localhost:8080/searchproductbyname/' + name,
 				dataType: 'json',
 				contentType: 'application/json',
-				success: function(data) {
+				success: function (data) {
 					$("#list_product").html(getlistProduct(data));
 				}
 			});
 		}
 
-		$("#btdsearch").click('click',function(){
+		$("#btdsearch").click('click', function () {
 			getProducts(npage);
 		})
 		function getProducts(n) {
 			getPage(n);
-			npage=n;
+			npage = n;
 			$.ajax({
 				type: 'GET',
 				url: 'http://localhost:8080/getproduct/page/' + n,
 				dataType: 'json',
 				contentType: 'application/json',
-				success: function(data) {
-					sortByPrice(data,$("#sortprice").val());
+				success: function (data) {
+					sortByPrice(data, $("#sortprice").val());
 					$("#list_product").html(getlistProduct(data));
 				}
 			});
 		}
 
-        function sortByPrice(data,sort){
-            data.sort(function(a, b) {
-                if(sort==1) return b.price - a.price;
-                if(sort==0)  return a.price - b.price;
-            });
-        }
+		function sortByPrice(data, sort) {
+			data.sort(function (a, b) {
+				if (sort == 1) return b.price - a.price;
+				if (sort == 0) return a.price - b.price;
+			});
+		}
 		function getPage(n) {
 			$.ajax({
 				type: 'GET',
 				url: 'http://localhost:8080/page/' + n,
 				dataType: 'json',
 				contentType: 'application/json',
-				success: function(data) {
-					npage=data.pageActive;
+				success: function (data) {
+					npage = data.pageActive;
 					var pages1 = document.getElementById('pages1');
 					var pages2 = document.getElementById('pages2');
 					var html = '';
-					for (let i = 1; i<= data.totalPage; i++) {
+					for (let i = 1; i <= data.totalPage; i++) {
 						if (data.pageActive == i) {
 							html = html + '<li class="page-item" style=" margin: 2px;">\n' +
-								'		     <button value="' + i +'" class="btn btn-danger"  onclick="getProducts(this.value)" type="button">' + i + '</button>\n' +
+								'		     <button value="' + i + '" class="btn btn-danger"  onclick="getProducts(this.value)" type="button">' + i + '</button>\n' +
 								'	    </li>';
 						} else {
 							html = html + '<li class="page-item">\n' +
-								'			<button class="btn btn-primary" style=" margin: 2px;" type="button" value="'+i+'" onclick="getProducts(this.value)">' + i + '</button>\n' +
+								'			<button class="btn btn-primary" style=" margin: 2px;" type="button" value="' + i + '" onclick="getProducts(this.value)">' + i + '</button>\n' +
 								'    	</li>';
 						}
-					}                                                                                                                                                                                                                                                 
+					}
 					pages1.innerHTML = html;
 					pages2.innerHTML = html;
 				}
 			});
 		}
-		
+
 		function getlistProduct(data) {
 			var html = '';
-			data.forEach(function(product) {
-				html+= '<div class="col-md-3">\n' +
-					'                        <div class="card mb-4 product-wap rounded-0" product-card>\n' +
-					'                            <div class="card rounded-0 card-image" style="min-height: 212.67px;">\n' +
-					'                                <img class="card-img rounded-0 img-fluid" style="max-height=212.67px" src="img/' +
+			data.forEach(function (product) {
+				// Truncate the product name if it's too long
+				var truncatedName = product.name.length > 18 ? product.name.substring(0, 18) + "..." : product.name;
+
+				html += '<div class="col-md-3">\n' +
+					'    <div class="card mb-4 product-wap rounded-0" product-card>\n' +
+					'        <div class="card rounded-0 card-image" style="min-height: 212.67px;">\n' +
+					'            <img class="card-img rounded-0 img-fluid" style="max-height=212.67px" src="img/' +
 					product.color[0].image + '">\n' +
-					'                                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">\n' +
-					'                                    <ul class="list-unstyled">\n' +
-					'                                        <li><a class="btn btn-success text-white mt-2" href="/detail' +
-					product.id + '"><i class="far fa-eye"></i></a></li>\n' +
-					'                                    </ul>\n' +
-					'                                </div>\n' +
-					'                            </div>\n' +
-					'                            <div class="card-body" style="min-height: 130px;">\n' +
-					'                                <a href="/detail'+product.id+'" class="h3 text-decoration-none">' + product.name +
+					'            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">\n' +
+					'                <ul class="list-unstyled">\n' +
+					'                    <li><a class="btn btn-success text-white mt-2" href="/detail' +product.id + '"><i class="far fa-eye"></i></a></li>\n' +
+					'                </ul>\n' +
+					'            </div>\n' +
+					'        </div>\n' +
+					'        <div class="card-body" style="min-height: 130px;">\n' +
+					'           <div style="height:80px">\n' +
+					'               <a href="/detail' + product.id + '" class="h3 text-decoration-none truncated-text" title="' + product.name + '">' + truncatedName +
 					'</a>\n' +
-					'                                <ul class="list-unstyled d-flex justify-content-center mb-1">\n' +
-					'                                    <li>\n' +
-					'                                        <i class="text-warning fa fa-star"></i>\n' +
-					'                                        <i class="text-warning fa fa-star"></i>\n' +
-					'                                        <i class="text-warning fa fa-star"></i>\n' +
-					'                                        <i class="text-muted fa fa-star"></i>\n' +
-					'                                        <i class="text-muted fa fa-star"></i>\n' +
-					'                                    </li>\n' +
-					'                                </ul>\n' +
-					'                                <p class="text-center mb-0">' + product.unit + product.price + '</p>\n' +
-					'                            </div>\n' +
-					'                        </div>\n' +
-					'                    </div>';
+					'           </div>\n' +
+					'            <ul class="list-unstyled d-flex justify-content-center mb-1">\n' +
+					'                <li>\n' +
+					'                    <i class="text-warning fa fa-star"></i>\n' +
+					'                    <i class="text-warning fa fa-star"></i>\n' +
+					'                    <i class="text-warning fa fa-star"></i>\n' +
+					'                    <i class="text-muted fa fa-star"></i>\n' +
+					'                    <i class="text-muted fa fa-star"></i>\n' +
+					'                </li>\n' +
+					'            </ul>\n' +
+					'            <p class="text-center mb-0">' + product.unit + product.price + '</p>\n' +
+					'        </div>\n' +
+					'    </div>\n' +
+					'</div>';
 			})
 			return html;
 		}
+
 		function getbrand() {
 			$.ajax({
 				type: 'GET',
 				url: 'http://localhost:8080/brands',
 				dataType: 'json',
 				contentType: 'application/json',
-				success: function(data) {
+				success: function (data) {
 					var item = '';
-					data.forEach(function(brand) {
-						item += '<li>\n'+
-							'			<input class="form-check-input" value="'+brand.brandId+'" name="brand" type="radio">\n'+
-							'				<label class="form-check-label" for="flexCheckIndeterminate">'+brand.brandName+'</label>\n'+
+					data.forEach(function (brand) {
+						item += '<li>\n' +
+							'			<input class="form-check-input" value="' + brand.brandId + '" name="brand" type="radio">\n' +
+							'				<label class="form-check-label" for="flexCheckIndeterminate">' + brand.brandName + '</label>\n' +
 							'	   </li>';
 					})
 					$("#brands").html(item);
@@ -562,19 +554,19 @@
 				url: "http://localhost:8080/categories",
 				dataType: "json",
 				contentType: "application/json",
-				success: function(data) {
+				success: function (data) {
 					html = '';
-					data.forEach(function(cate) {
-						html = html + '<li>\n'+
-							'			<input class="form-check-input" value="'+cate.id+'" onclick="selectCate(this)" name="category" type="radio"  >\n'+
-							'				<label class="form-check-label" for="flexCheckIndeterminate">'+cate.name+'</label>\n'+
+					data.forEach(function (cate) {
+						html = html + '<li>\n' +
+							'			<input class="form-check-input" value="' + cate.id + '" onclick="selectCate(this)" name="category" type="radio"  >\n' +
+							'				<label class="form-check-label" for="flexCheckIndeterminate">' + cate.name + '</label>\n' +
 							'	    	</li>';
 					});
 					$("#categories").html(html);
 				},
 			});
 		}
-		
+
 		$(document).ready(function () {
 			// Prevent page scrolling on input focus
 			$("input").on('focus', function () {
@@ -605,7 +597,7 @@
 
 	<script>
 
-		
+
 	</script>
 </body>
 
