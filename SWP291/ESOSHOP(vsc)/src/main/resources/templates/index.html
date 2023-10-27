@@ -10,16 +10,16 @@
 		integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
 
-	<link rel="stylesheet" th:href="@{css/bootstrap.min.css}" />
-	<link rel="stylesheet" th:href="@{css/custom.css}" />
-	<link rel="stylesheet" th:href="@{css/templatemo.css}" />
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/custom.css"/>
+	<link rel="stylesheet" href="css/templatemo.css"/>
 	<link rel="stylesheet" href="css/navbar.css">
-	<link rel="stylesheet" th:href="@{css/home.css}" />
+	<link rel="stylesheet" href="css/home.css" />
+	
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 	<link rel="stylesheet"
 		href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" />
 	<link rel="stylesheet" href="css/fontawesome.min.css" />
-
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<style>
 		#alert {
@@ -92,17 +92,17 @@
 			<ul class="navbar-nav ms-3">
 				<li class="nav-item mr-3"
 					style="width: 45px; height: 45px; display: flex; justify-content: center; align-items: center;">
-					<a class="nav-link" th:href="@{/cart}"><i class="fa-solid fa-cart-shopping fa-lg"
+					<a class="nav-link" href="/cart"><i class="fa-solid fa-cart-shopping fa-lg"
 							style="float: right;"></i></a>
 					<span id="totalcart" style="padding:0; margin:0;" class="badge">0</span>
 				</li>
 				<li class="nav-item" style="position: relative; width: 145px; height: 45px;">
 					<a class="nav-link" href="#!"><i class="fa-regular fa-user fa-lg"></i></a>
 					<div class="nav-dropdown flex-column">
-						<a th:href="@{/login}">Login</a>
-						<a th:href="@{/logout}">Logout</a>
-						<a href="#">User Profile</a>
-						<a th:href="@{/order_history}">Order History</a>
+						<a href="/login">Login</a>
+						<a href="/logout">Logout</a>
+						<a href="/user_profile">User Profile</a>
+						<a href="/order_history">Order History</a>
 					</div>
 				</li>
 			</ul>
@@ -503,8 +503,7 @@
 					product.color[0].image + '">\n' +
 					'            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">\n' +
 					'                <ul class="list-unstyled">\n' +
-					'                    <li><a class="btn btn-success text-white mt-2" href="/detail' +
-					product.id + '"><i class="far fa-eye"></i></a></li>\n' +
+					'                    <li><a class="btn btn-success text-white mt-2" href="/detail' +product.id + '"><i class="far fa-eye"></i></a></li>\n' +
 					'                </ul>\n' +
 					'            </div>\n' +
 					'        </div>\n' +

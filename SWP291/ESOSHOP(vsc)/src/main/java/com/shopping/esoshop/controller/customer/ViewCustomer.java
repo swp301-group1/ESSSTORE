@@ -62,4 +62,13 @@ public class ViewCustomer {
 		return "redirect:/home";
 	}
 
+	@GetMapping("/user_profile")
+	public String userprofile(HttpSession session) {
+		Customer customer = (Customer)session.getAttribute("customer");
+		if(customer!=null){
+			return "user_profile";
+		}
+		return "redirect:/login";
+	}
+
 }

@@ -60,11 +60,15 @@ public class AdminController {
         @PathVariable("email") String email,
         @PathVariable("status")Integer status){
             try {
-                boolean resutl = daoServicel.setStatusAccount(email, status);
-                if(resutl){
+                if(status==1 || status==0){
+                    boolean resutl = daoServicel.setStatusAccount(email, status);
+                    if(resutl){
                     session.setAttribute("customer", null);
+                    }
+                   return ResponseEntity.ok().body(resutl);
+                }else{
+                    return ResponseEntity.ok().body(false);
                 }
-                return ResponseEntity.ok().body(resutl);
             } catch (Exception e) {
                  return ResponseEntity.ok().body(false);
             }

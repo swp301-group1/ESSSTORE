@@ -247,4 +247,20 @@ public class DaoService implements IDaoService {
 	public int getTotalProductOfcart(int customerId) {
 		return dao.getTotalProductOfcart(customerId);
 	}
+	@Override
+	public boolean updateNameProduct(String productid, String newname) {
+		return dao.updateNameProduct(productid, newname);
+	}
+	@Override
+	public boolean updateContentsProduct(String productid, String newcontents) {
+		return dao.updateContentsProduct(productid, newcontents);
+	}
+	@Override
+	public boolean updatePriceProduct(String productid, Double newprice) {
+		return dao.updatePriceProduct(productid, newprice);
+	}
+	@Override
+	public boolean updateQuantityProduct(String productid, int newquantity) {
+		return dao.updateQuantityProduct(productid, newquantity);
+	}
 }

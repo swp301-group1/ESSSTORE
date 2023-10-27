@@ -30,7 +30,7 @@ function updateShipElement() {
     }
 
     if (atLeastOneChecked) {
-        shipElement.textContent = '15000.00';
+        shipElement.textContent = '10.00';
     } else {
         shipElement.textContent = '0.00';
     }

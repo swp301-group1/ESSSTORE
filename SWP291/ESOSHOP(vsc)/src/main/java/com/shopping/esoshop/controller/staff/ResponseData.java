@@ -193,7 +193,7 @@ public class ResponseData {
         return ResponseEntity.ok().body(newProducts);
     }
 
-    @GetMapping("/staff/deletecolor{image}")
+    @GetMapping("/staff/product/color/delete/{image}")
     public ResponseEntity<String> deleteColor(
             @PathVariable("image") String img) {
         String url = System.getProperty("user.dir");
@@ -215,4 +215,33 @@ public class ResponseData {
         return ResponseEntity.ok().body(daoService.posttPoneOrder(orderid));
     }
     
+    @PostMapping("/staff/product/update/name")
+    public ResponseEntity<Boolean>updateNameProduct(
+        @RequestParam("productid")String productid,
+        @RequestParam("newname")String newname) {
+        return ResponseEntity.ok().body(daoService.updateNameProduct(productid, newname));
+    }
+    @PostMapping("/staff/product/update/content")
+    public ResponseEntity<Boolean>updateContentsProduct(
+        @RequestParam("productid")String productid,
+        @RequestParam("newcontent")String newcontent) {
+        return ResponseEntity.ok().body(daoService.updateContentsProduct(productid, newcontent));
+    }
+    @PostMapping("/staff/product/update/price")
+    public ResponseEntity<Boolean>updatePriceProduct(
+        @RequestParam("productid")String productid,
+        @RequestParam("newprice")String newprice) {
+            try {
+                return ResponseEntity.ok().body(daoService.updatePriceProduct(productid, Double.parseDouble(newprice)));
+            } catch (Exception e) {
+                return ResponseEntity.ok().body(false);
+            }
+       
+    }
+    @PostMapping("/staff/product/update/quantity")
+    public ResponseEntity<Boolean>updateQuantityProduct(
+        @RequestParam("productid")String productid,
+        @RequestParam("newquantity")Integer newquantity) {
+        return ResponseEntity.ok().body(daoService.updateQuantityProduct(productid, newquantity));
+    }
 }

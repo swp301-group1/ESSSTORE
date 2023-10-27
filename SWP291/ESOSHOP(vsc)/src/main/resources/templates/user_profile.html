@@ -93,7 +93,10 @@
     </nav>
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f4fce3a4fc3f82d78d35413c14975b76a5586ad2
     <div class="container-fluid  " style="margin-top: 70px; margin-bottom: 100px;">
 
 
@@ -108,10 +111,15 @@
                                 <img
                                     src="img/user.png"
                                     alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+<<<<<<< HEAD
                                 <h5 class="my-3">John Smith</h5>
                                 <p class="text-muted mb-1">Member</p>
 
 
+=======
+                                <h5 class="my-3" id="fullname1">John Smith</h5>
+                                <p class="text-muted mb-1">Member</p>
+>>>>>>> f4fce3a4fc3f82d78d35413c14975b76a5586ad2
                             </div>
                         </div>
 
@@ -124,7 +132,7 @@
                                         <p class="mb-0">Full Name</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <input type="text" id="input-name" class="text-muted mb-0 input-field" value="Johnatan Smith"/>
+                                        <input type="text" id="fullname2" class="text-muted mb-0 input-field" value="Johnatan Smith"/>
                                     </div>
                                 </div>
                                 <hr>
@@ -133,7 +141,7 @@
                                         <p class="mb-0">Email</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <input id="input-email" class="text-muted mb-0 input-field" value="abc@gmail.com"/>
+                                        <input id="email" class="text-muted mb-0 input-field" value="abc@gmail.com"/>
                                     </div>
                                 </div>
                                 <hr>
@@ -142,7 +150,7 @@
                                         <p class="mb-0">Phone</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <input id="input-phone" class="text-muted mb-0 input-field" value="(097) 234-5678"/>
+                                        <input id="phone" class="text-muted mb-0 input-field" value="(097) 234-5678"/>
                                     </div>
                                 </div>
                                
@@ -152,7 +160,7 @@
                                         <p class="mb-0">Address</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <input id="input-address" class="text-muted mb-0 input-field" value="Bay Area, San Francisco, CA"/>
+                                        <input id="address" class="text-muted mb-0 input-field" value="Bay Area, San Francisco, CA"/>
                                     </div>
                                 </div>
                                 
@@ -166,18 +174,13 @@
                                         <button type="button" class="btn btn-danger ">Order history</button>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </form>
-
     </div>
-
-
    	<!-- Footer -->
 	<footer class="bg-dark" id="tempaltemo_footer">
         <div class="container">
@@ -200,37 +203,36 @@
                         </li>
                     </ul>
                 </div>
-
                 <div class="col-md-4 pt-5">
                     <h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
                     <ul class="list-unstyled text-light footer-link-list">
                         <li><a class="text-decoration-none" href="#">Home</a></li>
                         <li><a class="text-decoration-none" href="#">About Us</a></li>
                         <li><a class="text-decoration-none" href="#">Shop Locations</a></li>
-                       
+                    
                     </ul>
                 </div>
-
             </div>
-
         </div>
-
-       
-
     </footer>
-	<!-- Footer -->
+    <script>
 
-
-
-
-   
+        getuserprofile();
+    function getuserprofile(){
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/customer/infor",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data) {
+                $("#fullname1").text(data.name);
+                $("#fullname2").val(data.name);
+                $("#email").val(data.email);
+                $("#phone").val(data.phone);
+                $("#address").val(data.address);
+            },
+        });
+    }
+    </script>
 </body>
-
-
-
-
-
-
-
-
 </html>

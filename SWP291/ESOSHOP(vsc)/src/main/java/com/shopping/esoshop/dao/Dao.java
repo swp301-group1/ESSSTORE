@@ -106,4 +106,10 @@ public interface Dao {
 
 	public boolean posttPoneOrder(String orderId);
 	public int getTotalProductOfcart(int customerId);
+
+	public boolean updateNameProduct(String productid,String newname);
+	public boolean updateContentsProduct(String productid,String newcontents);
+	public boolean updatePriceProduct(String productid,Double newprice);
+	public boolean updateQuantityProduct(String productid,int newquantity);
+	
 }

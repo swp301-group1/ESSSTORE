@@ -100,33 +100,28 @@ https://templatemo.com/tm-559-zay-shop
 			aria-label="Toggle navigation">
 			<i class="fas fa-bars"></i>
 		</button>
-
-		<!-- Collapsible wrapper -->
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<!-- Left links -->
-
-			<!-- Left links -->
-
 			<form class="d-flex align-items-center w-100 form-search mr-2">
 				<div class="input-group">
 
-					<input type="search" class="form-control" placeholder="Search" aria-label="Search" />
+					<input type="text" class="form-control" oninput=" searchByName(this.value)" placeholder="Search"
+						aria-label="Search" />
 				</div>
-				<a href="#!" class="text-white"><i class="fas fa-search ps-3"></i></a>
+				<button type="button" id="btdsearch" class="text-white"><i class="fas fa-search ps-3"></i></button>
 			</form>
-
 			<ul class="navbar-nav ms-3">
 				<li class="nav-item mr-3"
 					style="width: 45px; height: 45px; display: flex; justify-content: center; align-items: center;">
-					<a class="nav-link" th:href="@{/cart}"><i class="fa-solid fa-cart-shopping fa-lg" style="float: right;"></i></a>
+					<a class="nav-link" th:href="@{/cart}"><i class="fa-solid fa-cart-shopping fa-lg"
+							style="float: right;"></i></a>
+					<span id="totalcart" style="padding:0; margin:0;" class="badge">0</span>
 				</li>
-
 				<li class="nav-item" style="position: relative; width: 145px; height: 45px;">
 					<a class="nav-link" href="#!"><i class="fa-regular fa-user fa-lg"></i></a>
 					<div class="nav-dropdown flex-column">
 						<a th:href="@{/login}">Login</a>
 						<a th:href="@{/logout}">Logout</a>
-						<a href="#">User Profile</a>
+						<a href="@{/user_profile}">User Profile</a>
 						<a th:href="@{/order_history}">Order History</a>
 					</div>
 				</li>

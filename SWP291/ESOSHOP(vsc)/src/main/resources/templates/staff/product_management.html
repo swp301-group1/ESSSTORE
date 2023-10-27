@@ -23,6 +23,7 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" />
     <link rel="stylesheet" th:href="@{/css/fontawesome.min.css}" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <style>
         .image-container {
@@ -38,34 +39,6 @@
             width: 100%;
             /* Đặt chiều rộng của ảnh là 100% để nó phù hợp với khung hình */
             height: auto;
-        }
-
-        td img {
-            transition: transform 0.4s;
-            border-radius: 50%;
-        }
-
-        td img:hover {
-            -ms-transform: scale(1.5);
-            /* IE 9 */
-            -webkit-transform: scale(1.5);
-            /* Safari 3-8 */
-            transform: scale(5);
-            border-radius: 0%;
-        }
-
-        th img {
-            transition: transform 0.2s;
-            border-radius: 50%;
-        }
-
-        th img:hover {
-            -ms-transform: scale(1.5);
-            /* IE 9 */
-            -webkit-transform: scale(1.5);
-            /* Safari 3-8 */
-            transform: scale(5);
-            border-radius: 0%;
         }
     </style>
 </head>
@@ -179,8 +152,8 @@
                                 <th scope="col">image</th>
                                 <th scope="col">Id</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Category</th>
                                 <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
                                 <th scope="col" id="totalproduct"></th>
                             </tr>
                         </thead>
@@ -206,63 +179,67 @@
                     <section style="background-color: #eee" class="content">
                         <div class="container py-5">
                             <div class="row justify-content-center">
-                                <div class="col-8">
+                                <div class="col-10">
                                     <h2>Update product</h2>
-                                    <form id="productForm">
                                         <!-- 2 column grid layout with text inputs for the first and last names -->
                                         <div class="row mb-3">
-                                            <div class="form-outline">
+                                            <div class="col-10">
                                                 <input class="form-control" type="text" id="updateidproduct"
                                                     name="productid" placeholder="Product id*" />
+                                                    
                                             </div>
                                         </div>
+                                        
                                         <div class="row mb-3">
-                                            <div class="form-outline">
+                                            <div class="col-10">
                                                 <input class="form-control" type="text" id="updateProductName"
                                                     name="productName" placeholder="Product Name*" required />
                                             </div>
+                                            <div class="col-2">
+                                                <button type="button" id="btnupdatenameproduct" class="btn btn-default"><i class="material-icons">&#xe923;</i></button>
+                                            </div>
                                         </div>
                                         <div class="row mb-3">
-                                            <div class="col-6">
-                                                <div class="form-floating">
+                                            <div class="col-10">
                                                     <textarea id="updateContent" name="productDescription" rows="4"
-                                                        cols="50" placeholder="Contents*" style=" outline: none;  border: 1px solid white;
-                                border-radius: 5px;
-                              " required></textarea>
-                                                </div>
+                                                        cols="50" placeholder="Contents*" style=" outline: none;  border: 1px solid white; border-radius: 5px;" required></textarea>
+                                            </div>
+                                            <div class="col-2">
+                                                <button type="button" id="btnupdatecontentproduct" class="btn btn-default"><i class="material-icons">&#xe923;</i></button>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="form-outline mb-4">
-                                                    <select class="form-select" id="updateCategory" name="category"
-                                                        aria-label="Default select example" required></select>
+                                                    <input type="text" id="updateCategory" class="form-control"
+                                                    name="category" required placeholder="category*" />
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-outline mb-4">
-                                                    <select class="form-select" id="updateBrand" name="brand"
-                                                        aria-label="Default select example" required>
-                                                        <option selected>Brand*</option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
-                                                    </select>
+                                                    <input type="text" id="updateBrand" class="form-control"
+                                                    name="brand" required placeholder="brand*" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-5">
                                                 <div class="form-outline mb-4">
                                                     <input type="text" id="updatePrice" class="form-control"
                                                         name="price" required placeholder="Price*" />
                                                 </div>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-1">
+                                                <button type="button" id="btnupdatepriceproduct" class="btn btn-default"><i class="material-icons">&#xe923;</i></button>
+                                            </div>
+                                            <div class="col-5">
                                                 <div class="form-outline mb-4">
                                                     <input type="text" id="updateUnit" class="form-control" name="unit"
                                                         required placeholder="Unit*" />
                                                 </div>
+                                            </div>
+                                            <div class="col-1">
+                                                <button type="button" class="btn btn-default"><i class="material-icons">&#xe923;</i></button>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -272,11 +249,14 @@
                                                         placeholder="Size" name="size" />
                                                 </div>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-5">
                                                 <div class="form-outline mb-4">
                                                     <input type="number" id="updateQuantity" class="form-control"
                                                         name="quantity" placeholder="Quantity" min="1" />
                                                 </div>
+                                            </div>
+                                            <div class="col-1">
+                                                <button type="button" id="btnupdatequantityproduct" class="btn btn-default"><i class="material-icons">&#xe923;</i></button>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -301,10 +281,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-primary mb-4 mt-3" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal" id="addButton">
-                                            Update
-                                        </button>
                                         <div style="float: right" class="col-8">
                                             <table class="table mt-5">
                                                 <thead>
@@ -312,7 +288,6 @@
                                                 </thead>
                                             </table>
                                         </div>
-                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -487,31 +462,16 @@
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {
-                    var id = document.getElementById("updateidproduct");
-                    var name = document.getElementById("updateProductName");
-                    var content = document.getElementById("updateContent");
-                    var price = document.getElementById("updatePrice");
-                    var quantity = document.getElementById("updateQuantity");
-                    var listcolorupdate = document.getElementById("listcolorupdate");
-                    console.log(data);
-                    name.value = data.name;
-                    content.value = data.contents;
-                    price.value = data.price;
-                    quantity.value = data.quantity;
-                    id.value = data.id;
+                    $("#updateidproduct").val(data.id);
+                    $("#updateProductName").val(data.name);
+                    $("#updateContent").val(data.contents);
+                    $("#updatePrice").val(data.price);
+                    $("#updateQuantity").val(data.quantity);
+                    $("#updateCategory").val(data.category.name);
+                    $("#updateBrand").val(data.brand.brandName);
+                    $("#updateSize").val(data.updateSize);
                     var html = "";
                     data.color.forEach(function(co) {
-                        if(data.color.indexOf(co)==0){
-                            html = html +
-                            '<th scope="col"><button type="button" class="btn-close" value="' +
-                            co.image +
-                            '"></button><img width="60px"\n' +
-                            '         src="/img/' +
-                            co.image +
-                            '">\n' +
-                            "         <th>";
-                        }
-                       else{
                         html = html +
                             '<th scope="col"><button type="button" class="btn-close" value="' +
                             co.image +
@@ -520,9 +480,8 @@
                             co.image +
                             '">\n' +
                             "         <th>";
-                       }
                     });
-                    listcolorupdate.innerHTML = html;
+                    $("#listcolorupdate").html(html);
                 },
             });
         }
@@ -532,7 +491,6 @@
         getCategories();
         getBrands();
         getSupplier();
-
         function getProducts() {
             $.ajax({
                 type: "GET",
@@ -548,40 +506,25 @@
             });
         }
         function getListProduct(listproduct) {
-            var html = "";
+            var html = '';
             listproduct.forEach(function(p) {
-                html =
-                    html +
-                    "<tr>\n" +
-                    "    <td>" +
-                    (listproduct.indexOf(p) + 1) +
-                    "</td>\n" +
-                    '    <td><img width="50px" src="/img/' +
-                    p.color[0].image +
-                    '" ></td>\n' +
-                    "    <td>" +
-                    p.id +
-                    "</td>\n" +
-                    "    <td>" +
-                    p.name +
-                    "</td>\n" +
-                    "    <td>" +
-                    p.category.name +
-                    "</td>\n" +
-                    "    <td>" +
-                    p.price +
-                    "</td>\n" +
-                    "    <td>\n" +
+                 html +=
+                    '<tr>\n' +
+                    '    <td>'+(listproduct.indexOf(p) + 1) +'</td>\n' +
+                    '    <td><img width="50px" src="/img/' +p.color[0].image +'" ></td>\n' +
+                    '    <td style="width:300px">' + p.id +'</td>\n' +
+                    '    <td style="width:300px">' + p.name + '</td>\n' +
+                    '    <td>' + p.price + '</td>\n' +
+                    '    <td>' + p.quantity + '</td>\n' +
+                    '    <td>\n' +
                     '        <ul style="list-style: none; display:flex ;">\n' +
                     '            <li style="margin-right: 10px;">\n' +
-                    '                <button type="button" value="' +
-                    p.id +
-                    '" onclick="getInforProduct(this)" class="btn btn-primary" data-bs-toggle="modal"\n' +
-                    '                    data-bs-target="#exampleModal" data-product-id="1">Edit/View</button>\n' +
-                    "            </li>\n" +
-                    "        </ul>\n" +
-                    "    </td>\n" +
-                    "</tr>";
+                    '                <button type="button" value="'+ p.id +'" onclick="getInforProduct(this)" class="btn btn-primary" data-bs-toggle="modal"\n' +
+                    '                    data-bs-target="#exampleModal" data-product-id="1">Edit</button>\n' +
+                    '            </li>\n' +
+                    '        </ul>\n' +
+                    '    </td>\n' +
+                    '</tr>';
             });
             return html;
         }
@@ -887,7 +830,7 @@
             var img = data.value;
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/staff/deletecolor" + img,
+                url: "http://localhost:8080/staff/product/color/delete/" + img,
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {
@@ -897,8 +840,6 @@
             getProducts();
         }
     </script>
-
-
     <script>
     $(document).ready(function(){
         $("#logout").click('click',function(){
@@ -913,6 +854,79 @@
                 },
             });
         })
+    })
+    $("#btnupdatenameproduct").click('click',function(){
+        var cf = confirm("Dou you want update name ");
+        if(cf){
+            var formData = new FormData();
+            formData.append("productid", $("#updateidproduct").val());
+            formData.append("newname", $("#updateProductName").val());
+            $.ajax({
+                url: "http://localhost:8080/staff/product/update/name",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    alert("Update success!");
+                    getProducts();
+                },
+            });
+        }
+    })
+    $("#btnupdatecontentproduct").click('click',function(){
+        var cf = confirm("Dou you want update content ");
+        if(cf){
+            var formData = new FormData();
+            formData.append("productid", $("#updateidproduct").val());
+            formData.append("newcontent", $("#updateContent").val());
+            $.ajax({
+                url: "http://localhost:8080/staff/product/update/content",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    getProducts();
+                },
+            });
+        }
+    })
+    $("#btnupdatepriceproduct").click('click',function(){
+        var cf = confirm("Dou you want update price");
+        if(cf){
+            var formData = new FormData();
+            formData.append("productid", $("#updateidproduct").val());
+            formData.append("newprice", $("#updatePrice").val());
+            $.ajax({
+                url: "http://localhost:8080/staff/product/update/price",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    getProducts();
+                },
+            });
+        }
+    })
+    $("#btnupdatequantityproduct").click('click',function(){
+        var cf = confirm("Dou you want update quantity ");
+        if(cf){
+            var formData = new FormData();
+            formData.append("productid", $("#updateidproduct").val());
+            formData.append("newquantity", $("#updateQuantity").val());
+            $.ajax({
+                url: "http://localhost:8080/staff/product/update/quantity",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    getProducts();
+                },
+            });
+        }
     })
     </script>
 </body>

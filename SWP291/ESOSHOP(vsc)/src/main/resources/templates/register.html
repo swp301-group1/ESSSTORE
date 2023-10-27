@@ -131,7 +131,7 @@
       </div>
     </div>
   </div>
-
+</section>
   <script>
     var otp;
     var emailcheck=false;
@@ -163,6 +163,7 @@
       });
     });
     
+    
     $("#btnRegister").on('click', function() { // Changed 'click' to 'on' for click event
     var formData = new FormData();
     formData.append("email", $("#email").val());
@@ -174,9 +175,14 @@
         contentType: false,
         success: function (data) {
             otp = data;
-            $("#verifyotp").css("display","block");
-            showMess("OTP send in "+$("#email").val(), 10000, "");
-            $("#otpsendin").text("OTP Verify send in "+$("#email").val());
+            if(otp==="null"){
+              showMess("Email not Corrected", 10000, "red");
+            }
+            else{
+              $("#verifyotp").css("display","block");
+              showMess("OTP send in "+$("#email").val(), 10000, "");
+              $("#otpsendin").text("OTP Verify send in "+$("#email").val());
+            }
         },
     });
 });
