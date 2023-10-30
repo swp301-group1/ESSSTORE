@@ -25,7 +25,7 @@ public class ProductController {
         model.addAttribute("colors", daoService.getColors(productId));
         return "/staff/addproductdetail";
     }
-    // ABC
+    
     // private void upload(MultipartFile img,String filename){
     //     String url = System.getProperty("user.dir");
     //     url+="/src/main/resources/static/img/";
