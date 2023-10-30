@@ -3,7 +3,7 @@
 
 <head>
 
-	<title>MDB Shop - Product Detail Page</title>
+	<title>MDB Shop</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -45,51 +45,9 @@ TemplateMo 559 Zay Shop
 https://templatemo.com/tm-559-zay-shop
 -->
 </head>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
-	<!-- Container wrapper -->
-	<div class="container">
-		<!-- Navbar brand -->
-		<a class="navbar-brand" th:href="@{/home}"><img id="MDB-logo"
-				src="https://mdbcdn.b-cdn.net/wp-content/uploads/2018/06/logo-mdb-jquery-small.png" alt="MDB Logo"
-				draggable="false" height="30" /></a>
+<html xmlns:th="http://www.thymeleaf.org" th:include="nav.html">
 
-		<!-- Toggle button -->
-		<button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
-			data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<i class="fas fa-bars"></i>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<form class="d-flex align-items-center w-100 form-search mr-2">
-				<div class="input-group">
-
-					<input type="text" class="form-control" oninput=" searchByName(this.value)" placeholder="Search"
-						aria-label="Search" />
-				</div>
-				<a href="#!" class="text-white"><i class="fas fa-search ps-3"></i></a>
-			</form>
-			<ul class="navbar-nav ms-3">
-				<li class="nav-item mr-3"
-					style="width: 45px; height: 45px; display: flex; justify-content: center; align-items: center;">
-					<a class="nav-link" th:href="@{/cart}"><i class="fa-solid fa-cart-shopping fa-lg"
-							style="float: right;"></i></a>
-							<span id="totalcart" style="padding:0; margin:0;" class="badge">0</span>
-				</li>
-				<li class="nav-item" style="position: relative; width: 145px; height: 45px;">
-					<a class="nav-link" href="#!"><i class="fa-regular fa-user fa-lg"></i></a>
-					<div class="nav-dropdown flex-column">
-						<a th:href="@{/login}">Login</a>
-						<a th:href="@{/logout}">Logout</a>
-						<a href="#">User Profile</a>
-						<a th:href="@{/order_history}">Order History</a>
-					</div>
-				</li>
-			</ul>
-		</div>
-		<!-- Collapsible wrapper -->
-	</div>
-	<!-- Container wrapper -->
-</nav>
+</html>
 <!-- Navbar -->
 
 <body style="overflow-x:hidden">
@@ -635,18 +593,6 @@ https://templatemo.com/tm-559-zay-shop
                 },
             });
         });
-		getTotalCart();
-		function getTotalCart() {
-			$.ajax({
-				type: 'GET',
-				url: 'http://localhost:8080/customer/totalofcart',
-				dataType: 'json',
-				contentType: 'application/json',
-				success: function (data) {
-					$("#totalcart").text(data);
-				}
-			});
-		}
 
 		$("#btnAddtocart").click(function() {
 			// Lấy ảnh sản phẩm gốc
@@ -654,8 +600,7 @@ https://templatemo.com/tm-559-zay-shop
 		    var d= $("#btnAddtocart");
 			// Tạo một bản sao của ảnh tạm thời
 			var tempImage = $("#temp-image").clone();
-			tempImage.attr("src", productDetail.attr("src")); // Đặt src của ảnh tạm thời bằng src của ảnh gốc
-		  
+			tempImage.attr("src", productDetail.attr("src")); 
 			tempImage.css({
 			  display: "block",
 			  top: d.offset().top,
@@ -681,6 +626,18 @@ https://templatemo.com/tm-559-zay-shop
 			  tempImage.hide();
 			  
 			});
+			setTimeout(function(){
+				$.ajax({
+					type: 'GET',
+					url: 'http://localhost:8080/customer/totalofcart',
+					dataType: 'json',
+					contentType: 'application/json',
+					success: function (data) {
+						$("#totalcart").text(data);
+					}
+				});
+			},5000);
+
 		  });
 		  
 	</script>

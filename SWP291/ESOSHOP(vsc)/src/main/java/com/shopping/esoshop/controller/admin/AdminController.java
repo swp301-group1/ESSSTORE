@@ -55,21 +55,24 @@ public class AdminController {
         return ResponseEntity.ok().body(daoServicel.getAllAccount(role));
     }
 
-    @GetMapping("admin/user/ban/{email}/{status}")
+    @PostMapping("admin/user/ban")
     public ResponseEntity<Boolean> setStatusAccount(HttpSession session,
-        @PathVariable("email") String email,
-        @PathVariable("status")Integer status){
+        @RequestParam("email") String email,
+        @RequestParam("status")Integer status){
             try {
                 if(status==1 || status==0){
                     boolean resutl = daoServicel.setStatusAccount(email, status);
                     if(resutl){
-                    session.setAttribute("customer", null);
+                       session.setAttribute("customer", null);
                     }
+                    System.out.println("update success");
                    return ResponseEntity.ok().body(resutl);
                 }else{
+                     System.out.println("input status must 0||1");
                     return ResponseEntity.ok().body(false);
                 }
             } catch (Exception e) {
+                 System.out.println("update false");
                  return ResponseEntity.ok().body(false);
             }
     }

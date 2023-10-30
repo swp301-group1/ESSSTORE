@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,101 +16,140 @@ import jakarta.servlet.http.HttpSession;
 
 @RestController
 public class Responsedata {
-     @Autowired 
-    private IDaoService daoService;
+	@Autowired
+	private IDaoService daoService;
+
 	@GetMapping("/listcart")
 	public ResponseEntity<List<Cart>> getCart(HttpSession session) {
-		Customer customer  = (Customer)session.getAttribute("customer");
-		if(customer!=null){
+		Customer customer = (Customer) session.getAttribute("customer");
+		if (customer != null) {
 			return ResponseEntity.ok().body(daoService.getCartOfCustomer(customer.getId()));
 		}
 		return ResponseEntity.ok().body(daoService.getCartOfCustomer(0));
 	}
 
-    @GetMapping("/listproducts")
+	@GetMapping("/listproducts")
 	public ResponseEntity<List<Product>> getListProducts() {
 		return ResponseEntity.ok().body(daoService.getAllProduct());
 	}
 
-    @GetMapping("/categories")
-    public ResponseEntity<List<Category>> getListCategory(){
-        return ResponseEntity.ok().body(daoService.getAllCategory());
-    }
+	@GetMapping("/categories")
+	public ResponseEntity<List<Category>> getListCategory() {
+		return ResponseEntity.ok().body(daoService.getAllCategory());
+	}
 
 	@PostMapping("/addtocart")
-	public ResponseEntity<String> addTocart(Model model,HttpSession session,
+	public ResponseEntity<String> addTocart(Model model, HttpSession session,
 			@RequestParam(name = "product_id") String id,
-			@RequestParam(name = "product_quanity",defaultValue = "1")Integer quantity,
-			@RequestParam(name = "product_color") Integer color){
-		Customer customer = (Customer)session.getAttribute("customer");
-		if(customer!=null) {
+			@RequestParam(name = "product_quanity", defaultValue = "1") Integer quantity,
+			@RequestParam(name = "product_color") Integer color) {
+		Customer customer = (Customer) session.getAttribute("customer");
+		if (customer != null) {
 			Cart c = new Cart();
 			c.setCustomerId(customer.getId());
 			c.setProduct(daoService.getProductbyId(id));
 			c.setQuantity(quantity);
 			c.setColorId(color);
-		    int n =daoService.addToCart(c);
-		    session.setAttribute("added",c.getCustomerId()+"-"+c.getProduct().getId()+"-"+c.getColorId());
-			if(n>0){
+			int n = daoService.addToCart(c);
+			session.setAttribute("added", c.getCustomerId() + "-" + c.getProduct().getId() + "-" + c.getColorId());
+			if (n > 0) {
 				return ResponseEntity.ok().body("Add succes");
 			}
 			return ResponseEntity.ok().body("You added to cart");
 		}
 		return ResponseEntity.ok().body("Please login!");
 	}
+
 	@GetMapping("/getlistorderdetails{orderId}")
 	public ResponseEntity<List<OrderDelail>> getlistorderdetail(
-		@PathVariable("orderId")String orderId){
+			@PathVariable("orderId") String orderId) {
 		return ResponseEntity.ok().body(daoService.getListOrderdetail(orderId));
 	}
 
 	@GetMapping("/getbill{orderId}")
 	public ResponseEntity<Bill> getBills(HttpSession session,
-	@PathVariable("orderId")String orderID) {
-		Customer customer= (Customer)session.getAttribute("customer");
+			@PathVariable("orderId") String orderID) {
+		Customer customer = (Customer) session.getAttribute("customer");
 		return ResponseEntity.ok().body(daoService.getBillOfCustomer(customer, orderID));
 	}
+
 	@GetMapping("/cancelorder{orderId}")
 	public ResponseEntity<String> cancelOrder(
-		@PathVariable("orderId")String orderId){
-			return ResponseEntity.ok().body(daoService.deleteOrder(orderId));
+			@PathVariable("orderId") String orderId) {
+		return ResponseEntity.ok().body(daoService.deleteOrder(orderId));
 	}
+
 	@GetMapping("/getbills")
 	public ResponseEntity<List<Bill>> getAllBills(HttpSession session) {
-		Customer customer= (Customer)session.getAttribute("customer");
+		Customer customer = (Customer) session.getAttribute("customer");
 		return ResponseEntity.ok().body(daoService.getAllBillsOfCustomer(customer));
 	}
+
 	@GetMapping("/getproductbycategoty/{category}")
 	public ResponseEntity<List<Product>> getProductsByCategory(
-		@PathVariable("category")Integer category){
-			return ResponseEntity.ok().body(daoService.getAllProductByCategory(category));
+			@PathVariable("category") Integer category) {
+		return ResponseEntity.ok().body(daoService.getAllProductByCategory(category));
 	}
+
 	@GetMapping("product/feedback/{productId}")
 	public ResponseEntity<List<Feedback>> getFeedbackOfProduct(
-		@PathVariable("productId")String productId){
+			@PathVariable("productId") String productId) {
 		return ResponseEntity.ok().body(daoService.getFeedBack(productId));
 	}
+
 	@GetMapping("product/reportrating/{productId}")
 	public ResponseEntity<ReportRating> getReportRateting(
-		@PathVariable("productId")String productId){
+			@PathVariable("productId") String productId) {
 		return ResponseEntity.ok().body(daoService.getReportRating(productId));
 	}
 
 	@GetMapping("/customer/cart")
-	public ResponseEntity<List<Cart>> getCart(Model model,HttpSession session) {
-		Customer customer  = (Customer)session.getAttribute("customer");
+	public ResponseEntity<List<Cart>> getCart(Model model, HttpSession session) {
+		Customer customer = (Customer) session.getAttribute("customer");
 		return ResponseEntity.ok().body(daoService.getCartOfCustomer(customer.getId()));
 	}
 
 	@GetMapping("/customer/totalofcart")
 	public ResponseEntity<Integer> getTotalOfCart(HttpSession session) {
-		Customer customer  = (Customer)session.getAttribute("customer");
-		return ResponseEntity.ok().body(daoService.getTotalProductOfcart(customer.getId()));
+		Customer customer = (Customer) session.getAttribute("customer");
+		if(customer!=null)return ResponseEntity.ok().body(daoService.getTotalProductOfcart(customer.getId()));
+		return ResponseEntity.ok().body(0);
 	}
 
-	@GetMapping("/customer/infor")
-    public ResponseEntity<Customer> getInforCustomer( HttpSession session) {
-				Customer customer  = (Customer)session.getAttribute("customer");
-        return ResponseEntity.ok().body((Customer) daoService.getCustomerById(customer.getId()));
-    }
+	@GetMapping("/customer/infor/{from}")
+	public ResponseEntity<Customer> getInforCustomer(HttpSession session, @PathVariable("from") String from) {
+		DefaultOidcUser user = (DefaultOidcUser) SecurityContextHolder.getContext().getAuthentication()
+		.getPrincipal();
+		Customer customer = new Customer();
+		switch (from) {
+			case "database":
+			    customer = (Customer) session.getAttribute("customer");
+				if(user!=null)customer.setPicture(user.getPicture());
+				break;
+			case "google":
+				if (user != null) {
+					customer.setEmail(user.getEmail());
+					customer.setName(user.getFullName());
+					customer.setAddress("");
+					customer.setPhone(user.getPhoneNumber());
+					customer.setPicture(user.getPicture());
+					return ResponseEntity.ok().body(customer);
+				}
+				break;
+			default:
+				break;
+		}
+		return ResponseEntity.ok().body(customer);
+	}
+
+	@GetMapping(value = "/pay/{orderId}")
+	public ResponseEntity<String> pay(Model model, HttpSession session,
+			@PathVariable("orderId") String orderId) {
+		Customer customer = (Customer) session.getAttribute("customer");
+		if (customer != null) {
+			daoService.payBill(daoService.getBillOfCustomer(customer, orderId));
+			return ResponseEntity.ok().body(orderId);
+		}
+		return ResponseEntity.ok().body(orderId);
+	}
 }

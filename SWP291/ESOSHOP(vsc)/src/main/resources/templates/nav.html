@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDB Shop</title>
+    
+    <style>
+        .navbar {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			z-index: 1000;
+		}
+		#btdsearch {
+			background-color: transparent;
+			border: none;
+		}
+        #imageuser{
+            width:50px ;
+            border-radius:50%
+        }
+        #continutegoogle{
+            position:absolute;
+            top:70px;
+            right:30px;
+            display:none;
+        }
+    
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+        <!-- Container wrapper -->
+        <div class="container">
+            <!-- Navbar brand -->
+            <a class="navbar-brand" th:href="@{/home}"><img id="MDB-logo"
+                    src="https://mdbcdn.b-cdn.net/wp-content/uploads/2018/06/logo-mdb-jquery-small.png" alt="MDB Logo"
+                    draggable="false" height="30" /></a>
+            <!-- Toggle button -->
+            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+                data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <form class="d-flex align-items-center w-100 form-search mr-2">
+                    <div class="input-group">
+    
+                        <input type="text" class="form-control" oninput=" searchByName(this.value)" placeholder="Search"
+                            aria-label="Search" />
+                    </div>
+                    <button type="button" id="btdsearch" class="text-white"><i class="fas fa-search ps-3"></i></button>
+                </form>
+                <ul class="navbar-nav ms-3">
+                    <li class="nav-item mr-3"
+                        style="width: 45px; height: 45px; display: flex; justify-content: center; align-items: center;">
+                        <a class="nav-link" href="/cart"><i class="fa-solid fa-cart-shopping fa-lg"
+                                style="float: right;"></i></a>
+                        <span id="totalcart" style="padding:0; margin:0;" class="badge">0</span>
+                    </li>
+                    <li class="nav-item" style="position: absolute;right:10px;width:150px;display:flex;justify-content: center;">
+                        <div ><img id="imageuser" src="img/user.png"></img></div>
+                        <div class="nav-dropdown flex-column">
+                            <a id="alogin" href="/loginpage">Login</a>
+                            <a id="alogout" href="/logout">Logout</a>
+                            <a href="/user_profile" id="userprofile">User Profile</a>
+                            <a  href="/order_history" id="orderhis">Order History</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <button type="button" id="continutegoogle" class="btn btn-danger"><i class="fa-brands fa-google"></i> Continute</button>
+    </nav>
+    <script th:inline="javascript">
+        var user = [[${session.customer}]];
+        $(document).ready(function(){
+            $.ajax({
+				type: 'GET',
+				url: 'http://localhost:8080/customer/totalofcart',
+				dataType: 'json',
+				contentType: 'application/json',
+				success: function (data) {
+					$("#totalcart").text(data);
+				}
+			});
+            if(user===null){
+               $("#continutegoogle").css('display','block');
+               $("#alogin").css('display','block');
+               $("#alogout").css('display','none');
+               $("#userprofile").css('display','none');
+               $("#orderhis").css('display','none');
+
+            }
+            else{
+                console.log(user);
+                $("#imageuser").attr('src',user.picture);
+                $("#userprofile").text(user.email);
+                $("#alogin").css('display','none');
+                $("#alogout").css('display','block');
+                $("#userprofile").css('display','block');
+                $("#orderhis").css('display','block');
+            }
+            $("#continutegoogle").click('click',function(){
+                window.location="/oauth2/authorization/google";
+            })
+            
+        })
+        function showMess(mess, time) {
+            $("#mess").text(mess);
+            document.getElementById('alert').style.display = "block";
+            setTimeout(function() {
+                document.getElementById("alert").style.display = "none";
+            }, time);
+        }
+    </script>
+</body>
+</html>
