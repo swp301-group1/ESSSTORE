@@ -273,6 +273,11 @@
 							</select>
 						</div>
 					</div>
+					<div class="col-md-6 pb-4">
+						<div class="d-flex">
+						     <span id="result"></span>
+						</div>
+					</div>
 				</div>
 				<div class="row" style="min-height: 600px;" id="list_product">
 
@@ -376,6 +381,13 @@
 				contentType: 'application/json',
 				success: function (data) {
 					$("#list_product").html(getlistProduct(data));
+					if(data.length===0){
+						$("#result").text("Can not found product "+name);
+						setTimeout(getProducts(npage),30000)
+					}
+					else{
+						$("#result").text("Found "+data.length+" "+name);
+					}
 				}
 			});
 		}
@@ -511,11 +523,16 @@
 
 		$(document).ready(function () {
 			// Prevent page scrolling on input focus
-			$("input").on('focus', function () {
+			$("input").on('click', function () {
 				const listProduct = document.getElementById('list_product');
 				if (listProduct) {
-					listProduct.scrollIntoView({ behavior: 'smooth' });
+					const topPos = listProduct.getBoundingClientRect().top + window.pageYOffset - 170;
+					window.scrollTo({
+						top: topPos,
+						behavior: 'smooth'
+					});
 				}
+				
 			});
 		});
 	</script>

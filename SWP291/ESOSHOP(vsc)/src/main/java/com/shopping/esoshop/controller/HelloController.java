@@ -11,6 +11,7 @@ public class HelloController {
     @GetMapping("/hello")
     public String hello() {
         DefaultOidcUser user = (DefaultOidcUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return "Hello " + user.getEmail() + "</br>" + user.getPicture() + "</br>" + user.getFullName()+"--"+user.getAddress().getCountry();
+        
+        return "Hello "+ user.getIdToken()+"----" + user.getEmail() + "</br>" + user.getPicture() + "</br>" + user.getFullName()+"--"+user.getPhoneNumber();
     }
 }

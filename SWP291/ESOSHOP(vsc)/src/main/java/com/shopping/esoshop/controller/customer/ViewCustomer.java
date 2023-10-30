@@ -2,7 +2,12 @@ package com.shopping.esoshop.controller.customer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
@@ -79,6 +84,13 @@ public class ViewCustomer {
 	    SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
         logoutHandler.setInvalidateHttpSession(true);
         logoutHandler.logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+		SecurityContextHolder.createEmptyContext();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		 if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
+            // Thực hiện đăng xuất bằng cách xóa thông tin đăng nhập
+			new SecurityContextLogoutHandler().logout(request, response, authentication);
+            SecurityContextHolder.clearContext();
+        }
 		return "redirect:/home";
 	}
 
@@ -101,23 +113,4 @@ public class ViewCustomer {
 		return "logingoogle";
 	}
 
-	@PostMapping("dologinpass")
-	public String loginByPassword(Model model, HttpSession session,
-			@RequestParam(name = "email", required = false, defaultValue = "") String email,
-			@RequestParam(name = "password", required = false, defaultValue = "") String password) {
-		Account account = daoService.getAccount(email);
-		Mess mess = new Mess();
-		mess.setEmail(email);
-		if (account != null && account.getStatus()==1) {
-			if (account.getPassword().equals(password)) {
-				session.setAttribute("account", account);
-				session.setAttribute("customer", daoService.getCustomerByEmail(account.getEmail()));
-				return "home";
-			} else {
-				return "redirect:/logingpage";
-			}
-		} else {
-			return "redirect:/logingpage";
-		}
-	}
 }
