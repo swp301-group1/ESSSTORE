@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,8 +34,17 @@ public class AdminController {
     @PostMapping("admin/dashboard/revenue")
     public ResponseEntity<List<Revenue>> getRevenue(
             @RequestParam("from") Date from,
-            @RequestParam("to") Date to) {
-        return ResponseEntity.ok().body(daoServicel.getRevenues(from, to));
+            @RequestParam("to") Date to ) {
+                try {
+                    if(from.before(to)){
+                       return ResponseEntity.ok().body(daoServicel.getRevenues(from, to));
+                    }
+                } catch (Exception e) {
+                  System.out.println("Date input false fomat");
+                  return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+                }
+        System.out.println("Date from must befor or equal date to");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 
     @GetMapping("admin/user/customer/{email}")

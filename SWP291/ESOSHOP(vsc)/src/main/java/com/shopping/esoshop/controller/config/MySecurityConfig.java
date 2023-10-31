@@ -1,4 +1,4 @@
-package com.shopping.esoshop.controller;
+package com.shopping.esoshop.controller.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 
 import com.shopping.esoshop.model.Account;
 import com.shopping.esoshop.model.Customer;
+import com.shopping.esoshop.model.User;
 import com.shopping.esoshop.service.IDaoService;
 
 import jakarta.servlet.ServletException;
@@ -34,7 +35,9 @@ public class MySecurityConfig  {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,HttpSession session) throws  Exception{
         http.authorizeRequests(
-                authorizeRequests -> authorizeRequests.requestMatchers("/google").authenticated()
+                authorizeRequests -> authorizeRequests
+                .requestMatchers("/google").authenticated()
+                .requestMatchers("/admin-login").authenticated()
         ).oauth2Login(oauth2Customize -> oauth2Customize
                         .loginProcessingUrl("/login")
                         .loginPage("/oauth2/authorization/google")
@@ -60,8 +63,7 @@ public class MySecurityConfig  {
                                 else response.sendRedirect("/home");
                             }
                         })
-        )
-                .logout(logout -> logout
+        ).logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessHandler(logoutSuccessHandler()))
                 .csrf(csrf -> csrf.disable());

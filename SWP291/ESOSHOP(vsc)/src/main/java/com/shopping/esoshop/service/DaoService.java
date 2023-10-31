@@ -263,4 +263,12 @@ public class DaoService implements IDaoService {
 	public boolean updateQuantityProduct(String productid, int newquantity) {
 		return dao.updateQuantityProduct(productid, newquantity);
 	}
+	@Override
+	public boolean updateStatusProduct(String product, int status) {
+	    return dao.updateStatusProduct(product, status);
+	}
+	@Override
+	public Account checkcheckRole(String email) {
+		return dao.checkcheckRole(email);
+	}
 }

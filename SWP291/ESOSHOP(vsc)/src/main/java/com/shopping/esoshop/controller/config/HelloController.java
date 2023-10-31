@@ -1,4 +1,4 @@
-package com.shopping.esoshop.controller;
+package com.shopping.esoshop.controller.config;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
@@ -11,7 +11,6 @@ public class HelloController {
     @GetMapping("/hello")
     public String hello() {
         DefaultOidcUser user = (DefaultOidcUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
         return "Hello "+ user.getIdToken()+"----" + user.getEmail() + "</br>" + user.getPicture() + "</br>" + user.getFullName()+"--"+user.getPhoneNumber();
     }
 }

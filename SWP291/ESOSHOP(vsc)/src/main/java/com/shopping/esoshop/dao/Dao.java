@@ -112,4 +112,7 @@ public interface Dao {
 	public boolean updatePriceProduct(String productid,Double newprice);
 	public boolean updateQuantityProduct(String productid,int newquantity);
 	
+	public boolean updateStatusProduct(String product,int status);
+
+	public Account checkcheckRole(String email);
 }

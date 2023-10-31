@@ -1,5 +1,6 @@
 package com.shopping.esoshop.dao;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shopping.esoshop.model.*;
 import com.shopping.esoshop.utils.DBHelper;
 @Repository
@@ -1541,4 +1543,38 @@ public class Dao_Imp implements Dao {
 			return false;
 		}
 	}
+
+	@Override
+	public boolean updateStatusProduct(String product, int status) {
+		String sql = "update products set Status = ? where ProductID = ?";
+		try {
+			Connection con = dbHelper.makeConnection();
+			PreparedStatement psm = con.prepareStatement(sql);
+			psm.setInt(1, status);
+			psm.setString(2, product);
+			int n= psm.executeUpdate();
+			return n>0;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	 @Override
+	 public Account checkcheckRole(String email) {
+		  String filePath =  System.getProperty("user.dir")+"\\admin.json";
+        ObjectMapper objectMapper = new ObjectMapper();
+        File jsonFile = new File(filePath);
+        try {
+        Account admin = objectMapper.readValue(jsonFile, Account.class);
+		if(admin.getRole()==2){
+			return admin;
+		}
+		else{
+			return getAccount(email);
+		}
+		}
+		catch(Exception e){
+
+		}
+		return null;
+	 }
 }

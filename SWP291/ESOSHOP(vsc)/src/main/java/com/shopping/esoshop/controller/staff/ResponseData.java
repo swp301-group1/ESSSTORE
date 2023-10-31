@@ -244,4 +244,11 @@ public class ResponseData {
         @RequestParam("newquantity")Integer newquantity) {
         return ResponseEntity.ok().body(daoService.updateQuantityProduct(productid, newquantity));
     }
+
+    @GetMapping("/staff/product/{productid}/{status}")
+    public ResponseEntity<Boolean> updateStatusProduct(
+        @PathVariable("productid") String pid,
+        @PathVariable("status")Integer status){
+        return ResponseEntity.ok().body(daoService.updateStatusProduct(pid,status));
+    }
 }

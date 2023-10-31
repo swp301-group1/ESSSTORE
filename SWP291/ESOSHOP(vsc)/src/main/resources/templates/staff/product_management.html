@@ -519,11 +519,13 @@
                     '    <td>\n' +
                     '        <ul style="list-style: none; display:flex ;">\n' +
                     '            <li style="margin-right: 10px;">\n' +
-                    '                <button type="button" value="'+ p.id +'" onclick="getInforProduct(this)" class="btn btn-primary" data-bs-toggle="modal"\n' +
-                    '                    data-bs-target="#exampleModal" data-product-id="1">Edit</button>\n' +
+                    '                <button type="button" value="'+ p.id +'" onclick="getInforProduct(this)" class="btn btn-default" data-bs-toggle="modal"\n' +
+                    '                    data-bs-target="#exampleModal" data-product-id="1"><i class="fas fa-pen" style="font-size:25px"></i></button>\n' +
+                    '                <button type="button" value="'+ p.id +'" onclick="deleteProduct(this)" class="btn btn-default"><i class="material-icons" style="font-size:25px;">delete</i></button>\n' +
+                    '                <button type="button" value="'+ p.id +'" onclick="updatestatus(this,'+p.status+')" class="btn btn-default"><i class="fa fa-stop-circle" style="font-size:25px;"></i></button>\n' +
                     '            </li>\n' +
                     '        </ul>\n' +
-                    '    </td>\n' +
+                    '    </td>\n' +                 
                     '</tr>';
             });
             return html;
@@ -599,6 +601,34 @@
                 },
             });
         }
+        function updatestatus(productid, status) {
+            var conf;
+            if (status === 1) {
+                conf = confirm("Do you want to hide?");
+                if (conf) {
+                    status = 0;
+                }
+            } else if (status === 0) {
+                conf = confirm("Do you want to unhide?");
+                if (conf) {
+                    status = 1;
+                }
+            }
+            if (conf) {
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:8080/staff/product/"+ productid.value + "/" + status,
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (data) {
+                    },
+                    error: function (error) {
+                    }
+                });
+                getProducts();
+            }
+        }
+        
     </script>
 
     <script>
