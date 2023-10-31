@@ -72,9 +72,6 @@ public class AdminController {
             try {
                 if(status==1 || status==0){
                     boolean resutl = daoServicel.setStatusAccount(email, status);
-                    if(resutl){
-                       session.setAttribute("customer", null);
-                    }
                     System.out.println("update success");
                    return ResponseEntity.ok().body(resutl);
                 }else{
@@ -85,6 +82,10 @@ public class AdminController {
                  System.out.println("update false");
                  return ResponseEntity.ok().body(false);
             }
+    }
+    @GetMapping("/checkrole/{email}")
+    public  ResponseEntity<Account> cejckRole(@PathVariable("email")String email){
+        return ResponseEntity.ok().body(daoServicel.checkcheckRole(email));
     }
 
 }

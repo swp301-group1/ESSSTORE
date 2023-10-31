@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,8 +25,8 @@ public class ViewCustomer {
 	@Autowired
 	private IDaoService daoService;
 	
-	@GetMapping(value = {"home"})
-	public String getHome(HttpSession session) {
+	@GetMapping(value = {"/home"})
+	public String getHome(Model model, HttpSession session) {
 		return "index";
 	}
 

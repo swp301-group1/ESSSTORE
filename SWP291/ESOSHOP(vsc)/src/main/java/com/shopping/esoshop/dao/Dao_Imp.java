@@ -200,7 +200,9 @@ public class Dao_Imp implements Dao {
 				p.setCategory(getCategorybyId(rs.getInt("CategoryID")));
 				p.setSupplier(getSupplierbyId(rs.getInt("SupplierID")));
 				p.setStatus(rs.getInt("Status"));
-				list.add(p);
+				if(p.getStatus()==1){
+					list.add(p);
+				}
 			}
 			conn.close();
 			psm.close();
@@ -1560,18 +1562,24 @@ public class Dao_Imp implements Dao {
 	}
 	 @Override
 	 public Account checkcheckRole(String email) {
-		  String filePath =  System.getProperty("user.dir")+"\\admin.json";
+		String filePath =  System.getProperty("user.dir")+"\\admin.json";
         ObjectMapper objectMapper = new ObjectMapper();
         File jsonFile = new File(filePath);
         try {
         Account admin = objectMapper.readValue(jsonFile, Account.class);
-		if(admin.getRole()==2){
-			return admin;
+		if(admin!=null){
+			if(admin.getEmail().equals(email)){
+				return admin;
+			}
+			else{
+			   Account a = getAccount(email);
+			   if(a==null){
+				return new Account();
+			   }
+			return a;
 		}
-		else{
-			return getAccount(email);
-		}
-		}
+		}	
+	    }
 		catch(Exception e){
 
 		}

@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpSession;
 
 @RestController
 public class Security {
-    @PostMapping("admin/checklogin")
+     @PostMapping("admin/checklogin")
     public ResponseEntity<Boolean>getAdmin(HttpSession session,
         @RequestParam("email")String email,
         @RequestParam("password")String passowrd){

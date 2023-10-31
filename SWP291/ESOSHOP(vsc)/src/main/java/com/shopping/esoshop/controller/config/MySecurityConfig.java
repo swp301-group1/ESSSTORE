@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 
 import com.shopping.esoshop.model.Account;
 import com.shopping.esoshop.model.Customer;
-import com.shopping.esoshop.model.User;
 import com.shopping.esoshop.service.IDaoService;
 
 import jakarta.servlet.ServletException;
@@ -35,9 +34,7 @@ public class MySecurityConfig  {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,HttpSession session) throws  Exception{
         http.authorizeRequests(
-                authorizeRequests -> authorizeRequests
-                .requestMatchers("/google").authenticated()
-                .requestMatchers("/admin-login").authenticated()
+                authorizeRequests -> authorizeRequests.requestMatchers("/google").authenticated().anyRequest().permitAll()
         ).oauth2Login(oauth2Customize -> oauth2Customize
                         .loginProcessingUrl("/login")
                         .loginPage("/oauth2/authorization/google")
@@ -47,23 +44,35 @@ public class MySecurityConfig  {
                                 DefaultOidcUser user = (DefaultOidcUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
                                 request.authenticate(response);
                                 if (user != null) {
-                                    Account acount = daoService.getAccount(user.getEmail());
-                                    if (acount != null && acount.getStatus() == 1) {
-                                        Customer customer = daoService.getCustomerByEmail(user.getEmail());
-                                        customer.setPicture(user.getPicture());
-                                        session.setAttribute("customer", customer);
-                                        session.setAttribute("account", acount);
-                                        response.sendRedirect("/home");
-                                    } else if (acount != null && acount.getStatus() == 0) {
-                                        response.sendRedirect("/home");
-                                    } else {
+                                    Account acount = daoService.checkcheckRole(user.getEmail());
+                                    if(acount.getRole()==3){
+                                        session.setAttribute("admin", acount);
+                                        response.sendRedirect("/admin/dashboard");
+                                    }
+                                    else if ( acount.getRole()==1) {
+                                        if( acount.getStatus() == 1){
+                                            Customer customer = daoService.getCustomerByEmail(user.getEmail());
+                                            customer.setPicture(user.getPicture());
+                                            session.setAttribute("customer", customer);
+                                            session.setAttribute("account", acount);
+                                            response.sendRedirect("/home");
+                                        }else{
+                                            response.sendRedirect("/home");
+                                        }
+                                    } 
+                                    else if(acount.getRole()==0){
                                         response.sendRedirect("/register2");
+                                    }
+                                    else if(acount.getRole()==2){
+                                        session.setAttribute("staff", daoService.getStaffByEmail(acount.getEmail()));
+                                        response.sendRedirect("/staff/orders");
                                     }
                                 }
                                 else response.sendRedirect("/home");
                             }
                         })
-        ).logout(logout -> logout
+        )
+                .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessHandler(logoutSuccessHandler()))
                 .csrf(csrf -> csrf.disable());
