@@ -56,8 +56,8 @@
       <div class="col-sm-6 text-black mt-5">
         <div class="flex-column align-items-center h-custom-2 " style="margin-top: 50px; margin-left: 50px;">
           <form method="POST" style="width: 23rem;" id="formPassword">
-            <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Register<button type="button" class="btn btn-outline-primary" id="btnGoogle"><i
-              class="fa-brands fa-google"></i></button></h3>
+            <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Register </h3>
+
             <div class="form-outline mb-4">
               <input type="email" name="email" id="email" class="form-control form-control-lg" placeholder="Email" />
             </div>
@@ -135,66 +135,28 @@
   <script>
     var otp;
     var emailcheck=false;
-    $("#email").on('input', function() {
-      var email = $("#email").val();
-      $.ajax({
-        type: 'GET',
-        url: 'http://localhost:8080/register/checkaccount/' + email,
-        dataType: 'json',
-        contentType: 'application/json',
-        success: function(data) {
-          if (!data) {
-            showMess(email + " have register ", 10000,"red");
-            $("#name").css("display","none");
-            $("#phone").css("display","none");
-            $("#address").css("display","none");
-            $("#password").css("display","none");
-            $("#confirmpassword").css("display","none");
-          }
-          else{
-            $("#name").css("display","block");
-            $("#phone").css("display","block");
-            $("#address").css("display","block");
-            $("#password").css("display","block");
-            $("#confirmpassword").css("display","block");
-          }
-          emailcheck=data;
-        }
-      });
-    });
-    
-    
-    $("#btnRegister").on('click', function() { // Changed 'click' to 'on' for click event
-    var formData = new FormData();
-    formData.append("email", $("#email").val());
-    $.ajax({
-        url: "http://localhost:8080/register/veryfyemail",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (data) {
-            otp = data;
-            if(otp==="null"){
-              showMess("Email not Corrected", 10000, "red");
-            }
-            else{
-              $("#verifyotp").css("display","block");
-              showMess("OTP send in "+$("#email").val(), 10000, "");
-              $("#otpsendin").text("OTP Verify send in "+$("#email").val());
-            }
-        },
-    });
-});
-
-$("#btnRegisterok").on('click', function() { // Changed 'click' to 'on' for click event
+    getuserprofile();
+    function getuserprofile(){
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/customer/infor/google",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data) {
+              $("#email").val(data.email);
+              $("#name").val(data.name);
+              $("#phone").val(data.phone);
+              $("#address").val(data.address);
+            },
+        });
+    }
+    $("#btnRegister").on('click', function() { 
     var formData = new FormData();
     formData.append("email", $("#email").val());
     formData.append("name", $("#name").val());
     formData.append("phone", $("#phone").val());
-    formData.append("address", $("#address").val()); // Corrected the ID to 'address'
+    formData.append("address", $("#address").val()); 
     formData.append("password", $("#password").val());
-    if ($("#otp").val() === otp) {
         $.ajax({
             url: "http://localhost:8080/register",
             type: "POST",
@@ -202,45 +164,14 @@ $("#btnRegisterok").on('click', function() { // Changed 'click' to 'on' for clic
             processData: false,
             contentType: false,
             success: function (data) {
-                if (data) {
-                    window.location = "http://localhost:8080/login";
-                } else {
-                    showMess("Registration failed", 10000, "red");
-                }
+               window.location = "http://localhost:8080/home";
             },
         });
-    }
+    
 });
 
-$(document).ready(function () {
-    var pas = false;
-    $("#btnRegister").hide();
-    $("#password").on('input', function() {
-        var password = $("#password").val();
-        var alphanumericRegex = /^(?=.*[a-zA-Z])(?=.*\d)/;
-        if (password.length >= 8 && password.length <= 50 && alphanumericRegex.test(password)) {
-            showMess("Password meets criteria", 10000, "green"); // Changed the color to green for a valid password
-            pas = true;
-        } else {
-            showMess("Password must be 8 to 50 characters and contain both letters and numbers", 10000, "red");
-            pas = false;
-        }
-    });
 
-    // Input event listener for the "confirmpassword" field
-    $('#confirmpassword').on('input', function() {
-        var password = $("#password").val();
-        var confirmpassword = $("#confirmpassword").val();
-        if (password === confirmpassword && pas === true) {
-            $("#btnRegister").show();
-        } else {
-            $("#btnRegister").hide();
-        }
-    });
-});
-    $("#btnGoogle").click('click',function(){
-       window.location="/google";
-    })
+    
   </script>
   <div id="alert">
     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>

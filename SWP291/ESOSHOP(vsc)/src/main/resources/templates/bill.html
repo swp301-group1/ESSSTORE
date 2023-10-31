@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>MDB Shop</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
     integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
@@ -24,6 +24,15 @@
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <style>
+    .navbar {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			z-index: 1000;
+		}
+  </style>
 </head>
 
 <body>
@@ -69,100 +78,127 @@
   <div class="container-fluid" style="margin-top: 100px; margin-bottom: 150px;">
     <form>
       <div class="container mt-6 mb-7">
-        <div class="row justify-content-center" id="viewbill">
+        <div class="row justify-content-center" id="">
+          <div class="col-6"> 
+                <div class="card">
+                    <div class="card-body p-5">
+                        <h2 id="tx1">
+                           
+                        </h2>
+                        <a herf="/order_history">Feedback</a>\n'+
+                        <p class="fs-sm" id="tx2">
+                        </p>
+                        <div class="border-top border-gray-200 mt-4 py-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="text-muted mb-2">Client</div>
+                                    <strong id="tx3">
+                                        
+                                    </strong>
+                                    <p class="fs-sm" id="tx4">
+                                        
+                                    </p>
+                                    <a href="" class="text-purple" id="txt5">
+                                    </a>
+                                </div>
+                                <div class="col-md-6 text-md-end">
+                                    <div class="text-muted mb-2">Order Date</div>
+                                    <strong id="txt6"></strong>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table border-bottom border-gray-200 mt-3">
+                            <thead>
+                                <tr>
+                                   <th scope="col" class="fs-sm text-dark text-uppercase-bold-sm px-0">Product</th>
+                                    <th scope="col" class="fs-sm text-dark text-uppercase-bold-sm  text-center px-0">Color</th>
+                                    <th scope="col" class="fs-sm text-dark text-uppercase-bold-sm  text-center px-0">Quantity</th>
+                                    <th scope="col" class="fs-sm text-dark text-uppercase-bold-sm text-end px-0">Price</th>
+                                    <th scope="col" class="fs-sm text-dark text-uppercase-bold-sm text-end px-0">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orderdetail">
+                               
+                            </tbody>
+                        </table>
+                       <div class="mt-5">
+                            <div class="d-flex justify-content-end">
+                                <p class="text-muted me-3">Ship</p>
+                                <span>390</span>
+                            </div>
+                            <div class="d-flex justify-content-end mt-3">
+                                <h5 class="me-3" id="txt7">Total:</h5>
+                                <h5 class="text-success"></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-evenly mt-4 mb-4">
+                        <button id="pay" type="button"
+                            class="btn btn-dark btn-lg card-footer-btn text-uppercase-bold-sm hover-lift-light">
+                            Pay now
+                        </button>
+                        <button id="cancel" type="button"
+                            class="btn btn-dark btn-lg card-footer-btn text-uppercase-bold-sm hover-lift-light">
+                            Cancel now
+                        </button>
+                    </div>
+                </div>
+            </div>
           <script th:inline="javascript">
-            var bill = [[${ bill }]];
-            var viewbill = document.getElementById("viewbill");
-            if (bill.status == 0) {
-              viewbill.innerHTML = getBill(bill);
-            } else if (bill.status == 1) {
-              viewbill.innerHTML = 'pay success!<a href="/order_history">feedbacks</a>';
+            var orderId = [[${orderId}]];
+            getBillById(orderId);
+            function getBillById(id) {
+              $.ajax({
+                type: 'GET',
+                url: 'http://localhost:8080/getbill'+id,
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (data) {
+                  if(data.status!==0){
+                    $("#pay").css("display","none");
+                    $("#cancel").css("display","none");
+                  }
+                  $("#tx1").text("Hey "+ data.customer.name);
+                  $("#tx2").html("This is the receipt for a payment of <strong>"+data.totalAmount+"</strong> (USD) you made to Spacial Themes");
+                  $("#tx3").text(data.customer.name);
+                  $("#tx4").text(data.customer.address);
+                  $("#tx5").text(data.customer.email);
+                  $("#tx6").text(data.orderdate);
+                  $("#txt7").text("Total: "+data.totalAmount+"$");
+                  $("#orderdetail").html(getListOrderdetail(data));
+                  $("#viewbill").html(getBill(data));
+                }
+              });
             }
-            console.log(bill);
-            function cancelNow(Id) {
-              var orderId = Id.value;
+
+            $("#cancel").click('click',function(){
               $.ajax({
                 type: 'GET',
                 url: 'http://localhost:8080/cancelorder' + orderId,
                 dataType: 'json',
                 contentType: 'application/json',
                 success: function (data) {
+                 
                 }
               });
-              alert("cancel success!");
-              document.getElementById("pay").style.display = "none";
-              document.getElementById("cancel").style.display = "none";
-            }
-            function getBill(bill) {
-              var html = '<div class="col-6">\n' +
-                '    <div class="card">\n' +
-                '        <div class="card-body p-5">\n' +
-                '            <h2>\n' +
-                '                Hey ' + bill.customer.name + ',\n' +
-                '            </h2>\n' +
-                '            <p class="fs-sm">\n' +
-                '                This is the receipt for a payment of <strong>'+bill.totalAmount+'</strong> (USD) you made to Spacial Themes.\n' +
-                '            </p>\n' +
-                '            <div class="border-top border-gray-200 mt-4 py-4">\n' +
-                '                <div class="row">\n' +
-                '                    <div class="col-md-6">\n' +
-                '                        <div class="text-muted mb-2">Client</div>\n' +
-                '                        <strong>\n' +
-                '                            ' + bill.customer.name + '\n' +
-                '                        </strong>\n' +
-                '                        <p class="fs-sm">\n' +
-                '                            ' + bill.customer.address + '\n' +
-                '                            <br>\n' +
-                '                            <a href="#!" class="text-purple">' + bill.customer.email + '\n' +
-                '                            </a>\n' +
-                '                        </p>\n' +
-                '                    </div>\n' +
-                '                    <div class="col-md-6 text-md-end">\n' +
-                '                        <div class="text-muted mb-2">Order Date</div>\n' +
-                '                        <strong>' + bill + '</strong>\n' +
-                '                    </div>\n' +
-                '                </div>\n' +
-                '            </div>\n' +
-                '            <table class="table border-bottom border-gray-200 mt-3">\n' +
-                '                <thead>\n' +
-                '                    <tr>\n' +
-                '                        <th scope="col" class="fs-sm text-dark text-uppercase-bold-sm px-0">Product</th>\n' +
-                '                        <th scope="col" class="fs-sm text-dark text-uppercase-bold-sm  text-center px-0">Color</th>\n' +
-                '                        <th scope="col" class="fs-sm text-dark text-uppercase-bold-sm  text-center px-0">Quantity</th>\n' +
-                '                        <th scope="col" class="fs-sm text-dark text-uppercase-bold-sm text-end px-0">Price</th>\n' +
-                '                        <th scope="col" class="fs-sm text-dark text-uppercase-bold-sm text-end px-0">Amount</th>\n' +
-                '                    </tr>\n' +
-                '                </thead>\n' +
-                '                <tbody>\n' +
-                '                    ' + getListOrderdetail(bill) + ' \n' +
-                '                </tbody>\n' +
-                '            </table>\n' +
-                '            <div class="mt-5">\n' +
-                '                <div class="d-flex justify-content-end">\n' +
-                '                    <p class="text-muted me-3">Ship</p>\n' +
-                '                    <span>390</span>\n' +
-                '                </div>\n' +
-                '                <div class="d-flex justify-content-end mt-3">\n' +
-                '                    <h5 class="me-3">Total:</h5>\n' +
-                '                    <h5 class="text-success">' + bill.totalAmount + '</h5>\n' +
-                '                </div>\n' +
-                '            </div>\n' +
-                '        </div>\n' +
-                '        <div class="d-flex justify-content-evenly mt-4 mb-4">\n' +
-                '            <a id="pay" style=" text-decoration: none;" href="/pay' + bill.orderId + '"><button type="button"\n' +
-                '                class="btn btn-dark btn-lg card-footer-btn text-uppercase-bold-sm hover-lift-light">\n' +
-                '                Pay Now\n' +
-                '            </button> </a>\n' +
-                '            <button id="cancel" value="' + bill.orderId + '" onclick="cancelNow(this)" type="button"\n' +
-                '                class="btn btn-dark btn-lg card-footer-btn text-uppercase-bold-sm hover-lift-light">\n' +
-                '                Cancel now\n' +
-                '            </button>\n' +
-                '        </div>\n' +
-                '    </div>\n' +
-                '</div>';
-              return html;
-            }
-
+              setTimeout(function() {
+                location.reload();
+            }, 5000);
+            })
+            $("#pay").click('click',function(){
+              $.ajax({
+                type: 'GET',
+                url: 'http://localhost:8080/pay/' + orderId,
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (data) {
+               
+                }
+              });
+              setTimeout(function() {
+                location.reload();
+            }, 5000);
+            })
 
             function getListOrderdetail(bill) {
               var html = '';
@@ -237,8 +273,7 @@
 
   </footer>
   <!-- Footer -->
-
-  <script>
+  <script th:inline="javascript">
 
   </script>
 </body>

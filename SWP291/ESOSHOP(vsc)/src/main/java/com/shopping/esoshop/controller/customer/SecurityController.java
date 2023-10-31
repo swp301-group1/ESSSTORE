@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpSession;
 @RestController
 public class SecurityController {
 
+
 	public final static String Account = "account";
 	public final static String Customer = "customer";
 
@@ -73,7 +74,7 @@ public class SecurityController {
 	}
 
 	// for login
-
+	
 	@PostMapping("dologin")
 	public ResponseEntity<Mess> loginByPassword(Model model, HttpSession session,
 			@RequestParam(name = "email", required = false, defaultValue = "") String email,
