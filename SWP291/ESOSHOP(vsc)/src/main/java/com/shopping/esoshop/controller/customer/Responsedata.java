@@ -1,5 +1,7 @@
 package com.shopping.esoshop.controller.customer;
 
+import java.net.http.HttpRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import com.shopping.esoshop.model.*;
 import com.shopping.esoshop.service.IDaoService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
@@ -44,20 +49,29 @@ public class Responsedata {
 			@RequestParam(name = "product_quanity", defaultValue = "1") Integer quantity,
 			@RequestParam(name = "product_color") Integer color) {
 		Customer customer = (Customer) session.getAttribute("customer");
-		if (customer != null) {
 			Cart c = new Cart();
 			c.setCustomerId(customer.getId());
 			c.setProduct(daoService.getProductbyId(id));
 			c.setQuantity(quantity);
 			c.setColorId(color);
+		if (customer != null) {
 			int n = daoService.addToCart(c);
 			session.setAttribute("added", c.getCustomerId() + "-" + c.getProduct().getId() + "-" + c.getColorId());
 			if (n > 0) {
 				return ResponseEntity.ok().body("Add succes");
 			}
-			return ResponseEntity.ok().body("You added to cart");
 		}
-		return ResponseEntity.ok().body("Please login!");
+		if((List<Cart>)session.getAttribute("carts")==null){
+			session.setAttribute("carts", new ArrayList<Cart>());
+			session.setMaxInactiveInterval(10 * 24 * 60 * 60);
+		}
+		List<Cart> carts = (List<Cart>)session.getAttribute("carts");
+		for (Cart cart : carts) {
+			if(!cart.getCartId().equals(c.getCartId())){
+				carts.add(c);
+			}
+		}
+		return ResponseEntity.ok().body("Add false");
 	}
 
 	@GetMapping("/getlistorderdetails{orderId}")

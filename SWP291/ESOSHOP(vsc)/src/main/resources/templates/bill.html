@@ -75,6 +75,7 @@
     </div>
     <!-- Container wrapper -->
   </nav>
+  <div class="btnMore"><div class="ellipsis"><div></div><div></div><div></div><div></div></div></div>
   <div class="container-fluid" style="margin-top: 100px; margin-bottom: 150px;">
     <form>
       <div class="container mt-6 mb-7">
@@ -198,7 +199,22 @@
                 location.reload();
             }, 5000);
             })
-
+            $(document).ready(function(){
+              $("#pay").click(function(){
+                $(".btnMore").css('z-index','1000');
+                $(".btnMore").css('display','block');
+                  setTimeout(function(){
+                $(".btnMore").css('z-index','-100');
+                $(".btnMore").css('display','none');
+              },5000)
+              })
+              $("#cancel").click(function(){
+                $(".btnMore").css('z-index','1000');
+                  setTimeout(function(){
+                $(".btnMore").css('z-index','-100');
+              },5000)
+              })
+            })
             function getListOrderdetail(bill) {
               var html = '';
               bill.orderdetails.forEach(function (od) {

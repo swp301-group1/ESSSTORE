@@ -187,7 +187,15 @@
       showMess("sai otp",5000);
     }
   });
+  $("#password").keypress(function(event) {
+    if (event.which === 13) {
+      doLoginPassword();
+    }
+  });
   $("#btnLoginPassword").click("click", function() {
+    doLoginPassword();
+  });
+  function doLoginPassword(){
     var formData = new FormData();
     formData.append("email", $("#email").val());
     formData.append("password", $("#password").val());
@@ -212,7 +220,7 @@
         }
       },
     });
-  });
+  }
   $("#continutegoogle").click('click',function(){
     window.location="/oauth2/authorization/google";
 })

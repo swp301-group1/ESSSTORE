@@ -56,16 +56,30 @@
 						<div class="row flex-column">
 							<div class="col">
 								<div class="row d-flex " id="list_carts" style="overflow-x:hidden;">
-									<script th:inline="javascript">
-										var carts = [[${carts}]];
-										$("#list_carts").html(getListCart(carts));
-										// for loop html++
+									<script >
+										var carts = [];
+										getcarttAjax();
 										function getListCart(carts) {
 											var html = '';
 											carts.forEach(function (c) {
-												html = html + getItemCart(c);
+												html += getItemCart(c);
 											})
 											return html;
+										}
+										function getcarttAjax(){
+											$.ajax({
+												type: 'GET',
+												url: 'http://localhost:8080/customer/cart',
+												dataType: 'json',
+												contentType: 'application/json',
+												success: function (data) {
+												    var html='';
+												    data.forEach(function(c){
+													    html+=getItemCart(c);
+												    })
+													$("#list_carts").html(html);
+												}
+											  });
 										}
 										function getItemCart(cart) {
 											var html = '<table class="table"><tr>'; // Bắt đầu bảng và hàng
@@ -91,7 +105,7 @@
 											html += '</td>';
 											// Dòng 6: Checkbox
 											html += '<td class="column-checkbox">';
-											html += '<input type="checkbox" name="product_order" value="' + cart.cartId + '" class="checkbox" id=' + cart.cartId + '>';
+											html += '<input type="checkbox" name="product_order" value="' + cart.cartId + '"  class="checkbox" id=' + cart.cartId + '>';
 											html += '</td>';
 											// Dòng 4: Xóa
 											html += '<td class="column-delete">';
@@ -99,6 +113,9 @@
 											html += '</td>';
 											html += '</tr></table>'; // Kết thúc hàng và bảng
 											return html;
+										}
+										function hello(id){
+											
 										}
 									</script>
 								</div>
@@ -179,7 +196,6 @@
 	<script src="js/bootstrap.bundle.min.js"></script>
 	<script src="js/templatemo.js"></script>
 	<script src="js/custom.js"></script>
-	<script src="js/cart.js"></script>
 
 </body>
 

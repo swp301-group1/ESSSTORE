@@ -10,16 +10,16 @@
 		integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
 
-	<link rel="stylesheet" href="css/bootstrap.min.css" />
-	<link rel="stylesheet" href="css/custom.css"/>
-	<link rel="stylesheet" href="css/templatemo.css"/>
-	<link rel="stylesheet" href="css/navbar.css">
-	<link rel="stylesheet" href="css/home.css" />
-	
+	<link rel="stylesheet" href="../css/bootstrap.min.css" />
+	<link rel="stylesheet" href="../css/custom.css" />
+	<link rel="stylesheet" href="../css/templatemo.css" />
+	<link rel="stylesheet" href="../css/navbar.css">
+	<link rel="stylesheet" href="../css/home.css" />
+
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 	<link rel="stylesheet"
 		href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" />
-	<link rel="stylesheet" href="css/fontawesome.min.css" />
+	<link rel="stylesheet" href="../css/fontawesome.min.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<style>
 		#alert {
@@ -49,12 +49,19 @@
 		.closebtn:hover {
 			color: black;
 		}
-
+		.fb-loading-wrapper{
+			padding-bottom: 20px;
+		}
+    .fblwti-animated{animation-duration:1.5s;animation-fill-mode:forwards;animation-iteration-count:infinite;animation-name:placeHolderShimmer;animation-timing-function:linear;background:#f6f7f8;background:linear-gradient(to right,#eee 8%,#ddd 18%,#eee 33%);background-size:800px 200px;min-height: 451.67px;position:relative}
+    @-webkit-keyframes placeHolderShimmer{0%{background-position:-800px 0}100%{background-position:800px 0}}
+    @keyframes placeHolderShimmer{0%{background-position:-800px 0}100%{background-position:800px 0}}
 	</style>
+
 </head>
 <html xmlns:th="http://www.thymeleaf.org" th:include="nav.html">
 
 </html>
+
 <body>
 	<div class="container-fluid mb-5 mt-5" style="padding-top:50px">
 		<div class="row d-flex justify-content-evenly">
@@ -63,7 +70,6 @@
 					<div class="col mb-3 mt-2">
 						<span style="font-size: 20px; font-weight: bold">Danh mục nổi bật</span>
 					</div>
-
 					<div class="col mb-2">
 						<button class="btnBrand">
 							<img src="img/laptop.png" alt="" class="imgBrand" />
@@ -219,7 +225,6 @@
 	<div class="container py-5">
 		<div class="row">
 			<div class="col-lg-3">
-				<h1 class="h2 pb-4">Categories</h1>
 				<ul class="list-unstyled templatemo-accordion">
 					<li class="pb-3">
 						<a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
@@ -252,6 +257,28 @@
 						</ul>
 					</li>
 				</ul>
+					<div class="row d-flex flex column">
+						<div class="col mb-2">
+							<button class="btnBrand">
+								<img src="img/laptop.png" alt="" class="imgBrand" />
+								<span>Laptop</span>
+							</button>
+						</div>
+	
+						<div class="col mb-2">
+							<button class="btnBrand">
+								<img src="img/tablet.png" alt="" class="imgBrand" />
+								<span>Tablet</span>
+							</button>
+						</div>
+	
+						<div class="col">
+							<button class="btnBrand">
+								<img src="img/doublephone.png" alt="" class="imgBrand" />
+								<span>Phone</span>
+							</button>
+						</div>
+					</div>
 			</div>
 
 			<div class="col-lg-9">
@@ -275,15 +302,14 @@
 					</div>
 					<div class="col-md-6 pb-4">
 						<div class="d-flex">
-						     <span id="result"></span>
+							<span id="result"></span>
 						</div>
 					</div>
 				</div>
 				<div class="row" style="min-height: 600px;" id="list_product">
-
 					<!-- list product -->
 				</div>
-				<div div="row">
+				<div class="row">
 					<ul class="pagination pagination-lg justify-content-end" id="pages2">
 						<li class="page-item">
 							<a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark">
@@ -333,8 +359,6 @@
 
 		</div>
 
-
-
 	</footer>
 	<!-- Footer -->
 
@@ -348,53 +372,56 @@
 
 	<!-- List Product-->
 	<script>
-		window.addEventListener('load', function () {
+		window.addEventListener('load', function() {
 			getProducts(1);
 			getbrand();
 			getCategories();
+		});
+		var npage;
 
+		$("#sortprice").change(function(){
+			getProducts(npage);
 		});
 
-		var npage;
-		function sortByPrice() {
-
-		}
 		function selectCate(id) {
 			$.ajax({
 				type: 'GET',
 				url: 'http://localhost:8080/getproduct/page/' + npage,
 				dataType: 'json',
 				contentType: 'application/json',
-				success: function (data) {
-					data = data.filter(function (p) {
+				success: function(data) {
+					data = data.filter(function(p) {
 						return p.category.id == id.value;
 					});
 					$("#list_product").html(getlistProduct(data));
 				}
 			});
 		}
+
 		function searchByName(name) {
 			$.ajax({
 				type: 'GET',
 				url: 'http://localhost:8080/searchproductbyname/' + name,
 				dataType: 'json',
 				contentType: 'application/json',
-				success: function (data) {
-					$("#list_product").html(getlistProduct(data));
-					if(data.length===0){
-						$("#result").text("Can not found product "+name);
-						setTimeout(getProducts(npage),30000)
-					}
-					else{
-						$("#result").text("Found "+data.length+" "+name);
+				success: function(data) {
+					loadListProduct();
+						setTimeout(function() {
+							$("#list_product").html(getlistProduct(data));
+						}, 2000);
+					if (data.length === 0) {
+						$("#result").text("Can not found product " + name);
+						setTimeout(function(){
+							getProducts(npage);
+						},2000);
 					}
 				}
 			});
 		}
-
-		$("#btdsearch").click('click', function () {
+		$("#btdsearch").click('click', function() {
 			getProducts(npage);
 		})
+
 		function getProducts(n) {
 			getPage(n);
 			npage = n;
@@ -403,15 +430,41 @@
 				url: 'http://localhost:8080/getproduct/page/' + n,
 				dataType: 'json',
 				contentType: 'application/json',
-				success: function (data) {
+				success: function(data) {
 					sortByPrice(data, $("#sortprice").val());
-					$("#list_product").html(getlistProduct(data));
+					loadListProduct();
+					setTimeout(function() {
+						$("#list_product").html(getlistProduct(data));
+					}, 1000);
 				}
 			});
 		}
+		
+		function loadListProduct(){
+			var html='';
+			for(let i=0;i<8;i++){
+				html+='<div class="col-md-3">\n'+
+					'    <div class="fb-loading-wrapper">\n'+
+					'        <div class="fblw-timeline-item">\n'+
+					'          <div class="fblwti-animated">\n'+
+					'          </div>\n'+
+					'        </div>\n'+
+					'    </div>\n'+
+					'</div>';
+			}
+			$("#list_product").html(html);
+		}
 
+		$(document).on('click', '.page-item', function() {
+			setTimeout(function(){
+				window.scrollTo({
+					top: 0,
+					behavior: 'smooth' // Tạo hiệu ứng cuộn mượt
+			});
+			},2000)
+		});
 		function sortByPrice(data, sort) {
-			data.sort(function (a, b) {
+			data.sort(function(a, b) {
 				if (sort == 1) return b.price - a.price;
 				if (sort == 0) return a.price - b.price;
 			});
@@ -422,7 +475,7 @@
 				url: 'http://localhost:8080/page/' + n,
 				dataType: 'json',
 				contentType: 'application/json',
-				success: function (data) {
+				success: function(data) {
 					npage = data.pageActive;
 					var pages1 = document.getElementById('pages1');
 					var pages2 = document.getElementById('pages2');
@@ -430,11 +483,14 @@
 					for (let i = 1; i <= data.totalPage; i++) {
 						if (data.pageActive == i) {
 							html = html + '<li class="page-item" style=" margin: 2px;">\n' +
-								'		     <button value="' + i + '" class="btn btn-danger"  onclick="getProducts(this.value)" type="button">' + i + '</button>\n' +
+								'		     <button value="' + i +
+								'" class="btn btn-danger"  onclick="getProducts(this.value)" type="button">' + i +
+								'</button>\n' +
 								'	    </li>';
 						} else {
 							html = html + '<li class="page-item">\n' +
-								'			<button class="btn btn-primary" style=" margin: 2px;" type="button" value="' + i + '" onclick="getProducts(this.value)">' + i + '</button>\n' +
+								'			<button class="btn btn-primary" style=" margin: 2px;" type="button" value="' +
+								i + '" onclick="getProducts(this.value)">' + i + '</button>\n' +
 								'    	</li>';
 						}
 					}
@@ -446,10 +502,9 @@
 
 		function getlistProduct(data) {
 			var html = '';
-			data.forEach(function (product) {
+			data.forEach(function(product) {
 				// Truncate the product name if it's too long
 				var truncatedName = product.name.length > 18 ? product.name.substring(0, 18) + "..." : product.name;
-
 				html += '<div class="col-md-3">\n' +
 					'    <div class="card mb-4 product-wap rounded-0" product-card>\n' +
 					'        <div class="card rounded-0 card-image" style="min-height: 212.67px;">\n' +
@@ -457,13 +512,15 @@
 					product.color[0].image + '">\n' +
 					'            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">\n' +
 					'                <ul class="list-unstyled">\n' +
-					'                    <li><a class="btn btn-success text-white mt-2" href="/detail' +product.id + '"><i class="far fa-eye"></i></a></li>\n' +
+					'                    <li><a class="btn btn-success text-white mt-2" href="/detail' + product.id +
+					'"><i class="far fa-eye"></i></a></li>\n' +
 					'                </ul>\n' +
 					'            </div>\n' +
 					'        </div>\n' +
 					'        <div class="card-body" style="min-height: 130px;">\n' +
 					'           <div style="height:80px">\n' +
-					'               <a href="/detail' + product.id + '" class="h3 text-decoration-none truncated-text" title="' + product.name + '">' + truncatedName +
+					'               <a href="/detail' + product.id +
+					'" class="h3 text-decoration-none truncated-text" title="' + product.name + '">' + truncatedName +
 					'</a>\n' +
 					'           </div>\n' +
 					'            <ul class="list-unstyled d-flex justify-content-center mb-1">\n' +
@@ -489,12 +546,14 @@
 				url: 'http://localhost:8080/brands',
 				dataType: 'json',
 				contentType: 'application/json',
-				success: function (data) {
+				success: function(data) {
 					var item = '';
-					data.forEach(function (brand) {
+					data.forEach(function(brand) {
 						item += '<li>\n' +
-							'			<input class="form-check-input" value="' + brand.brandId + '" name="brand" type="radio">\n' +
-							'				<label class="form-check-label" for="flexCheckIndeterminate">' + brand.brandName + '</label>\n' +
+							'			<input class="form-check-input" value="' + brand.brandId +
+							'" name="brand" type="radio">\n' +
+							'				<label class="form-check-label" for="flexCheckIndeterminate">' + brand
+							.brandName + '</label>\n' +
 							'	   </li>';
 					})
 					$("#brands").html(item);
@@ -508,22 +567,23 @@
 				url: "http://localhost:8080/categories",
 				dataType: "json",
 				contentType: "application/json",
-				success: function (data) {
+				success: function(data) {
 					html = '';
-					data.forEach(function (cate) {
+					data.forEach(function(cate) {
 						html = html + '<li>\n' +
-							'			<input class="form-check-input" value="' + cate.id + '" onclick="selectCate(this)" name="category" type="radio"  >\n' +
-							'				<label class="form-check-label" for="flexCheckIndeterminate">' + cate.name + '</label>\n' +
+							'			<input class="form-check-input" value="' + cate.id +
+							'" onclick="selectCate(this)" name="category" type="radio"  >\n' +
+							'				<label class="form-check-label" for="flexCheckIndeterminate">' + cate
+							.name + '</label>\n' +
 							'	    	</li>';
 					});
 					$("#categories").html(html);
 				},
 			});
 		}
-
-		$(document).ready(function () {
+		$(document).ready(function() {
 			// Prevent page scrolling on input focus
-			$("input").on('click', function () {
+			$("input").on('click', function() {
 				const listProduct = document.getElementById('list_product');
 				if (listProduct) {
 					const topPos = listProduct.getBoundingClientRect().top + window.pageYOffset - 170;
@@ -532,7 +592,16 @@
 						behavior: 'smooth'
 					});
 				}
-				
+			});
+		});
+		document.addEventListener("DOMContentLoaded", function() {
+			// Lắng nghe sự kiện click trên nút
+			document.getElementById("scrollToTopButton").addEventListener("click", function() {
+				// Cuộn lên đầu trang
+				window.scrollTo({
+					top: 0,
+					behavior: 'smooth' // Tạo hiệu ứng cuộn mượt
+				});
 			});
 		});
 	</script>
@@ -541,12 +610,8 @@
 		<strong id="mess">Mess</strong>
 	</div>
 
-	<script>
+	<script >
 
-        var mess=[[${mess}]];
-        if(mess!==null){
-            alert(mess);
-        }
 	</script>
 </body>
 

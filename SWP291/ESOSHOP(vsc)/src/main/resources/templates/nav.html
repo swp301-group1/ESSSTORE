@@ -27,7 +27,22 @@
             right:30px;
             display:none;
         }
-    
+        .message-box {
+            background-color: #f2f2f2; /* Màu nền của hộp tin nhắn */
+            border: 1px solid #ccc; /* Đường viền của hộp tin nhắn */
+            padding: 10px; /* Khoảng cách từ nội dung đến biên ngoài */
+            width: 300px; /* Độ rộng của hộp tin nhắn */
+            margin: 20px; /* Khoảng cách với các phần tử khác */
+            border-radius: 5px; /* Bo tròn góc hộp tin nhắn */
+            position:absolute;
+            right:0px;
+            top:50px;
+            display:none;
+            transition: all 3s linear;
+        }
+        .item-box button{
+            margin:5px;
+        }
     </style>
 </head>
 <body>
@@ -47,7 +62,6 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="d-flex align-items-center w-100 form-search mr-2">
                     <div class="input-group">
-    
                         <input type="text" class="form-control" onchange=" searchByName(this.value)" placeholder="Search"
                             aria-label="Search" />
                     </div>
@@ -60,19 +74,38 @@
                                 style="float: right;"></i></a>
                         <span id="totalcart" style="padding:0; margin:0;" class="badge">0</span>
                     </li>
-                    <li class="nav-item" style="position: absolute;right:10px;width:150px;display:flex;justify-content: center;">
+                    <li class="nav-item" style="position: absolute;right:50px;width:150px;display:flex;justify-content: center;">
                         <div ><img id="imageuser" src="img/user.png"></img></div>
-                        <div class="nav-dropdown flex-column">
+                        <div class="nav-dropdown flex-column" style="border-radius:50%">
                             <a id="alogin" href="/loginpage">Login</a>
                             <a id="alogout" href="/logout">Logout</a>
                             <a href="/user_profile" id="userprofile">User Profile</a>
                             <a  href="/order_history" id="orderhis">Order History</a>
                         </div>
                     </li>
+                    <li class="nav-item" style="position: absolute;right:10px;margin-top:10px">
+                        <button id="imes" style="background:none;border:none">
+                            <i class='fas fa-bell ' style='font-size:24px ;color:white'></i>
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
         <button type="button" id="continutegoogle" class="btn btn-danger"><i class="fa-brands fa-google"></i> Continute</button>
+        <div class="message-box">
+            <div class="item-box">
+                <button type="button" class="btn btn-success">Success</button>
+            <div>
+            <div class="item-box">
+                <button type="button" class="btn btn-success">Success</button>
+            <div>
+            <div class="item-box">
+                <button type="button" class="btn btn-success">Success</button>
+            <div>
+            <div class="item-box">
+                <button type="button" class="btn btn-success">Success</button>
+            <div>
+        </div>
     </nav>
     <script th:inline="javascript">
         var user = [[${session.customer}]];
@@ -107,6 +140,15 @@
             })
             
         })
+        $("#imes").on('click', function() {
+            if ($(".message-box").css('display') === 'block') {
+                $(".message-box").css('display', 'none');
+                $(".message-box").slideUp(500);
+            } else {
+                $(".message-box").css('display', 'block');
+                $(".message-box").slideDown(500);
+            }
+        });
         function showMess(mess, time) {
             $("#mess").text(mess);
             document.getElementById('alert').style.display = "block";
