@@ -109,7 +109,7 @@
       formData.append('email',$('#email').val());
       formData.append('password', $('#password').val());
       $.ajax({
-          url: 'http://localhost:8080/admin/checklogin',
+          url: '/admin/checklogin',
           type: 'POST',
           data: formData,
           processData: false,
@@ -117,7 +117,7 @@
           success: function(data) {
               if(data){
                 alert("login success");
-                  window.location="http://localhost:8080/admin/dashboard";
+                  window.location="/admin/dashboard";
               }
               else if(!data){
                 alert("login false");

@@ -150,7 +150,7 @@
     var formData = new FormData();
     formData.append("email",$("#emailOTP").val());
     $.ajax({
-      url: "http://localhost:8080/login/checkaccount",
+      url: "/login/checkaccount",
       type: "POST",
       data: formData,
       processData: false,
@@ -172,14 +172,14 @@
     formData.append("email",$("#emailOTP").val());
     if($("#otp").val()==otp){
       $.ajax({
-        url: "http://localhost:8080/dologin/otp",
+        url: "/dologin/otp",
         type: "POST",
         data: formData,
         processData: false,
         contentType: false,
         success: function(data) {
           showMess("login succes", 5000);
-          window.location="http://localhost:8080/home";
+          window.location="/home";
         },
       });
     }
@@ -200,7 +200,7 @@
     formData.append("email", $("#email").val());
     formData.append("password", $("#password").val());
     $.ajax({
-      url: "http://localhost:8080/dologin",
+      url: "/dologin",
       type: "POST",
       data: formData,
       processData: false,
@@ -209,10 +209,10 @@
         if(data.loginsucces){
           showMess(data.mess, 5000);
          if(url!=null){
-          window.location="http://localhost:8080/"+url;
+          window.location="/"+url;
          }
          else{
-          window.location="http://localhost:8080/home";
+          window.location="/home";
          }
         }
         else if(!data.loginsucces){

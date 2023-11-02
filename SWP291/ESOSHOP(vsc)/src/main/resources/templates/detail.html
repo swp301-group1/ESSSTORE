@@ -432,7 +432,7 @@ https://templatemo.com/tm-559-zay-shop
 		function getProductBycategory() {
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:8080/getproductbycategoty/' + product.category.id,
+				url: '/getproductbycategoty/' + product.category.id,
 				dataType: 'json',
 				contentType: 'application/json',
 				success: function (data) {
@@ -484,7 +484,7 @@ https://templatemo.com/tm-559-zay-shop
 		function getfeedback() {
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:8080/product/feedback/' + ([[${ product }]]).id,
+				url: '/product/feedback/' + ([[${ product }]]).id,
 				dataType: 'json',
 				contentType: 'application/json',
 				success: function (data) {
@@ -525,7 +525,7 @@ https://templatemo.com/tm-559-zay-shop
 		function getReportRating() {
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:8080/product/reportrating/' + ([[${ product }]]).id,
+				url: '/product/reportrating/' + ([[${ product }]]).id,
 				dataType: 'json',
 				contentType: 'application/json',
 				success: function (data) {
@@ -583,7 +583,7 @@ https://templatemo.com/tm-559-zay-shop
             formData.append("product_color", $("#product_color").val());
             formData.append("product_quanity", $("#product_quanity").val());
             $.ajax({
-                url: "http://localhost:8080/addtocart",
+                url: "/addtocart",
                 type: "POST",
                 data: formData,
                 processData: false,
@@ -629,7 +629,7 @@ https://templatemo.com/tm-559-zay-shop
 			setTimeout(function(){
 				$.ajax({
 					type: 'GET',
-					url: 'http://localhost:8080/customer/totalofcart',
+					url: '/customer/totalofcart',
 					dataType: 'json',
 					contentType: 'application/json',
 					success: function (data) {

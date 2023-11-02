@@ -19,6 +19,10 @@ public class DaoService implements IDaoService {
 	public List<Product> getAllProduct() {
 		return dao.getAllProduct();
 	}
+	@Override
+	public List<Product> getAllProductByStatus(int status) {
+		return dao.getAllProductByStatus(status);
+	}
 
 	@Override
 	public List<Product> getAllProductinPage(int nPage, int sizePage) {
@@ -270,5 +274,9 @@ public class DaoService implements IDaoService {
 	@Override
 	public Account checkcheckRole(String email) {
 		return dao.checkcheckRole(email);
+	}
+	@Override
+	public boolean deleteProduct(String productid) {
+		return dao.deleteProduct(productid);
 	}
 }

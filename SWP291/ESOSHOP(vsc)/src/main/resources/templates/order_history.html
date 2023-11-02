@@ -91,7 +91,7 @@ https://templatemo.com/tm-559-zay-shop
 </html>
     <!-- Navbar -->
     <!-- Open Content -->
-    <div class="container-fluid  " style=" margin-bottom: 40px; height: 800px; overflow: hidden;">
+    <div class="container-fluid  " style=" margin-bottom: 40px; height: 800px; overflow: hidden;top:100px">
 
         <link rel="stylesheet" href="https://allyoucan.cloud/cdn/icofont/1.0.1/icofont.css"
             integrity="sha384-jbCTJB16Q17718YM9U22iJkhuGbS0Gd2LjaWb4YJEZToOPmnKDjySVa323U+W7Fv" crossorigin="anonymous">
@@ -444,7 +444,7 @@ https://templatemo.com/tm-559-zay-shop
         function getBills() {
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost:8080/getbills',
+                url: '/getbills',
                 dataType: 'json',
                 contentType: 'application/json',
                 success: function(data) {
@@ -522,7 +522,7 @@ https://templatemo.com/tm-559-zay-shop
         function seeMore(orderId) {
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost:8080/getbill' + orderId,
+                url: '/getbill' + orderId,
                 dataType: 'json',
                 contentType: 'application/json',
                 success: function(bill) {
@@ -566,7 +566,7 @@ https://templatemo.com/tm-559-zay-shop
             formData.append("star", $("#rating").val());
             formData.append("comment", $("#textAreaExample").val());
             $.ajax({
-                url: "http://localhost:8080/customer/feedback",
+                url: "/customer/feedback",
                 type: "POST",
                 data: formData,
                 processData: false,

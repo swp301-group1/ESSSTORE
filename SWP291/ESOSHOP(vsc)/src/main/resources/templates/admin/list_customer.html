@@ -315,7 +315,7 @@
         function getAllAccount(){
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/admin/user/account/1",
+                url: "/admin/user/account/1",
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {
@@ -352,7 +352,7 @@
         function inforDetail(email){
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/admin/user/customer/"+email,
+                url: "/admin/user/customer/"+email,
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {
@@ -379,7 +379,7 @@
             formData.append("status", 0);
             if (userInput) {
                 $.ajax({
-                    url: "http://localhost:8080/admin/user/ban",
+                    url: "/admin/user/ban",
                     type: "POST",
                     data: formData,
                     processData: false,
@@ -397,7 +397,7 @@
             formData.append("status", 1);
             if (userInput) {
                 $.ajax({
-                    url: "http://localhost:8080/admin/user/ban",
+                    url: "/admin/user/ban",
                     type: "POST",
                     data: formData,
                     processData: false,

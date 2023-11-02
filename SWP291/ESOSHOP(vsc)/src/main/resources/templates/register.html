@@ -139,7 +139,7 @@
       var email = $("#email").val();
       $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/register/checkaccount/' + email,
+        url: '/register/checkaccount/' + email,
         dataType: 'json',
         contentType: 'application/json',
         success: function(data) {
@@ -168,7 +168,7 @@
     var formData = new FormData();
     formData.append("email", $("#email").val());
     $.ajax({
-        url: "http://localhost:8080/register/veryfyemail",
+        url: "/register/veryfyemail",
         type: "POST",
         data: formData,
         processData: false,
@@ -196,14 +196,14 @@ $("#btnRegisterok").on('click', function() { // Changed 'click' to 'on' for clic
     formData.append("password", $("#password").val());
     if ($("#otp").val() === otp) {
         $.ajax({
-            url: "http://localhost:8080/register",
+            url: "/register",
             type: "POST",
             data: formData,
             processData: false,
             contentType: false,
             success: function (data) {
                 if (data) {
-                    window.location = "http://localhost:8080/login";
+                    window.location = "/loginpage";
                 } else {
                     showMess("Registration failed", 10000, "red");
                 }

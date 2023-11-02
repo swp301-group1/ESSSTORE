@@ -285,7 +285,7 @@
             function getOrdershavepay() {
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8080/staff/listbillpaysucces',
+                    url: '/staff/listbillpaysucces',
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(data) {
@@ -300,7 +300,7 @@
             function getOrdersConfirm() {
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8080/staff/listbillconfirmsucces',
+                    url: '/staff/listbillconfirmsucces',
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(data) {
@@ -343,7 +343,7 @@
         function getOrderdetail(data) {
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost:8080/staff/vieworderdetail' + data.value,
+                url: '/staff/vieworderdetail' + data.value,
                 dataType: 'json',
                 contentType: 'application/json',
                 success: function(data) {
@@ -388,7 +388,7 @@
             if(userInput){
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8080/staff/confirmpacking'+ orderId.value,
+                    url: '/staff/confirmpacking'+ orderId.value,
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(data) {
@@ -402,7 +402,7 @@
             if(userInput){
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:8080/staff/order/cancelorder/'+ orderId.value,
+                    url: '/staff/order/cancelorder/'+ orderId.value,
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(data) {

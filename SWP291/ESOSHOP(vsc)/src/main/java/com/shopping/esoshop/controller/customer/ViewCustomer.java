@@ -1,5 +1,7 @@
 package com.shopping.esoshop.controller.customer;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.shopping.esoshop.model.Account;
+import com.shopping.esoshop.model.Cart;
 import com.shopping.esoshop.model.Customer;
 import com.shopping.esoshop.service.IDaoService;
 
@@ -47,15 +50,36 @@ public class ViewCustomer {
 		}
 		return "loginpage";
 	}
-
+	@GetMapping("/detail{id}")
+	public String getProduct(Model model,HttpSession session,
+			@PathVariable("id")String id) {
+		// product
+		model.addAttribute("product", daoService.getProductbyId(id));
+		// save session url to back add to cart more
+		String urlback = "/detail"+id+"";
+		if((String)session.getAttribute("urlback")==null){
+			urlback="redirect:/home";
+		}
+		session.setAttribute("urlback", urlback);
+		return "detail";
+	}
 	@GetMapping("/cart")
 	public String getCart(Model model, HttpSession session) {
 		Customer customer = (Customer) session.getAttribute("customer");
 		if (customer != null) {
 			model.addAttribute("carts", daoService.getCartOfCustomer(customer.getId()));
-			return "cart";
 		}
-		return "loginpage";
+		else{
+			List<Cart> carts = (List<Cart>)session.getAttribute("carts");
+			if(carts!=null){
+				model.addAttribute("carts",carts );
+			}
+			else{
+				model.addAttribute("carts",null );
+			}
+			
+		}
+		return "cart";
 	}
 
 	@GetMapping("/order_history")

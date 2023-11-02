@@ -90,14 +90,14 @@
       formData.append('email', $('#email').val());
       formData.append('password', $('#password').val());
       $.ajax({
-        url: 'http://localhost:8080/staff/checklogin',
+        url: '/staff/checklogin',
         type: 'POST',
         data: formData,
         processData: false,
         contentType: false,
         success: function (data) {
           alert(data);
-          window.location = "http://localhost:8080/staff/orders";
+          window.location = "/staff/orders";
         },
         error: function (error) {
           alert("Log in false");

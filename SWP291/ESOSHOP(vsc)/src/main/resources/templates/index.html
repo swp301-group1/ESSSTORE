@@ -386,7 +386,7 @@
 		function selectCate(id) {
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:8080/getproduct/page/' + npage,
+				url: '/getproduct/page/' + npage,
 				dataType: 'json',
 				contentType: 'application/json',
 				success: function(data) {
@@ -401,7 +401,7 @@
 		function searchByName(name) {
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:8080/searchproductbyname/' + name,
+				url: '/searchproductbyname/' + name,
 				dataType: 'json',
 				contentType: 'application/json',
 				success: function(data) {
@@ -427,7 +427,7 @@
 			npage = n;
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:8080/getproduct/page/' + n,
+				url: '/getproduct/page/' + n,
 				dataType: 'json',
 				contentType: 'application/json',
 				success: function(data) {
@@ -472,7 +472,7 @@
 		function getPage(n) {
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:8080/page/' + n,
+				url: '/page/' + n,
 				dataType: 'json',
 				contentType: 'application/json',
 				success: function(data) {
@@ -543,7 +543,7 @@
 		function getbrand() {
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:8080/brands',
+				url: '/brands',
 				dataType: 'json',
 				contentType: 'application/json',
 				success: function(data) {
@@ -564,7 +564,7 @@
 		function getCategories() {
 			$.ajax({
 				type: "GET",
-				url: "http://localhost:8080/categories",
+				url: "/categories",
 				dataType: "json",
 				contentType: "application/json",
 				success: function(data) {

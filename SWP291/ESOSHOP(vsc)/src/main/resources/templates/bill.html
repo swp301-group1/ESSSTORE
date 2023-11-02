@@ -150,7 +150,7 @@
             function getBillById(id) {
               $.ajax({
                 type: 'GET',
-                url: 'http://localhost:8080/getbill'+id,
+                url: '/getbill'+id,
                 dataType: 'json',
                 contentType: 'application/json',
                 success: function (data) {
@@ -174,7 +174,7 @@
             $("#cancel").click('click',function(){
               $.ajax({
                 type: 'GET',
-                url: 'http://localhost:8080/cancelorder' + orderId,
+                url: '/cancelorder' + orderId,
                 dataType: 'json',
                 contentType: 'application/json',
                 success: function (data) {
@@ -188,7 +188,7 @@
             $("#pay").click('click',function(){
               $.ajax({
                 type: 'GET',
-                url: 'http://localhost:8080/pay/' + orderId,
+                url: '/pay/' + orderId,
                 dataType: 'json',
                 contentType: 'application/json',
                 success: function (data) {

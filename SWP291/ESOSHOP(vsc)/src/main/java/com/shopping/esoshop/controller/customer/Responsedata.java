@@ -27,11 +27,21 @@ public class Responsedata {
 	@GetMapping("/listcart")
 	public ResponseEntity<List<Cart>> getCart(HttpSession session) {
 		Customer customer = (Customer) session.getAttribute("customer");
+		List<Cart> carts = (List<Cart>) session.getAttribute("carts");
 		if (customer != null) {
-			return ResponseEntity.ok().body(daoService.getCartOfCustomer(customer.getId()));
+			if (carts == null) {
+				carts = daoService.getCartOfCustomer(customer.getId());
+			}
+			return ResponseEntity.ok().body(carts);
+		} else {
+			if (carts == null) {
+				carts = new ArrayList();
+				session.setAttribute("carts", carts);
+			}
+			return ResponseEntity.ok().body((List<Cart>)session.getAttribute("carts"));
 		}
-		return ResponseEntity.ok().body(daoService.getCartOfCustomer(0));
 	}
+	
 
 	@GetMapping("/listproducts")
 	public ResponseEntity<List<Product>> getListProducts() {
@@ -59,16 +69,6 @@ public class Responsedata {
 			session.setAttribute("added", c.getCustomerId() + "-" + c.getProduct().getId() + "-" + c.getColorId());
 			if (n > 0) {
 				return ResponseEntity.ok().body("Add succes");
-			}
-		}
-		if((List<Cart>)session.getAttribute("carts")==null){
-			session.setAttribute("carts", new ArrayList<Cart>());
-			session.setMaxInactiveInterval(10 * 24 * 60 * 60);
-		}
-		List<Cart> carts = (List<Cart>)session.getAttribute("carts");
-		for (Cart cart : carts) {
-			if(!cart.getCartId().equals(c.getCartId())){
-				carts.add(c);
 			}
 		}
 		return ResponseEntity.ok().body("Add false");
@@ -127,7 +127,13 @@ public class Responsedata {
 	public ResponseEntity<Integer> getTotalOfCart(HttpSession session) {
 		Customer customer = (Customer) session.getAttribute("customer");
 		if(customer!=null)return ResponseEntity.ok().body(daoService.getTotalProductOfcart(customer.getId()));
-		return ResponseEntity.ok().body(0);
+		else{
+		    List<Cart> carts = (List<Cart>)session.getAttribute("carts");
+			if(carts!=null){
+				return ResponseEntity.ok().body(carts.size());
+			}
+			return ResponseEntity.ok().body(0);
+		}
 	}
 
 	@GetMapping("/customer/infor/{from}")

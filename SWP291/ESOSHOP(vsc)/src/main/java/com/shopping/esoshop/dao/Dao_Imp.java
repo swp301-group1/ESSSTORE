@@ -75,6 +75,54 @@ public class Dao_Imp implements Dao {
 	}
 
 	@Override
+	public List<Product> getAllProductByStatus(int status) {
+				String sql = "SELECT [ProductID]\r\n" + //
+				"      ,[ProductName]\r\n" + //
+				"      ,[Size]\r\n" + //
+				"      ,[Quantity]\r\n" + //
+				"      ,[Price]\r\n" + //
+				"      ,[Unit]\r\n" + //
+				"      ,[Contents]\r\n" + //
+				"      ,[SupplierID]\r\n" + //
+				"      ,[CategoryID]\r\n" + //
+				"      ,[BrandID]\r\n" + //
+				"      ,[DateCreate]\r\n" + //
+				"      ,[Status]\r\n" + //
+				"  FROM [dbo].[products] where Status =?  order by [DateCreate] desc";
+		try {
+			List<Product> list = new ArrayList<Product>();
+			PreparedStatement psm = dbHelper.makeConnection().prepareStatement(sql);
+			psm.setInt(1, status);
+			ResultSet rs = psm.executeQuery();
+			while (rs.next()) {
+				Product p = new Product();
+				p.setId(rs.getString("ProductID"));
+				p.setName(rs.getString("ProductName"));
+				p.setColor(getColors(rs.getString("ProductID")));
+				p.setSize(rs.getInt("Size"));
+				p.setQuantity(rs.getInt("Quantity"));
+				p.setPrice(rs.getDouble("Price"));
+				p.setUnit(rs.getString("Unit"));
+				p.setContents(rs.getString("Contents"));
+				p.setCategory(getCategorybyId(rs.getInt("CategoryID")));
+				p.setSupplier(getSupplierbyId(rs.getInt("SupplierID")));
+				p.setBrand(getBrandbyId(rs.getInt("BrandID")));
+				p.setDateCreate(rs.getDate("DateCreate"));
+				p.setTimeCreate(rs.getTime("DateCreate"));
+				p.setStatus(rs.getInt("Status"));
+				if (p.getColor().isEmpty()) {
+					List<Color> cl = new ArrayList<>();
+					cl.add(new Color());
+					p.setColor(cl);
+				}
+				list.add(p);
+			}
+			return list;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	@Override
 	public List<Product> getAllProductByCategory(int categoryid) {
 		String sql = "SELECT [ProductID]\r\n" + //
 				"      ,[ProductName]\r\n" + //
@@ -1637,5 +1685,24 @@ public class Dao_Imp implements Dao {
 
 		}
 		return null;
+	 }
+	 @Override
+	 public boolean deleteProduct(String productid) {
+		String sql = "declare @productid varchar(255)\r\n" + //
+				"set @productid= ?\r\n" + //
+				"    delete from order_details where ProductID = @productid;\r\n" + //
+				"\tdelete from carst where ProductID = @productid;\r\n" + //
+				"\tdelete from color where ProductID = @productid;\r\n" + //
+				"\tdelete from feedbacks where ProductID = @productid;\r\n" + //
+				"\tdelete from products where  ProductID = @productid;";
+		try {
+			Connection con = dbHelper.makeConnection();
+			PreparedStatement psm = con.prepareStatement(sql);
+			psm.setString(1, productid);
+			int n =psm.executeUpdate();
+			return n>0;
+		} catch (Exception e) {
+			return false;
+		}
 	 }
 }
