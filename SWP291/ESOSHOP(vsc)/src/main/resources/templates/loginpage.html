@@ -184,7 +184,7 @@
       });
     }
     else if($("#otp").val()!=otp){
-      showMess("sai otp",5000);
+      showMess("Wrong OTP!",5000);
     }
   });
   $("#btnLoginPassword").click("click", function() {
@@ -197,7 +197,7 @@
       data: formData,
       processData: false,
       contentType: false,
-      success: function(data) {
+      success: function(data) {       
         if(data.loginsucces){
           showMess(data.mess, 5000);
          if(url!=null){
@@ -207,7 +207,7 @@
           window.location="http://localhost:8080/home";
          }
         }
-        else if(!data.loginsucces){
+        else{
           showMess(data.mess,5000);
         }
       },

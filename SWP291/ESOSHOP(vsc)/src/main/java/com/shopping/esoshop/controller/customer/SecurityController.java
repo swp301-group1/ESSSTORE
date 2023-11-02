@@ -91,9 +91,13 @@ public class SecurityController {
 			} else {
 				mess.getMess().add("Password not true");
 			}
-		} else {
-			mess.getMess().add("account not found!");
 		}
+		else if(account != null && account.getStatus()==0) {
+			mess.getMess().add("Your account has been banned!");
+		} else{
+			mess.getMess().add("Please input your Email or Password!");
+		}
+
 		return ResponseEntity.ok().body(mess);
 	}
 
