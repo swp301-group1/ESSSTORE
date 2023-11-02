@@ -1,7 +1,7 @@
 package com.shopping.esoshop.model;
 
 public class Color {
-	String[] colors = {"","Black","While","Yellow","Silver"};
+	String[] colors = {"","Black","While","Yellow","Silver","Red"};
 	private String productId;
 	private int colorId;
 	private String image;
