@@ -91,6 +91,9 @@ public class SecurityController {
 			} else {
 				mess.getMess().add("Password not true");
 			}
+		}
+		else if(account == null && email.length() ==1){
+			mess.getMess().add("Please input your Email!");
 		} else {
 			mess.getMess().add("Canot found account");
 		}
