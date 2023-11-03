@@ -84,7 +84,7 @@
 
 											// Ảnh
 											html += '<td class="column-image">';
-											html += '<img src="img/' + cart.image + '" style="height: 60px;" />';
+											html += '<img src="img/' + cart.color.image + '" style="height: 60px;" />';
 											html += '</td>';
 
 											// Tên Sản phẩm
@@ -94,7 +94,8 @@
 
 											// Màu sắc
 											html += '<td class="column-color">';
-											html += '<span style="font-weight: bold;">Color:</span> <span  class="color">' + cart.colorName + '</span>';
+											html += '<span style="font-weight: bold;">Color:</span> <span  class="color">' + cart.color.colorname + '</span>';
+											html+='<span><input type="color" value="'+cart.colorid+'" readonly></span>'
 											html += '</td>';
 
 											//Giá

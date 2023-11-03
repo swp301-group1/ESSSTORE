@@ -2,7 +2,6 @@ package com.shopping.esoshop.model;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.List;
 
 public class Cart {
 	private String cartId;
@@ -17,9 +16,9 @@ public class Cart {
 	
 	private Time time;
 	
-	private int colorId;
+	private Color color;
 
-	public Cart(String cartId, int customerId, Product product, int quantity, Date date, Time time, int colorId) {
+	public Cart(String cartId, int customerId, Product product, int quantity, Date date, Time time, Color color) {
 		super();
 		this.cartId= cartId;
 		this.customerId = customerId;
@@ -27,7 +26,7 @@ public class Cart {
 		this.quantity = quantity;
 		this.date = date;
 		this.time = time;
-		this.colorId = colorId;
+		this.color = color;
 	}
 
 	public Cart() {
@@ -82,45 +81,14 @@ public class Cart {
 		this.time = time;
 	}
 
-	public int getColorId() {
-		return colorId;
+	public Color getColor() {
+		return color;
 	}
 
-	public void setColorId(int colorId) {
-		this.colorId = colorId;
-	}
-	
-	public String getColorName() {
-		List<Color> colors = this.product.getColor();
-		for (Color color : colors) {
-			if(color.getColorId()== colorId) {
-				return color.getColorname();
-			}
-		}
-		return"No color";
-	}
-	public String getImage() {
-		List<Color> colors = this.product.getColor();
-		for (Color color : colors) {
-			if(color.getColorId()== colorId) {
-				return color.getImage();
-			}
-		}
-		return"No color";
-		
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
-	@Override
-	public String toString() {
-		return "Cart [cartId=" + cartId + ", customerId=" + customerId + ", product=" + product + ", quantity="
-				+ quantity + ", date=" + date + ", time=" + time + ", colorId=" + colorId + "]";
-	}
-	
-	
-	
-	
-	
-	
 	
 	
 }

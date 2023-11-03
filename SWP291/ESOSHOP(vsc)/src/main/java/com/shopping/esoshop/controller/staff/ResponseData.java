@@ -97,7 +97,8 @@ public class ResponseData {
             @RequestParam(value = "unit", defaultValue = "") String unit,
             @RequestParam(value = "size", defaultValue = "") Integer size,
             @RequestParam(value = "quantity", defaultValue = "3000") Integer quantity,
-            @RequestParam(value = "color", defaultValue = "1") Integer colorId,
+            @RequestParam(value = "colorid", defaultValue = "") String colorId,
+            @RequestParam(value = "colorname", defaultValue = "") String colorname,
             @RequestParam(value = "image") MultipartFile img) {
         Product product = new Product();
         product.setId(product.createId());
@@ -111,9 +112,9 @@ public class ResponseData {
         product.setQuantity(quantity);
         product.setSize(size);
         product.setStatus(1);
-        String finame = product.getId() + "_" + colorId + ".webp";
+        String finame = product.getId() + "_" + colorId.replace("#", "") + ".webp";
         List<Color> colors = new ArrayList<>();
-        Color color = new Color(product.getId(), colorId, finame);
+        Color color = new Color(product.getId(),colorId,colorname,finame);
         colors.add(color);
         product.setColor(colors);
         boolean resutl = daoService.insertProduct(product);
@@ -127,10 +128,11 @@ public class ResponseData {
     @PostMapping("/staff/product/addmorecolor")
     public ResponseEntity<String> createColor(HttpSession session,
             @RequestParam("productId") String productId,
-            @RequestParam("color") Integer colorId,
+            @RequestParam("colorid") String colorId,
+            @RequestParam("colorname") String colorname,
             @RequestParam("image") MultipartFile img) {
-        String finame = productId + "_" +colorId + ".webp";
-        Color color = new Color(productId, colorId, finame);
+        String finame = productId + "_" +colorname + ".webp";
+        Color color = new Color(productId, colorId,colorname, finame);
         Product product = daoService.getProductbyId(productId);
         for (Color cl : product.getColor()) {
             if (cl.getColorId() == colorId) {
@@ -262,10 +264,5 @@ public class ResponseData {
         else{
             return ResponseEntity.ok().body("Delete false!");
         }
-    } 
-    @GetMapping("/colors")
-    public ResponseEntity<String[]> getallColor(){
-        Color c = new Color();
-        return ResponseEntity.ok().body(c.getColors());
     } 
 }

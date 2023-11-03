@@ -41,7 +41,7 @@ public class OrderController {
 					od.setOrderDetailId(od.createId(customer.getId()));
 					od.setProduct(c.getProduct());
 					od.setQuantity(Integer.parseInt(quantitys[i]));
-					od.setColor(c.getColorId());
+					od.setColor(c.getColor());
 					orderDelails.add(od);
 					System.out.println(od);
 				}

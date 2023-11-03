@@ -567,34 +567,31 @@ public class Dao_Imp implements Dao {
 	// color
 	@Override
 	public List<Color> getColors(String productid) {
+		List<Color> color = new ArrayList<>();
 		String sql = "SELECT [ProductID]\r\n" + //
 				"      ,[ColorID]\r\n" + //
 				"      ,[Image]\r\n" + //
 				"      ,[ColorName]\r\n" + //
-				"  FROM [dbo].[color] where ProductID =?";
+				"  FROM [dbo].[color] where ProductID = ?";
 		try {
-			List<Color> colors = new ArrayList<>();
-			Connection conn = dbHelper.makeConnection();
-			PreparedStatement psm = conn.prepareStatement(sql);
+			Connection con = dbHelper.makeConnection();
+			PreparedStatement psm = con.prepareStatement(sql);
 			psm.setString(1, productid);
 			ResultSet rs = psm.executeQuery();
 			while (rs.next()) {
-				Color color = new Color();
-				color.setProductId(rs.getString("ProductID"));
-				color.setColorId(rs.getInt("ColorID"));
-				color.setImage(rs.getString("Image"));
-				color.setColorname(rs.getString("ColorName"));
-				colors.add(color);
+				Color cl = new Color();
+				cl.setProductId(productid);
+				cl.setColorId(rs.getString("ColorID"));
+				cl.setImage(rs.getString("Image"));
+				cl.setColorname(rs.getString("ColorName"));
+				color.add(cl);
 			}
-			conn.close();
-			psm.close();
-			rs.close();
-			return colors;
 		} catch (Exception e) {
 			return null;
 		}
+		return color;
 	}
-
+	
 	@Override
 	public Color insertColors(Color color) {
 		String sql = "INSERT INTO [dbo].[color]\r\n" + //
@@ -607,7 +604,7 @@ public class Dao_Imp implements Dao {
 			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
 			psm.setString(1, color.getProductId());
-			psm.setInt(2, color.getColorId());
+			psm.setString(2, color.getColorId());
 			psm.setString(3, color.getImage());
 			psm.setString(4, color.getColorname());
 			int n = psm.executeUpdate();
@@ -849,12 +846,38 @@ public class Dao_Imp implements Dao {
 				c.setQuantity(rs.getInt("Quantity"));
 				c.setDate(rs.getDate("Time"));
 				c.setTime(rs.getTime("Time"));
-				c.setColorId(rs.getInt("Color"));
+				c.setColor(getColor(rs.getString("ProductID"), rs.getString("Color")));;
 				carts.add(c);
 			}
 			return carts;
 		} catch (Exception e) {
 			// TODO: handle exception
+		}
+		return null;
+	}
+	@Override
+	public Color getColor(String productid,String colorid){
+		String sql = "SELECT [ProductID]\r\n" + //
+				"      ,[ColorID]\r\n" + //
+				"      ,[Image]\r\n" + //
+				"      ,[ColorName]\r\n" + //
+				"  FROM [dbo].[color] where ProductID = ? and ColorID =?";
+		try {
+			Connection con = dbHelper.makeConnection();
+			PreparedStatement psm = con.prepareStatement(sql);
+			psm.setString(1, productid);
+			psm.setString(2, colorid);
+			ResultSet rs = psm.executeQuery();
+			if (rs.next()) {
+				Color cl = new Color();
+				cl.setProductId(productid);
+				cl.setColorId(rs.getString("ColorID"));
+				cl.setImage(rs.getString("Image"));
+				cl.setColorname(rs.getString("ColorName"));
+				return cl;
+			}
+		} catch (Exception e) {
+			return null;
 		}
 		return null;
 	}
@@ -884,7 +907,7 @@ public class Dao_Imp implements Dao {
 				c.setQuantity(rs.getInt("Quantity"));
 				c.setDate(rs.getDate("Time"));
 				c.setTime(rs.getTime("Time"));
-				c.setColorId(rs.getInt("Color"));
+				c.setColor(getColor(rs.getString("ProductID"), rs.getString("Color")));
 				return c;
 			}
 		} catch (Exception e) {
@@ -906,12 +929,12 @@ public class Dao_Imp implements Dao {
 		try {
 			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
-			String cartId = cart.getCustomerId() + "-" + cart.getProduct().getId() + "-" + cart.getColorId();
+			String cartId = cart.getCustomerId() + "-" + cart.getProduct().getId() + "-" + cart.getColor().getColorname().replaceAll("\\s", "");
 			psm.setString(1, cartId.trim());
 			psm.setInt(2, cart.getCustomerId());
 			psm.setString(3, cart.getProduct().getId());
 			psm.setInt(4, cart.getQuantity());
-			psm.setInt(5, cart.getColorId());
+			psm.setString(5, cart.getColor().getColorId());
 			int n = psm.executeUpdate();
 			return n;
 
@@ -1137,7 +1160,7 @@ public class Dao_Imp implements Dao {
 					psm.setString(5, orderId);
 					psm.setString(1, de.getProduct().getId());
 					psm.setInt(2, de.getQuantity());
-					psm.setInt(3, de.getColor());
+					psm.setString(3, de.getColor().getColorId());
 					if (psm.executeUpdate() > 0) {
 						TimeUnit.MILLISECONDS.sleep(10);
 						psm.clearParameters();
@@ -1197,7 +1220,7 @@ public class Dao_Imp implements Dao {
 				ord.setOrderId(rs.getString("OrderID"));
 				ord.setProduct(getProductbyId(rs.getString("ProductID")));
 				ord.setQuantity(rs.getInt("Quantity"));
-				ord.setColor(rs.getInt("Color"));
+				ord.setColor(getColor(rs.getString("ProductID"), rs.getString("Color")));
 				ord.setPrice(rs.getDouble("Price"));
 				ord.setTotalPrice(rs.getDouble("Total"));
 				orderdelails.add(ord);

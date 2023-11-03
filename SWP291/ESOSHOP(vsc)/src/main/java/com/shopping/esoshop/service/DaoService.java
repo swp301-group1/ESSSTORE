@@ -279,4 +279,8 @@ public class DaoService implements IDaoService {
 	public boolean deleteProduct(String productid) {
 		return dao.deleteProduct(productid);
 	}
+	@Override
+	public Color getColor(String productid, String colorid) {
+		return dao.getColor(productid, colorid);
+	}
 }

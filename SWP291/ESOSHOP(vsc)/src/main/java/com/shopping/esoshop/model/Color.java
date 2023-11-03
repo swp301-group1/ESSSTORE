@@ -1,47 +1,30 @@
 package com.shopping.esoshop.model;
 
 public class Color {
-	private String[] colors = {"","Black","While","Yellow"};
+	//private String[] colors = {"","Black","While","Yellow"};
 	private String productId;
-	private int colorId;
+	//private int colorId;
+	private String colorId;
 	private String image;
 	private String colorname;
-	public String[] getColors(){
-		return colors;
-	}
-	public Color( int colorId, String image,String colorname) {
-		super();
+
+	public Color(){}
+	public Color(String productId, String colorId, String colorname, String image) {
+		this.productId = productId;
 		this.colorId = colorId;
 		this.image = image;
 		this.colorname = colorname;
 	}
-		public Color( int colorId, String image) {
-		super();
-		this.colorId = colorId;
-		this.image = image;
-		this.colorname = colors[colorId];
+	public String getProductId() {
+		return productId;
 	}
-
-	public Color(String productId, int colorId, String image) {
-		super();
-		this.productId=productId;
-		this.colorId = colorId;
-		this.image = image;
-		this.colorname = colors[colorId];
+	public void setProductId(String productId) {
+		this.productId = productId;
 	}
-	public Color() {
-		this.image="null-image.webp";
-	}
-	public String getProductId(){
-		return this.productId;
-	}
-	public void setProductId(String productId){
-		this.productId=productId;
-	}
-	public int getColorId() {
+	public String getColorId() {
 		return colorId;
 	}
-	public void setColorId(int colorId) {
+	public void setColorId(String colorId) {
 		this.colorId = colorId;
 	}
 	public String getImage() {
@@ -50,25 +33,13 @@ public class Color {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	
 	public String getColorname() {
 		return colorname;
 	}
 	public void setColorname(String colorname) {
-		this.colorname = colorname.trim();
-	}
-//	public String getColor() {
-//		String color[] = {"","Black","While","Red"};
-//		return color[this.colorId];
-//	}
-
-	@Override
-	public String toString() {
-		return "Color [productId=" + productId + ", colorId=" + colorId + ", image=" + image + ", colorname="
-				+ colorname + "]";
+		this.colorname = colorname;
 	}
 	
-
 	
 	
 }

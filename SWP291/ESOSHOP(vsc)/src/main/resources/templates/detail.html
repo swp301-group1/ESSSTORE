@@ -128,9 +128,12 @@ https://templatemo.com/tm-559-zay-shop
 							<form>
 								<input type="hidden" name="product-title" value="Activewear">
 								<div class="row">
-									<div class="col-auto">
+									<div class="col-12">
 										<span style="font-weight: bold;">
-											<span>color: </span>
+											<span>Color: </span>
+											<div >
+												<input type="color" th:each="color : ${product.color}" th:value="${color.colorId}" onclick="choseColor(this)" readonly disabled>
+											</div>
 											<select name="product_color" id="product_color">
 												<option th:value="${color.colorId}" th:each="color: ${product.color}">
 													<th:block th:text="${color.colorname}"></th:block>

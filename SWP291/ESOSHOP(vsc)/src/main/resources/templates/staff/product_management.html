@@ -257,14 +257,8 @@
                                                     id="btnAdmoreColor">
                                                     Add more color
                                                 </button>
-                                                <select id="productColor2" name="colorId" required>
-                                                    <option value="" disabled selected>
-                                                        Select a color
-                                                    </option>
-                                                    <option value="1">Black</option>
-                                                    <option value="2">White</option>
-                                                    <option value="3">Yellow</option>
-                                                </select>
+                                                <input type="color" id="productColor2">
+                                                <input type="text" id="colorname2">
                                                 <div id="productImageSection2">
                                                     <input type="file" id="productImage2" name="img" accept=".png, .jpg"
                                                         required />
@@ -407,14 +401,8 @@
                                         <div class="row d-flex">
                                             <div class="col-4">
                                                 <span for="productColor">Choose Color:</span>
-                                                <select id="productColor" name="colorId" required>
-                                                    <option value="" disabled selected>
-                                                        Select a color
-                                                    </option>
-                                                    <option value="1">Black</option>
-                                                    <option value="2">White</option>
-                                                    <option value="3">Yellow</option>
-                                                </select>
+                                                <input type="color" id="productColor">
+                                                <input type="text" id="colorname">
                                                 <div id="productImageSection">
                                                     <input style="width=10px" type="file" id="productImage" name="img"
                                                         accept=".png, .jpg" required />
@@ -508,7 +496,7 @@
                  html +=
                     '<tr>\n' +
                     '    <td>'+(listproduct.indexOf(p) + 1) +'</td>\n' +
-                    '    <td><img width="50px" src="/img/' +p.color[0].image +'" ></td>\n' +
+                    '    <td><img width="50px" src="/img/' +p.color[0].image+'" ></td>\n' +
                     '    <td style="width:300px">' + p.id +'</td>\n' +
                     '    <td style="width:300px">' + p.name + '</td>\n' +
                     '    <td>' + p.price + '</td>\n' +
@@ -603,24 +591,6 @@
                 },
             });
         }
-        $(document).ready(function(){
-            $.ajax({
-                type: "GET",
-                url: "/colors",
-                dataType: "json",
-                contentType: "application/json",
-                success: function(data) {
-                   var html='<option value="" disabled selected> Select a color </option>';
-                    data.forEach(function(cl){
-                        let index = data.indexOf(cl);
-                        if(index>0){
-                            html+='<option style="color:'+cl+'" value="'+index+'">'+cl+'</option>'
-                        }
-                    });
-                    $("#productColor").html(html);
-                },
-            });
-        })
         function updatestatus(productid, status) {
             var conf;
             if (status === 1) {
@@ -817,7 +787,8 @@
             formData.append("unit", $("#addUnit").val());
             formData.append("size", $("#addSize").val());
             formData.append("quantity", $("#addQuantity").val());
-            formData.append("color", $("#productColor").val());
+            formData.append("colorid", $("#productColor").val());
+            formData.append("colorname", $("#colorname").val());
             formData.append("image", $("#productImage")[0].files[0]);
             $.ajax({
                 url: "/staff/addproduct",
@@ -853,7 +824,8 @@
         $("#btnAdmoreColor").click("click", function() {
             var formData = new FormData();
             formData.append("productId", $("#updateidproduct").val());
-            formData.append("color", $("#productColor2").val());
+            formData.append("colorid", $("#productColor2").val());
+            formData.append("colorname", $("#colorname2").val());
             formData.append("image", $("#productImage2")[0].files[0]);
             $.ajax({
                 url: "/staff/product/addmorecolor",
