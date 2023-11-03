@@ -59,6 +59,17 @@ public String viewCart(Model model, HttpSession session) {
 		}
 		return "redirect:/login";
 	}
+	@PostMapping("/clear_cart")
+public String clearCart(Model model, HttpSession session) {
+    Customer customer = (Customer) session.getAttribute("customer");
+    if (customer != null) {
+        // Clear the user's shopping cart
+        daoService.clearCart(customer.getId());
+        return "redirect:/cart";
+    }
+    return "redirect:/login";
+}
+
 }
 
 
