@@ -1,5 +1,9 @@
 package com.shopping.esoshop.controller.customer;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
 import org.checkerframework.common.returnsreceiver.qual.This;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,6 +39,7 @@ public class CartController {
 		}
 		return "redirect:/login";
 	}
+	///////////////////////////////
 	@GetMapping("/cart")
 public String viewCart(Model model, HttpSession session) {
     Customer customer = (Customer) session.getAttribute("customer");
@@ -90,6 +95,33 @@ public String viewSavedItems(Model model, HttpSession session) {
         return "saved_items"; // Create a view for displaying saved items
     }
     return "redirect:/login";
+}
+public List<CartItem> getSavedItemsForCustomer(String customerId) {
+    String sql = "SELECT * FROM cart_items WHERE customer_id = ? AND saved_for_later = 1";
+    List<CartItem> savedItems = new ArrayList<>();
+
+    try {
+        Connection conn = dbHelper.makeConnection();
+        PreparedStatement psm = conn.prepareStatement(sql);
+        psm.setString(1, customerId);
+        ResultSet resultSet = psm.executeQuery();
+
+        while (resultSet.next()) {
+            CartItem cartItem = new CartItem();
+            cartItem.setId(resultSet.getString("id"));
+            // Set other properties based on your database schema
+            // For example, cartItem.setProduct(resultSet.getString("product_id"));
+            // cartItem.setQuantity(resultSet.getInt("quantity"));
+            savedItems.add(cartItem);
+        }
+
+        return savedItems;
+    } catch (Exception e) {
+        // Handle exceptions, log errors, or throw custom exceptions
+        e.printStackTrace();
+    }
+    
+    return null; // Return an empty list or handle errors as needed
 }
 
 }
