@@ -69,6 +69,16 @@ public String clearCart(Model model, HttpSession session) {
     }
     return "redirect:/login";
 }
+@PostMapping("/save_for_later/{cart_id}")
+public String saveForLater(Model model, HttpSession session, @PathVariable("cart_id") String cartId) {
+    Customer customer = (Customer) session.getAttribute("customer");
+    if (customer != null) {
+        // Move the selected item to a "Saved for Later" list
+        daoService.moveCartItemToSavedList(customer.getId(), cartId);
+        return "redirect:/cart";
+    }
+    return "redirect:/login";
+}
 
 }
 
