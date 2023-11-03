@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import com.shopping.esoshop.model.*;
 import com.shopping.esoshop.service.IDaoService;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
@@ -57,16 +54,16 @@ public class Responsedata {
 	public ResponseEntity<String> addTocart(Model model, HttpSession session,
 			@RequestParam(name = "product_id") String id,
 			@RequestParam(name = "product_quanity", defaultValue = "1") Integer quantity,
-			@RequestParam(name = "product_color") Integer color) {
+			@RequestParam(name = "product_color") String color) {
 		Customer customer = (Customer) session.getAttribute("customer");
 			Cart c = new Cart();
 			c.setCustomerId(customer.getId());
 			c.setProduct(daoService.getProductbyId(id));
 			c.setQuantity(quantity);
-			c.setColorId(color);
+			c.setColor(daoService.getColor(id, color));
 		if (customer != null) {
 			int n = daoService.addToCart(c);
-			session.setAttribute("added", c.getCustomerId() + "-" + c.getProduct().getId() + "-" + c.getColorId());
+			//session.setAttribute("added", c.getCustomerId() + "-" + c.getProduct().getId() + "-" + c.getColorId());
 			if (n > 0) {
 				return ResponseEntity.ok().body("Add succes");
 			}

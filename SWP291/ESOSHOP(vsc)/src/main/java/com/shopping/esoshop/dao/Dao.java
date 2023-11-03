@@ -10,13 +10,12 @@ public interface Dao {
 	// rest is ngo dinh linh
 	// product
 	public List<Product> getAllProduct();//nguyen viet duy
-
     public List<Product> getAllProductByStatus(int status);
 	
 	public boolean deleteProduct(String productid);
 	
 	public List<Product> getAllProductinPage(int nPage, int sizePage);//nguyenvietduy
-
+	public Color getColor(String productid,String colorid);
 	public Page getPage(int npage,int sizePage);//nguyen viet duy
 
 	public Product getProductbyId(String productId);//nguyen viet duy
@@ -36,6 +35,7 @@ public interface Dao {
 	public List<Supplier> getAllSupplier();//HOang DUy Vu
 	// color
 	public List<Color> getColors(String productid);
+
 	public Color insertColors(Color color);
 	
 	public boolean deleteColor(String image);
