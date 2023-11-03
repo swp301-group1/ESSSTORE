@@ -1589,5 +1589,21 @@ public String clearCart(String customerId) {
     }
     return "Cart clearing failed!";
 }
+public String moveCartItemToSavedList(String cartItemId) {
+    String sql = "UPDATE cart_items SET saved_for_later = 1 WHERE id = ?";
+    try {
+        Connection conn = dbHelper.makeConnection();
+        PreparedStatement psm = conn.prepareStatement(sql);
+        psm.setString(1, cartItemId);
+        int result = psm.executeUpdate();
+        if (result > 0) {
+            return "Item moved to Saved for Later successfully!";
+        }
+    } catch (Exception e) {
+        // Handle exceptions, log errors, or throw custom exceptions
+        e.printStackTrace();
+    }
+    return "Moving item to Saved for Later failed!";
+}
 
 }
