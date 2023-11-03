@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -18,13 +19,15 @@ import org.springframework.stereotype.Repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shopping.esoshop.model.*;
 import com.shopping.esoshop.utils.DBHelper;
+
 @Repository
 public class Dao_Imp implements Dao {
 
 	// @Autowired
 	// private JdbcTemplate Template;
-    @Autowired 
+	@Autowired
 	private DBHelper dbHelper;
+
 	// product
 	@Override
 	public List<Product> getAllProduct() {
@@ -76,7 +79,7 @@ public class Dao_Imp implements Dao {
 
 	@Override
 	public List<Product> getAllProductByStatus(int status) {
-				String sql = "SELECT [ProductID]\r\n" + //
+		String sql = "SELECT [ProductID]\r\n" + //
 				"      ,[ProductName]\r\n" + //
 				"      ,[Size]\r\n" + //
 				"      ,[Quantity]\r\n" + //
@@ -122,6 +125,7 @@ public class Dao_Imp implements Dao {
 			return null;
 		}
 	}
+
 	@Override
 	public List<Product> getAllProductByCategory(int categoryid) {
 		String sql = "SELECT [ProductID]\r\n" + //
@@ -185,86 +189,89 @@ public class Dao_Imp implements Dao {
 				"      ,products.[BrandID]\r\n" + //
 				"      ,products.[DateCreate]\r\n" + //
 				"      ,products.[Status]\r\n" + //
-				"  FROM [dbo].[products] \r\n"+//
+				"  FROM [dbo].[products] \r\n" + //
 				"  where products.Status =1  order by [DateCreate] desc";
 		try {
 			List<Product> list = new ArrayList<Product>();
 			PreparedStatement psm = dbHelper.makeConnection().prepareStatement(sql);
 			ResultSet rs = psm.executeQuery();
 			while (rs.next()) {
-			    	Product p = new Product();
-					p.setId(rs.getString("ProductID"));
-					p.setName(rs.getString("ProductName"));
-					p.setColor(getColors(rs.getString("ProductID")));
-					p.setSize(rs.getInt("Size"));
-					p.setQuantity(rs.getInt("Quantity"));
-					p.setPrice(rs.getDouble("Price"));
-					p.setUnit(rs.getString("Unit"));
-					p.setContents(rs.getString("Contents"));
-					p.setCategory(getCategorybyId(rs.getInt("CategoryID")));
-					p.setSupplier(getSupplierbyId(rs.getInt("SupplierID")));
-					p.setBrand(getBrandbyId(rs.getInt("BrandID")));
-				    p.setDateCreate(rs.getDate("DateCreate"));
-					p.setTimeCreate(rs.getTime("DateCreate"));
-					p.setStatus(rs.getInt("Status"));
-					if (p.getColor().isEmpty()) {
-						List<Color> cl = new ArrayList<>();
-						cl.add(new Color());
-						p.setColor(cl);
-					}
-					boolean oke = checkproduct(p,name);
-					if(oke){
-						list.add(p);
-					}
+				Product p = new Product();
+				p.setId(rs.getString("ProductID"));
+				p.setName(rs.getString("ProductName"));
+				p.setColor(getColors(rs.getString("ProductID")));
+				p.setSize(rs.getInt("Size"));
+				p.setQuantity(rs.getInt("Quantity"));
+				p.setPrice(rs.getDouble("Price"));
+				p.setUnit(rs.getString("Unit"));
+				p.setContents(rs.getString("Contents"));
+				p.setCategory(getCategorybyId(rs.getInt("CategoryID")));
+				p.setSupplier(getSupplierbyId(rs.getInt("SupplierID")));
+				p.setBrand(getBrandbyId(rs.getInt("BrandID")));
+				p.setDateCreate(rs.getDate("DateCreate"));
+				p.setTimeCreate(rs.getTime("DateCreate"));
+				p.setStatus(rs.getInt("Status"));
+				if (p.getColor().isEmpty()) {
+					List<Color> cl = new ArrayList<>();
+					cl.add(new Color());
+					p.setColor(cl);
+				}
+				boolean oke = checkproduct(p, name);
+				if (oke) {
+					list.add(p);
+				}
 			}
 			return list;
 		} catch (Exception e) {
 			return null;
 		}
 	}
+
 	boolean checkproduct(Product p, String name) {
-		name=name.toLowerCase();
-		String productName = p.getName().toLowerCase(); 
-		String category = p.getCategory().getName().toLowerCase(); 
+		name = name.toLowerCase();
+		String productName = p.getName().toLowerCase();
+		String category = p.getCategory().getName().toLowerCase();
 		String brand = p.getBrand().getBrandName().toLowerCase();
-		if(compare(name, productName)|| compare(name, category)|| compare(name,brand)){
+		if (compare(name, productName) || compare(name, category) || compare(name, brand)) {
 			return true;
 		}
-		return false; 
+		return false;
 	}
-	boolean compare(String s1,String s2){
+
+	boolean compare(String s1, String s2) {
 		int maxLength = Math.max(s1.length(), s2.length());
-        double distance = levenshteinDistance(s1, s2);
-        double similarity = 1.0 - (distance / maxLength);
-        return similarity >= 0.4;
+		double distance = levenshteinDistance(s1, s2);
+		double similarity = 1.0 - (distance / maxLength);
+		return similarity >= 0.4;
 	}
+
 	public int levenshteinDistance(String s1, String s2) {
-        int[][] dp = new int[s1.length() + 1][s2.length() + 1];
+		int[][] dp = new int[s1.length() + 1][s2.length() + 1];
 
-        for (int i = 0; i <= s1.length(); i++) {
-            for (int j = 0; j <= s2.length(); j++) {
-                if (i == 0) {
-                    dp[i][j] = j;
-                } else if (j == 0) {
-                    dp[i][j] = i;
-                } else {
-                    dp[i][j] = min(dp[i - 1][j - 1] + costOfSubstitution(s1.charAt(i - 1), s2.charAt(j - 1)),
-                            dp[i - 1][j] + 1,
-                            dp[i][j - 1] + 1);
-                }
-            }
-        }
+		for (int i = 0; i <= s1.length(); i++) {
+			for (int j = 0; j <= s2.length(); j++) {
+				if (i == 0) {
+					dp[i][j] = j;
+				} else if (j == 0) {
+					dp[i][j] = i;
+				} else {
+					dp[i][j] = min(dp[i - 1][j - 1] + costOfSubstitution(s1.charAt(i - 1), s2.charAt(j - 1)),
+							dp[i - 1][j] + 1,
+							dp[i][j - 1] + 1);
+				}
+			}
+		}
 
-        return dp[s1.length()][s2.length()];
-    }
+		return dp[s1.length()][s2.length()];
+	}
 
-    public int costOfSubstitution(char a, char b) {
-        return a == b ? 0 : 1;
-    }
+	public int costOfSubstitution(char a, char b) {
+		return a == b ? 0 : 1;
+	}
 
 	public int min(int... numbers) {
 		if (numbers.length == 0) {
-			return 0; 
+			return 0;
 		}
 		int min = numbers[0];
 		for (int i = 1; i < numbers.length; i++) {
@@ -301,7 +308,7 @@ public class Dao_Imp implements Dao {
 				p.setCategory(getCategorybyId(rs.getInt("CategoryID")));
 				p.setSupplier(getSupplierbyId(rs.getInt("SupplierID")));
 				p.setStatus(rs.getInt("Status"));
-				if(p.getStatus()==1){
+				if (p.getStatus() == 1) {
 					list.add(p);
 				}
 			}
@@ -591,7 +598,7 @@ public class Dao_Imp implements Dao {
 		}
 		return color;
 	}
-	
+
 	@Override
 	public Color insertColors(Color color) {
 		String sql = "INSERT INTO [dbo].[color]\r\n" + //
@@ -846,7 +853,8 @@ public class Dao_Imp implements Dao {
 				c.setQuantity(rs.getInt("Quantity"));
 				c.setDate(rs.getDate("Time"));
 				c.setTime(rs.getTime("Time"));
-				c.setColor(getColor(rs.getString("ProductID"), rs.getString("Color")));;
+				c.setColor(getColor(rs.getString("ProductID"), rs.getString("Color")));
+				;
 				carts.add(c);
 			}
 			return carts;
@@ -855,8 +863,9 @@ public class Dao_Imp implements Dao {
 		}
 		return null;
 	}
+
 	@Override
-	public Color getColor(String productid,String colorid){
+	public Color getColor(String productid, String colorid) {
 		String sql = "SELECT [ProductID]\r\n" + //
 				"      ,[ColorID]\r\n" + //
 				"      ,[Image]\r\n" + //
@@ -929,7 +938,8 @@ public class Dao_Imp implements Dao {
 		try {
 			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
-			String cartId = cart.getCustomerId() + "-" + cart.getProduct().getId() + "-" + cart.getColor().getColorname().replaceAll("\\s", "");
+			String cartId = cart.getCustomerId() + "-" + cart.getProduct().getId() + "-"
+					+ cart.getColor().getColorname().replaceAll("\\s", "");
 			psm.setString(1, cartId.trim());
 			psm.setInt(2, cart.getCustomerId());
 			psm.setString(3, cart.getProduct().getId());
@@ -1072,6 +1082,8 @@ public class Dao_Imp implements Dao {
 		String sql = "SELECT [StaffID]\r\n"
 				+ "      ,[Name]\r\n"
 				+ "      ,[Email]\r\n"
+				+ "      ,[Phone]\r\n"
+				+ "      ,[Address]\r\n"
 				+ "  FROM [dbo].[staffs]\r\n"
 				+ "  Where StaffID = ?";
 		try {
@@ -1084,6 +1096,8 @@ public class Dao_Imp implements Dao {
 				staff.setId(rs.getInt("StaffID"));
 				staff.setName(rs.getString("Name"));
 				staff.setEmail(rs.getString("Email"));
+				staff.setPhone(rs.getString("Phone"));
+				staff.setAddress(rs.getString("Address"));
 				return staff;
 			}
 		} catch (Exception e) {
@@ -1094,7 +1108,7 @@ public class Dao_Imp implements Dao {
 
 	@Override
 	public Staff getStaffByEmail(String email) {
-		String sql = "select StaffID,Name,Email from staffs where Email =?";
+		String sql = "select StaffID,Name,Email,Phone,Address from staffs where Email =?";
 		try {
 			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
@@ -1105,6 +1119,8 @@ public class Dao_Imp implements Dao {
 				staff.setId(rs.getInt("StaffID"));
 				staff.setName(rs.getString("Name"));
 				staff.setEmail(rs.getString("Email"));
+				staff.setPhone(rs.getString("Phone"));
+				staff.setAddress(rs.getString("Address"));
 				return staff;
 			}
 		} catch (Exception e) {
@@ -1130,9 +1146,9 @@ public class Dao_Imp implements Dao {
 		String sql2 = "declare @ProductID_Orderdetails varchar(255);\r\n" + //
 				"declare @Price_Orderdetails decimal(18,0)\r\n" + //
 				"declare @Quantity_Orderdetails int;\r\n" + //
-				"declare @Color_Orderdetails int ;\r\n" + //
-				"set @ProductID_Orderdetails = ?\r\n" + // 1 productId
-				"set @Quantity_Orderdetails = ?\r\n" + // 2 quantity orderdetail
+				"declare @Color_Orderdetails varchar(50)\r\n" + //
+				"set @ProductID_Orderdetails = ? \r\n" + // 1 productId
+				"set @Quantity_Orderdetails = ? \r\n" + // 2 quantity orderdetail
 				"set @Price_Orderdetails =(select Price from products where ProductID = @ProductID_Orderdetails)\r\n" + //
 				"set @Color_Orderdetails = ?\r\n" + // 3 color orderdetail
 				"INSERT INTO [dbo].[order_details]\r\n" + //
@@ -1143,6 +1159,7 @@ public class Dao_Imp implements Dao {
 				"           ,[Color]\r\n" + //
 				"           ,[Price])\r\n" + //
 				"     VALUES(?,?,@ProductID_Orderdetails,@Quantity_Orderdetails,@Color_Orderdetails,@Price_Orderdetails)";
+				
 		try {
 			Order order = new Order();
 			String orderId = order.createId(customer.getId());
@@ -1545,22 +1562,27 @@ public class Dao_Imp implements Dao {
 		}
 		return new Customer();
 	}
+
 	@Override
 	public User getInforStaff(String email) {
 		String sql = "SELECT [StaffID]\r\n" + //
 				"      ,[Name]\r\n" + //
 				"      ,[Email]\r\n" + //
+				"      ,[Phone]\r\n" + //
+				"      ,[Address]\r\n" + //
 				"  FROM [dbo].[staffs] where Email = ?";
 		try {
 			Connection con = dbHelper.makeConnection();
 			PreparedStatement psm = con.prepareStatement(sql);
 			psm.setString(1, email);
 			ResultSet rs = psm.executeQuery();
-			if(rs.next()){
+			if (rs.next()) {
 				User staff = new Staff();
 				staff.setId(rs.getInt("StaffID"));
 				staff.setName(rs.getString("Name"));
 				staff.setEmail(rs.getString("Email"));
+				staff.setPhone(rs.getString("Phone"));
+				staff.setAddress(rs.getString("Address"));
 				return staff;
 			}
 		} catch (Exception e) {
@@ -1572,14 +1594,14 @@ public class Dao_Imp implements Dao {
 	@Override
 	public Boolean setStatusAccount(String email, int status) {
 		String sql = "update accounts set Status =? where Email =? ";
-		try{
+		try {
 			Connection con = dbHelper.makeConnection();
-			PreparedStatement psm= con.prepareStatement(sql);
+			PreparedStatement psm = con.prepareStatement(sql);
 			psm.setInt(1, status);
 			psm.setString(2, email);
 			int resutl = psm.executeUpdate();
-			return resutl>0;
-		}catch(Exception e){
+			return resutl > 0;
+		} catch (Exception e) {
 			return false;
 		}
 	}
@@ -1592,11 +1614,12 @@ public class Dao_Imp implements Dao {
 			PreparedStatement psm = con.prepareStatement(sql);
 			psm.setString(1, orderId);
 			int resutl = psm.executeUpdate();
-			return resutl>0;
+			return resutl > 0;
 		} catch (Exception e) {
 			return false;
 		}
 	}
+
 	@Override
 	public int getTotalProductOfcart(int customerId) {
 		String sql = "select count(CartID) as total from carst where CustomerID =?";
@@ -1605,7 +1628,7 @@ public class Dao_Imp implements Dao {
 			PreparedStatement psm = con.prepareStatement(sql);
 			psm.setInt(1, customerId);
 			ResultSet rs = psm.executeQuery();
-			if(rs.next()){
+			if (rs.next()) {
 				return rs.getInt(1);
 			}
 		} catch (Exception e) {
@@ -1613,48 +1636,52 @@ public class Dao_Imp implements Dao {
 		}
 		return 0;
 	}
+
 	@Override
 	public boolean updateNameProduct(String productid, String newname) {
-	    String sql = "UPDATE [dbo].[products] SET [ProductName] = ? WHERE ProductID =?";
+		String sql = "UPDATE [dbo].[products] SET [ProductName] = ? WHERE ProductID =?";
 		try {
 			Connection con = dbHelper.makeConnection();
 			PreparedStatement psm = con.prepareStatement(sql);
 			psm.setString(1, newname);
 			psm.setString(2, productid);
-			int n= psm.executeUpdate();
-			return n>0;
+			int n = psm.executeUpdate();
+			return n > 0;
 		} catch (Exception e) {
 			return false;
 		}
 	}
+
 	@Override
 	public boolean updateContentsProduct(String productid, String content) {
-	    String sql = "UPDATE [dbo].[products] SET [Contents] = ? WHERE ProductID =?";
+		String sql = "UPDATE [dbo].[products] SET [Contents] = ? WHERE ProductID =?";
 		try {
 			Connection con = dbHelper.makeConnection();
 			PreparedStatement psm = con.prepareStatement(sql);
 			psm.setString(1, content);
 			psm.setString(2, productid);
-			int n= psm.executeUpdate();
-			return n>0;
+			int n = psm.executeUpdate();
+			return n > 0;
 		} catch (Exception e) {
 			return false;
 		}
 	}
+
 	@Override
 	public boolean updatePriceProduct(String productid, Double newprice) {
-	String sql = "UPDATE [dbo].[products] SET [Price] = ? WHERE ProductID =?";
+		String sql = "UPDATE [dbo].[products] SET [Price] = ? WHERE ProductID =?";
 		try {
 			Connection con = dbHelper.makeConnection();
 			PreparedStatement psm = con.prepareStatement(sql);
-			psm.setDouble(1,newprice );
+			psm.setDouble(1, newprice);
 			psm.setString(2, productid);
-			int n= psm.executeUpdate();
-			return n>0;
+			int n = psm.executeUpdate();
+			return n > 0;
 		} catch (Exception e) {
 			return false;
 		}
 	}
+
 	@Override
 	public boolean updateQuantityProduct(String productid, int newquantity) {
 		String sql = "UPDATE [dbo].[products] SET [Quantity] = ? WHERE ProductID =?";
@@ -1663,8 +1690,8 @@ public class Dao_Imp implements Dao {
 			PreparedStatement psm = con.prepareStatement(sql);
 			psm.setInt(1, newquantity);
 			psm.setString(2, productid);
-			int n= psm.executeUpdate();
-			return n>0;
+			int n = psm.executeUpdate();
+			return n > 0;
 		} catch (Exception e) {
 			return false;
 		}
@@ -1678,39 +1705,39 @@ public class Dao_Imp implements Dao {
 			PreparedStatement psm = con.prepareStatement(sql);
 			psm.setInt(1, status);
 			psm.setString(2, product);
-			int n= psm.executeUpdate();
-			return n>0;
+			int n = psm.executeUpdate();
+			return n > 0;
 		} catch (Exception e) {
 			return false;
 		}
 	}
-	 @Override
-	 public Account checkcheckRole(String email) {
-		String filePath =  System.getProperty("user.dir")+"\\admin.json";
-        ObjectMapper objectMapper = new ObjectMapper();
-        File jsonFile = new File(filePath);
-        try {
-        Account admin = objectMapper.readValue(jsonFile, Account.class);
-		if(admin!=null){
-			if(admin.getEmail().equals(email)){
-				return admin;
+
+	@Override
+	public Account checkcheckRole(String email) {
+		String filePath = System.getProperty("user.dir") + "\\admin.json";
+		ObjectMapper objectMapper = new ObjectMapper();
+		File jsonFile = new File(filePath);
+		try {
+			Account admin = objectMapper.readValue(jsonFile, Account.class);
+			if (admin != null) {
+				if (admin.getEmail().equals(email)) {
+					return admin;
+				} else {
+					Account a = getAccount(email);
+					if (a == null) {
+						return new Account();
+					}
+					return a;
+				}
 			}
-			else{
-			   Account a = getAccount(email);
-			   if(a==null){
-				return new Account();
-			   }
-			return a;
-		}
-		}	
-	    }
-		catch(Exception e){
+		} catch (Exception e) {
 
 		}
 		return null;
-	 }
-	 @Override
-	 public boolean deleteProduct(String productid) {
+	}
+
+	@Override
+	public boolean deleteProduct(String productid) {
 		String sql = "declare @productid varchar(255)\r\n" + //
 				"set @productid= ?\r\n" + //
 				"    delete from order_details where ProductID = @productid;\r\n" + //
@@ -1722,10 +1749,84 @@ public class Dao_Imp implements Dao {
 			Connection con = dbHelper.makeConnection();
 			PreparedStatement psm = con.prepareStatement(sql);
 			psm.setString(1, productid);
-			int n =psm.executeUpdate();
-			return n>0;
+			int n = psm.executeUpdate();
+			return n > 0;
 		} catch (Exception e) {
 			return false;
 		}
-	 }
+	}
+
+	@Override
+	public Boolean updateStaff(Staff newStaff) {
+		String sql = "UPDATE [dbo].[staffs]\r\n" + //
+				"   SET [Name] = ? \r\n" + //
+				"      ,[Phone] = ? \r\n" + //
+				"      ,[Address] = ? \r\n" + //
+				" WHERE Email = ? ";
+		try {
+			Connection con = dbHelper.makeConnection();
+			PreparedStatement psm = con.prepareStatement(sql);
+			psm.setString(1, newStaff.getName());
+			psm.setString(2, newStaff.getPhone());
+			psm.setString(3, newStaff.getAddress());
+			psm.setString(4, newStaff.getEmail());
+			int n = psm.executeUpdate();
+			return n > 0;
+		} catch (Exception e) {
+			System.out.println("loi");
+			return false;
+		}
+	}
+
+	@Override
+	public Boolean deleteAccount(String email, int role) {
+		String sql1 = "DECLARE @email nvarchar(50)\r\n" + //
+				"set @email =? \r\n" + //
+				"DECLARE @order varchar(255)\r\n" + //
+				"DECLARE @id int\r\n" + //
+				"SELECT @id = CustomerID FROM customers WHERE Email = @email\r\n" + //
+				"select @order = OrderID  from orders where CustomerID = @id\r\n" + //
+				"delete from order_details where OrderID = @order;\r\n" + //
+				"delete from orders where OrderID =@order;\r\n" + //
+				"delete from carst where CustomerID = @id\r\n" + //
+				"delete from customers where CustomerID =  @id;\r\n" + //
+				"delete from accounts where Email = @email;";
+				try {
+					if(role==1){
+					    Connection con = dbHelper.makeConnection();
+				        PreparedStatement psm = con.prepareStatement(sql1);
+						psm.setString(1, email);
+				        int n = psm.executeUpdate();
+				        return n>0;
+					}
+					else{
+						return true;
+					}
+		
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		
+		return null;
+	}
+	@Override
+	public Boolean updateCustomer(Customer newCustomer) {
+		String sql= "UPDATE [dbo].[customers]\r\n" + //
+				"SET [Address] = ?\r\n" + //
+				"   ,[PhoneNumber] = ?\r\n" + //
+				"   WHERE Email=?";
+		try {
+			Connection con = dbHelper.makeConnection();
+			PreparedStatement psm = con.prepareStatement(sql);
+			psm.setString(1, newCustomer.getAddress());
+			psm.setString(2, newCustomer.getPhone());
+			psm.setString(3, newCustomer.getEmail());
+			int n = psm.executeUpdate();
+			return n>0;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+	}
 }

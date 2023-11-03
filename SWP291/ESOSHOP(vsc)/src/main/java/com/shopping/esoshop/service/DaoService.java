@@ -283,4 +283,17 @@ public class DaoService implements IDaoService {
 	public Color getColor(String productid, String colorid) {
 		return dao.getColor(productid, colorid);
 	}
+	@Override
+	public Boolean updateStaff(Staff newStaff) {
+		return dao.updateStaff(newStaff);
+	}
+	@Override
+	public Boolean deleteAccount(String email, int role) {
+	
+		return dao.deleteAccount(email, role);
+	}
+	@Override
+	public Boolean updateCustomer(Customer newCustomer) {
+		return dao.updateCustomer(newCustomer);
+	}
 }

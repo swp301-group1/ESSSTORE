@@ -146,6 +146,8 @@
             </div>
           <script th:inline="javascript">
             var orderId = [[${orderId}]];
+            var added = [[${added}]];
+            console.log(added);
             getBillById(orderId);
             function getBillById(id) {
               $.ajax({
@@ -220,7 +222,7 @@
               bill.orderdetails.forEach(function (od) {
                 html = html + ' <tr>\n' +
                   '                      <td class="px-0">' + od.product.name + '</td>\n' +
-                  '                      <td class="text-center px-0"><img width="50px"src="/img/' + od.image +
+                  '                      <td class="text-center px-0"><img width="50px"src="/img/' + od.color.image +
                   '"></td>\n' +
                   '                      <td class="text-center px-0">' + od.quantity + '</td>\n' +
                   '                      <td class="text-end px-0">' + od.price + '$</td>\n' +
