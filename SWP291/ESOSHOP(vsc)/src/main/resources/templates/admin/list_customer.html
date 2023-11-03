@@ -315,7 +315,7 @@
         function getAllAccount(){
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/admin/user/account/1",
+                url: "/admin/user/account/1",
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {
@@ -352,7 +352,7 @@
         function inforDetail(email){
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/admin/user/customer/"+email,
+                url: "/admin/user/customer/"+email,
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {
@@ -373,35 +373,39 @@
             }
         }
         function doban(email){
-            var userInput = confirm("Are you sure you want to ban "+email.value);
+            var userInput = confirm("Are you sure you want to unban "+email.value);
+            var formData = new FormData();
+            formData.append("email", email.value);
+            formData.append("status", 0);
             if (userInput) {
                 $.ajax({
-                    type: "GET",
-                    url: "http://localhost:8080/admin/user/ban/"+email.value+"/"+0,
-                    dataType: "json",
-                    contentType: "application/json",
+                    url: "/admin/user/ban",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function(data) {
-                        if(data){
-                            getAllAccount();
-                        }
+                       getAllAccount();
                     },
-                });
+                  });
             }
         }
         function unban(email){
             var userInput = confirm("Are you sure you want to unban "+email.value);
+            var formData = new FormData();
+            formData.append("email", email.value);
+            formData.append("status", 1);
             if (userInput) {
                 $.ajax({
-                    type: "GET",
-                    url: "http://localhost:8080/admin/user/ban/"+email.value+"/"+1,
-                    dataType: "json",
-                    contentType: "application/json",
+                    url: "/admin/user/ban",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function(data) {
-                        if(data){
-                            getAllAccount();
-                        }
+                       getAllAccount();
                     },
-                });
+                  });
             }
         }
     </script>           

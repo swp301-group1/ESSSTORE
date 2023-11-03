@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <title>MDB Shop</title>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +13,7 @@
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   <link rel="stylesheet" href="css/login.css">
-  <title>Document</title>
+  
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
@@ -96,6 +97,7 @@
                 class="fa-brands fa-google"></i></button>
             <button type="button" class="btn btn-outline-primary" id="btnOTP"><i
                 class="fa-solid fa-comment-sms"></i></button>
+            <button type="button" id="continutegoogle" class="btn btn-danger"><i class="fa-brands fa-google"></i> Continute</button>
           </div>
           <p class="small mb-5 pb-lg-2 mt-3"><a class="text-muted" href="#!">Forgot password?</a></p>
           <p>Don't have an account? <a href="" th:href="@{/register}" class="link-info">Register here</a></p>
@@ -148,7 +150,7 @@
     var formData = new FormData();
     formData.append("email",$("#emailOTP").val());
     $.ajax({
-      url: "http://localhost:8080/login/checkaccount",
+      url: "/login/checkaccount",
       type: "POST",
       data: formData,
       processData: false,
@@ -170,14 +172,14 @@
     formData.append("email",$("#emailOTP").val());
     if($("#otp").val()==otp){
       $.ajax({
-        url: "http://localhost:8080/dologin/otp",
+        url: "/dologin/otp",
         type: "POST",
         data: formData,
         processData: false,
         contentType: false,
         success: function(data) {
           showMess("login succes", 5000);
-          window.location="http://localhost:8080/home";
+          window.location="/home";
         },
       });
     }
@@ -185,12 +187,20 @@
       showMess("sai otp",5000);
     }
   });
+  $("#password").keypress(function(event) {
+    if (event.which === 13) {
+      doLoginPassword();
+    }
+  });
   $("#btnLoginPassword").click("click", function() {
+    doLoginPassword();
+  });
+  function doLoginPassword(){
     var formData = new FormData();
     formData.append("email", $("#email").val());
-    formData.append("password", $("#password").val());``
+    formData.append("password", $("#password").val());
     $.ajax({
-      url: "http://localhost:8080/dologin",
+      url: "/dologin",
       type: "POST",
       data: formData,
       processData: false,
@@ -199,10 +209,10 @@
         if(data.loginsucces){
           showMess(data.mess, 5000);
          if(url!=null){
-          window.location="http://localhost:8080/"+url;
+          window.location="/"+url;
          }
          else{
-          window.location="http://localhost:8080/home";
+          window.location="/home";
          }
         }
         else if(!data.loginsucces){
@@ -210,7 +220,10 @@
         }
       },
     });
-  });
+  }
+  $("#continutegoogle").click('click',function(){
+    window.location="/oauth2/authorization/google";
+})
 </script>
 
 <script th:inline="javascript">

@@ -283,7 +283,7 @@
             formData.append("to", $("#endDate").val());
             $.ajax({
                 type: "POST",
-                url: 'http://localhost:8080/admin/dashboard/revenue',
+                url: '/admin/dashboard/revenue',
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -323,7 +323,7 @@
         function getCategories() {
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/staff/categories",
+                url: "/staff/categories",
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {

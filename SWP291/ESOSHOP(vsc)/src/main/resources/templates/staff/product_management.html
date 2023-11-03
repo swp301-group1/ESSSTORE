@@ -40,6 +40,7 @@
             /* Đặt chiều rộng của ảnh là 100% để nó phù hợp với khung hình */
             height: auto;
         }
+        
     </style>
 </head>
 
@@ -47,19 +48,6 @@
     <div class="container_all">
         <div class="sidebar" style="overflow: hidden">
             <div class="row flex-column" style="margin-top: 150px">
-                <div class="col-6">
-                    <span style="
-                font-size: 30px;
-                color: white;
-                font-weight: bold;
-                margin-left: 50px;
-              ">
-                        <button type="button" onclick="getProducts()" class="btn btn-danger">
-                            Load
-                        </button>
-                    </span>
-                </div>
-
                 <div class="col mt-5 d-flex sidebar_btn" style="width: 100vw">
                     <div class="d-flex align-items-center" style="margin-left: 50px; height: 45px">
                         <div style="width: 30px" class="mr-3">
@@ -137,10 +125,14 @@
                         Add new
                     </button>
                     <select id="searchCategory" name="category" required>
-                        <option value="" disabled selected>Select a color</option>
+                        <option value="" ></option>
                     </select>
                     <select id="searchBrand" name="brand" required>
-                        <option value="" disabled selected>Select a color</option>
+                        <option value="" ></option>
+                    </select>
+                    <select id="productStatus" required>
+                        <option value="1">Products are being sold</option>
+                        <option value="0" >Products are stop sold</option>
                     </select>
                     <button id="bthSearch" style="float: right" type="button" class="btn btn-primary">
                         Search
@@ -451,14 +443,18 @@
             </div>
         </div>
     </div>
-
+    <div class="btnMore"><div class="ellipsis"><div></div><div></div><div></div><div></div></div></div>
     <script src="/js/updateImage.js"></script>
     <script src="/js/addImage.js"></script>
     <script>
+        $("#productStatus").on('change',function(){
+            status = $(this).val();
+            getProducts();
+        })
         function getInforProduct(productId) {
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/staff/getproduct" + productId.value,
+                url: "/staff/getproduct" + productId.value,
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {
@@ -487,6 +483,7 @@
         }
     </script>
     <script>
+        var status = 1;
         getProducts();
         getCategories();
         getBrands();
@@ -494,7 +491,7 @@
         function getProducts() {
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/staff/listproducts",
+                url: "/staff/listproducts/"+status,
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {
@@ -519,20 +516,27 @@
                     '    <td>\n' +
                     '        <ul style="list-style: none; display:flex ;">\n' +
                     '            <li style="margin-right: 10px;">\n' +
-                    '                <button type="button" value="'+ p.id +'" onclick="getInforProduct(this)" class="btn btn-primary" data-bs-toggle="modal"\n' +
-                    '                    data-bs-target="#exampleModal" data-product-id="1">Edit</button>\n' +
+                    '                <button type="button" value="'+ p.id +'" onclick="getInforProduct(this)" class="btn btn-default" data-bs-toggle="modal"\n' +
+                    '                    data-bs-target="#exampleModal" data-product-id="1"><i class="fas fa-pen" style="font-size:25px"></i></button>\n' +
+                    '                <button type="button" value="'+ p.id +'" onclick="deleteProduct(this)" class="btn btn-default"><i class="material-icons" style="font-size:25px;">delete</i></button>\n' +
+                    '                <button type="button" value="'+ p.id +'" onclick="updatestatus(this,'+p.status+')" class="btn btn-default">'+htmlhide(p.status)+'</button>\n' +
                     '            </li>\n' +
                     '        </ul>\n' +
-                    '    </td>\n' +
+                    '    </td>\n' +                 
                     '</tr>';
             });
             return html;
+        }
+        function htmlhide(st){
+            if(st===1) return '<i class="fa fa-eye" style="font-size:25px"></i>';
+            else return '<i class="fa fa-eye-slash" style="font-size:24px"></i>';
+
         }
 
         function getBrands() {
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/brands",
+                url: "/brands",
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {
@@ -553,7 +557,7 @@
         function getCategories() {
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/staff/categories",
+                url: "/staff/categories",
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {
@@ -579,7 +583,7 @@
         function getSupplier() {
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/staff/suppliers",
+                url: "/staff/suppliers",
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {
@@ -598,6 +602,73 @@
                     suppliers.innerHTML = html;
                 },
             });
+        }
+        $(document).ready(function(){
+            $.ajax({
+                type: "GET",
+                url: "/colors",
+                dataType: "json",
+                contentType: "application/json",
+                success: function(data) {
+                   var html='<option value="" disabled selected> Select a color </option>';
+                    data.forEach(function(cl){
+                        let index = data.indexOf(cl);
+                        if(index>0){
+                            html+='<option style="color:'+cl+'" value="'+index+'">'+cl+'</option>'
+                        }
+                    });
+                    $("#productColor").html(html);
+                },
+            });
+        })
+        function updatestatus(productid, status) {
+            var conf;
+            if (status === 1) {
+                conf = confirm("Do you want to hide?");
+                if (conf) {
+                    status = 0;
+                }
+            } else if (status === 0) {
+                conf = confirm("Do you want to unhide?");
+                if (conf) {
+                    status = 1;
+                }
+            }
+            if (conf) {
+                $.ajax({
+                    type: "GET",
+                    url: "/staff/product/"+ productid.value + "/" + status,
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (data) {
+                        setTimeout(function(){
+                            getProducts();
+                        },100);
+                    },
+                    error: function (error) {
+                    }
+                });
+            }
+        }
+        function deleteProduct(pid){
+            var productid = pid.value; 
+            var conf = confirm("Do you want delete this product?");
+            var formData = new FormData();
+            formData.append("productid", productid);
+            if(conf){
+                $.ajax({
+                    url: "/staff/product/delete",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        setTimeout(function(){
+                            getProducts();
+                        },1000);
+                    },
+                });
+            }
         }
     </script>
 
@@ -749,7 +820,7 @@
             formData.append("color", $("#productColor").val());
             formData.append("image", $("#productImage")[0].files[0]);
             $.ajax({
-                url: "http://localhost:8080/staff/addproduct",
+                url: "/staff/addproduct",
                 type: "POST",
                 data: formData,
                 processData: false,
@@ -779,14 +850,13 @@
         });
         
         
-        
         $("#btnAdmoreColor").click("click", function() {
             var formData = new FormData();
             formData.append("productId", $("#updateidproduct").val());
             formData.append("color", $("#productColor2").val());
             formData.append("image", $("#productImage2")[0].files[0]);
             $.ajax({
-                url: "http://localhost:8080/staff/product/addmorecolor",
+                url: "/staff/product/addmorecolor",
                 type: "POST",
                 data: formData,
                 processData: false,
@@ -811,7 +881,7 @@
             formData.append("category", $("#searchCategory").val());
             formData.append("brand", $("#searchBrand").val());
             $.ajax({
-                url: "http://localhost:8080/staff/searchproduct",
+                url: "/staff/searchproduct",
                 type: "POST",
                 data: formData,
                 processData: false,
@@ -830,7 +900,7 @@
             var img = data.value;
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/staff/product/color/delete/" + img,
+                url: "/staff/product/color/delete/" + img,
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {
@@ -845,7 +915,7 @@
         $("#logout").click('click',function(){
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/staff/logout",
+                url: "/staff/logout",
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {
@@ -862,7 +932,7 @@
             formData.append("productid", $("#updateidproduct").val());
             formData.append("newname", $("#updateProductName").val());
             $.ajax({
-                url: "http://localhost:8080/staff/product/update/name",
+                url: "/staff/product/update/name",
                 type: "POST",
                 data: formData,
                 processData: false,
@@ -881,7 +951,7 @@
             formData.append("productid", $("#updateidproduct").val());
             formData.append("newcontent", $("#updateContent").val());
             $.ajax({
-                url: "http://localhost:8080/staff/product/update/content",
+                url: "/staff/product/update/content",
                 type: "POST",
                 data: formData,
                 processData: false,
@@ -899,7 +969,7 @@
             formData.append("productid", $("#updateidproduct").val());
             formData.append("newprice", $("#updatePrice").val());
             $.ajax({
-                url: "http://localhost:8080/staff/product/update/price",
+                url: "/staff/product/update/price",
                 type: "POST",
                 data: formData,
                 processData: false,
@@ -917,7 +987,7 @@
             formData.append("productid", $("#updateidproduct").val());
             formData.append("newquantity", $("#updateQuantity").val());
             $.ajax({
-                url: "http://localhost:8080/staff/product/update/quantity",
+                url: "/staff/product/update/quantity",
                 type: "POST",
                 data: formData,
                 processData: false,

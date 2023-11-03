@@ -65,20 +65,10 @@
                 <button class="btn btn-info btn-lg btn-block" type="button" id="btnLoginPassword"
                   onclick="login()">Login</button>
               </div>
-
-
-
             </form>
-
-
-
             <div class="mb-3">
-              <button type="button" class="btn btn-outline-danger btnForgot mb-2" id="btnForgotPassword">Forgot
-                password?</button>
+              <button type="button" id="continutegoogle" class="btn btn-danger"><i class="fa-brands fa-google"></i> Continute</button>
             </div>
-
-
-
           </div>
 
         </div>
@@ -100,20 +90,24 @@
       formData.append('email', $('#email').val());
       formData.append('password', $('#password').val());
       $.ajax({
-        url: 'http://localhost:8080/staff/checklogin',
+        url: '/staff/checklogin',
         type: 'POST',
         data: formData,
         processData: false,
         contentType: false,
         success: function (data) {
           alert(data);
-          window.location = "http://localhost:8080/staff/orders";
+          window.location = "/staff/orders";
         },
         error: function (error) {
           alert("Log in false");
         }
       });
+      
     }
+    $("#continutegoogle").click('click',function(){
+      window.location="/oauth2/authorization/google";
+  })
   </script>
 </body>
 

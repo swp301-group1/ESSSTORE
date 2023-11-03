@@ -6,7 +6,7 @@ public class User {
 	private String address;
 	private String phone;
 	private String email;
-	
+	private String picture;
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
@@ -69,4 +69,13 @@ public class User {
     public static Object withDefaultPasswordEncoder() {
         return null;
     }
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+	
 }

@@ -1,12 +1,14 @@
 package com.shopping.esoshop.model;
 
 public class Color {
-	String[] colors = {"","Black","While","Yellow"};
+	private String[] colors = {"","Black","While","Yellow"};
 	private String productId;
 	private int colorId;
 	private String image;
 	private String colorname;
-	
+	public String[] getColors(){
+		return colors;
+	}
 	public Color( int colorId, String image,String colorname) {
 		super();
 		this.colorId = colorId;

@@ -5,21 +5,21 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Document</title>
+	<title>MDB Shop</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
 		integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
 
-	<link rel="stylesheet" href="css/bootstrap.min.css" />
-	<link rel="stylesheet" href="css/custom.css"/>
-	<link rel="stylesheet" href="css/templatemo.css"/>
-	<link rel="stylesheet" href="css/navbar.css">
-	<link rel="stylesheet" href="css/home.css" />
-	
+	<link rel="stylesheet" href="../css/bootstrap.min.css" />
+	<link rel="stylesheet" href="../css/custom.css" />
+	<link rel="stylesheet" href="../css/templatemo.css" />
+	<link rel="stylesheet" href="../css/navbar.css">
+	<link rel="stylesheet" href="../css/home.css" />
+
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 	<link rel="stylesheet"
 		href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" />
-	<link rel="stylesheet" href="css/fontawesome.min.css" />
+	<link rel="stylesheet" href="../css/fontawesome.min.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<style>
 		#alert {
@@ -49,69 +49,18 @@
 		.closebtn:hover {
 			color: black;
 		}
-
-		.navbar {
-			position: fixed;
-			top: 0;
-			left: 0;
-			right: 0;
-			z-index: 1000;
+		.fb-loading-wrapper{
+			padding-bottom: 20px;
 		}
-
-		#btdsearch {
-			background-color: transparent;
-			border: none;
-		}
+    .fblwti-animated{animation-duration:1.5s;animation-fill-mode:forwards;animation-iteration-count:infinite;animation-name:placeHolderShimmer;animation-timing-function:linear;background:#f6f7f8;background:linear-gradient(to right,#eee 8%,#ddd 18%,#eee 33%);background-size:800px 200px;min-height: 451.67px;position:relative}
+    @-webkit-keyframes placeHolderShimmer{0%{background-position:-800px 0}100%{background-position:800px 0}}
+    @keyframes placeHolderShimmer{0%{background-position:-800px 0}100%{background-position:800px 0}}
 	</style>
+
 </head>
+<html xmlns:th="http://www.thymeleaf.org" th:include="nav.html">
 
-<!-- Start Top Nav -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
-	<!-- Container wrapper -->
-	<div class="container">
-		<!-- Navbar brand -->
-		<a class="navbar-brand" th:href="@{/home}"><img id="MDB-logo"
-				src="https://mdbcdn.b-cdn.net/wp-content/uploads/2018/06/logo-mdb-jquery-small.png" alt="MDB Logo"
-				draggable="false" height="30" /></a>
-
-		<!-- Toggle button -->
-		<button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
-			data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<i class="fas fa-bars"></i>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<form class="d-flex align-items-center w-100 form-search mr-2">
-				<div class="input-group">
-
-					<input type="text" class="form-control" oninput=" searchByName(this.value)" placeholder="Search"
-						aria-label="Search" />
-				</div>
-				<button type="button" id="btdsearch" class="text-white"><i class="fas fa-search ps-3"></i></button>
-			</form>
-			<ul class="navbar-nav ms-3">
-				<li class="nav-item mr-3"
-					style="width: 45px; height: 45px; display: flex; justify-content: center; align-items: center;">
-					<a class="nav-link" href="/cart"><i class="fa-solid fa-cart-shopping fa-lg"
-							style="float: right;"></i></a>
-					<span id="totalcart" style="padding:0; margin:0;" class="badge">0</span>
-				</li>
-				<li class="nav-item" style="position: relative; width: 145px; height: 45px;">
-					<a class="nav-link" href="#!"><i class="fa-regular fa-user fa-lg"></i></a>
-					<div class="nav-dropdown flex-column">
-						<a href="/login">Login</a>
-						<a href="/logout">Logout</a>
-						<a href="/user_profile">User Profile</a>
-						<a href="/order_history">Order History</a>
-					</div>
-				</li>
-			</ul>
-		</div>
-		<!-- Collapsible wrapper -->
-	</div>
-	<!-- Container wrapper -->
-</nav>
-<!-- Navbar -->
+</html>
 
 <body>
 	<div class="container-fluid mb-5 mt-5" style="padding-top:50px">
@@ -121,7 +70,6 @@
 					<div class="col mb-3 mt-2">
 						<span style="font-size: 20px; font-weight: bold">Danh mục nổi bật</span>
 					</div>
-
 					<div class="col mb-2">
 						<button class="btnBrand">
 							<img src="img/laptop.png" alt="" class="imgBrand" />
@@ -277,7 +225,6 @@
 	<div class="container py-5">
 		<div class="row">
 			<div class="col-lg-3">
-				<h1 class="h2 pb-4">Categories</h1>
 				<ul class="list-unstyled templatemo-accordion">
 					<li class="pb-3">
 						<a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
@@ -310,6 +257,28 @@
 						</ul>
 					</li>
 				</ul>
+					<div class="row d-flex flex column">
+						<div class="col mb-2">
+							<button class="btnBrand">
+								<img src="img/laptop.png" alt="" class="imgBrand" />
+								<span>Laptop</span>
+							</button>
+						</div>
+	
+						<div class="col mb-2">
+							<button class="btnBrand">
+								<img src="img/tablet.png" alt="" class="imgBrand" />
+								<span>Tablet</span>
+							</button>
+						</div>
+	
+						<div class="col">
+							<button class="btnBrand">
+								<img src="img/doublephone.png" alt="" class="imgBrand" />
+								<span>Phone</span>
+							</button>
+						</div>
+					</div>
 			</div>
 
 			<div class="col-lg-9">
@@ -331,12 +300,16 @@
 							</select>
 						</div>
 					</div>
+					<div class="col-md-6 pb-4">
+						<div class="d-flex">
+							<span id="result"></span>
+						</div>
+					</div>
 				</div>
 				<div class="row" style="min-height: 600px;" id="list_product">
-
 					<!-- list product -->
 				</div>
-				<div div="row">
+				<div class="row">
 					<ul class="pagination pagination-lg justify-content-end" id="pages2">
 						<li class="page-item">
 							<a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark">
@@ -386,8 +359,6 @@
 
 		</div>
 
-
-
 	</footer>
 	<!-- Footer -->
 
@@ -401,63 +372,99 @@
 
 	<!-- List Product-->
 	<script>
-		window.addEventListener('load', function () {
+		window.addEventListener('load', function() {
 			getProducts(1);
 			getbrand();
 			getCategories();
+		});
+		var npage;
 
+		$("#sortprice").change(function(){
+			getProducts(npage);
 		});
 
-		var npage;
-		function sortByPrice() {
-
-		}
 		function selectCate(id) {
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:8080/getproduct/page/' + npage,
+				url: '/getproduct/page/' + npage,
 				dataType: 'json',
 				contentType: 'application/json',
-				success: function (data) {
-					data = data.filter(function (p) {
+				success: function(data) {
+					data = data.filter(function(p) {
 						return p.category.id == id.value;
 					});
 					$("#list_product").html(getlistProduct(data));
 				}
 			});
 		}
+
 		function searchByName(name) {
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:8080/searchproductbyname/' + name,
+				url: '/searchproductbyname/' + name,
 				dataType: 'json',
 				contentType: 'application/json',
-				success: function (data) {
-					$("#list_product").html(getlistProduct(data));
+				success: function(data) {
+					loadListProduct();
+						setTimeout(function() {
+							$("#list_product").html(getlistProduct(data));
+						}, 2000);
+					if (data.length === 0) {
+						$("#result").text("Can not found product " + name);
+						setTimeout(function(){
+							getProducts(npage);
+						},2000);
+					}
 				}
 			});
 		}
-
-		$("#btdsearch").click('click', function () {
+		$("#btdsearch").click('click', function() {
 			getProducts(npage);
 		})
+
 		function getProducts(n) {
 			getPage(n);
 			npage = n;
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:8080/getproduct/page/' + n,
+				url: '/getproduct/page/' + n,
 				dataType: 'json',
 				contentType: 'application/json',
-				success: function (data) {
+				success: function(data) {
 					sortByPrice(data, $("#sortprice").val());
-					$("#list_product").html(getlistProduct(data));
+					loadListProduct();
+					setTimeout(function() {
+						$("#list_product").html(getlistProduct(data));
+					}, 1000);
 				}
 			});
 		}
+		
+		function loadListProduct(){
+			var html='';
+			for(let i=0;i<8;i++){
+				html+='<div class="col-md-3">\n'+
+					'    <div class="fb-loading-wrapper">\n'+
+					'        <div class="fblw-timeline-item">\n'+
+					'          <div class="fblwti-animated">\n'+
+					'          </div>\n'+
+					'        </div>\n'+
+					'    </div>\n'+
+					'</div>';
+			}
+			$("#list_product").html(html);
+		}
 
+		$(document).on('click', '.page-item', function() {
+			setTimeout(function(){
+				window.scrollTo({
+					top: 0,
+					behavior: 'smooth' // Tạo hiệu ứng cuộn mượt
+			});
+			},2000)
+		});
 		function sortByPrice(data, sort) {
-			data.sort(function (a, b) {
+			data.sort(function(a, b) {
 				if (sort == 1) return b.price - a.price;
 				if (sort == 0) return a.price - b.price;
 			});
@@ -465,10 +472,10 @@
 		function getPage(n) {
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:8080/page/' + n,
+				url: '/page/' + n,
 				dataType: 'json',
 				contentType: 'application/json',
-				success: function (data) {
+				success: function(data) {
 					npage = data.pageActive;
 					var pages1 = document.getElementById('pages1');
 					var pages2 = document.getElementById('pages2');
@@ -476,11 +483,14 @@
 					for (let i = 1; i <= data.totalPage; i++) {
 						if (data.pageActive == i) {
 							html = html + '<li class="page-item" style=" margin: 2px;">\n' +
-								'		     <button value="' + i + '" class="btn btn-danger"  onclick="getProducts(this.value)" type="button">' + i + '</button>\n' +
+								'		     <button value="' + i +
+								'" class="btn btn-danger"  onclick="getProducts(this.value)" type="button">' + i +
+								'</button>\n' +
 								'	    </li>';
 						} else {
 							html = html + '<li class="page-item">\n' +
-								'			<button class="btn btn-primary" style=" margin: 2px;" type="button" value="' + i + '" onclick="getProducts(this.value)">' + i + '</button>\n' +
+								'			<button class="btn btn-primary" style=" margin: 2px;" type="button" value="' +
+								i + '" onclick="getProducts(this.value)">' + i + '</button>\n' +
 								'    	</li>';
 						}
 					}
@@ -492,10 +502,9 @@
 
 		function getlistProduct(data) {
 			var html = '';
-			data.forEach(function (product) {
+			data.forEach(function(product) {
 				// Truncate the product name if it's too long
 				var truncatedName = product.name.length > 18 ? product.name.substring(0, 18) + "..." : product.name;
-
 				html += '<div class="col-md-3">\n' +
 					'    <div class="card mb-4 product-wap rounded-0" product-card>\n' +
 					'        <div class="card rounded-0 card-image" style="min-height: 212.67px;">\n' +
@@ -503,13 +512,15 @@
 					product.color[0].image + '">\n' +
 					'            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">\n' +
 					'                <ul class="list-unstyled">\n' +
-					'                    <li><a class="btn btn-success text-white mt-2" href="/detail' +product.id + '"><i class="far fa-eye"></i></a></li>\n' +
+					'                    <li><a class="btn btn-success text-white mt-2" href="/detail' + product.id +
+					'"><i class="far fa-eye"></i></a></li>\n' +
 					'                </ul>\n' +
 					'            </div>\n' +
 					'        </div>\n' +
 					'        <div class="card-body" style="min-height: 130px;">\n' +
 					'           <div style="height:80px">\n' +
-					'               <a href="/detail' + product.id + '" class="h3 text-decoration-none truncated-text" title="' + product.name + '">' + truncatedName +
+					'               <a href="/detail' + product.id +
+					'" class="h3 text-decoration-none truncated-text" title="' + product.name + '">' + truncatedName +
 					'</a>\n' +
 					'           </div>\n' +
 					'            <ul class="list-unstyled d-flex justify-content-center mb-1">\n' +
@@ -532,15 +543,17 @@
 		function getbrand() {
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:8080/brands',
+				url: '/brands',
 				dataType: 'json',
 				contentType: 'application/json',
-				success: function (data) {
+				success: function(data) {
 					var item = '';
-					data.forEach(function (brand) {
+					data.forEach(function(brand) {
 						item += '<li>\n' +
-							'			<input class="form-check-input" value="' + brand.brandId + '" name="brand" type="radio">\n' +
-							'				<label class="form-check-label" for="flexCheckIndeterminate">' + brand.brandName + '</label>\n' +
+							'			<input class="form-check-input" value="' + brand.brandId +
+							'" name="brand" type="radio">\n' +
+							'				<label class="form-check-label" for="flexCheckIndeterminate">' + brand
+							.brandName + '</label>\n' +
 							'	   </li>';
 					})
 					$("#brands").html(item);
@@ -551,52 +564,53 @@
 		function getCategories() {
 			$.ajax({
 				type: "GET",
-				url: "http://localhost:8080/categories",
+				url: "/categories",
 				dataType: "json",
 				contentType: "application/json",
-				success: function (data) {
+				success: function(data) {
 					html = '';
-					data.forEach(function (cate) {
+					data.forEach(function(cate) {
 						html = html + '<li>\n' +
-							'			<input class="form-check-input" value="' + cate.id + '" onclick="selectCate(this)" name="category" type="radio"  >\n' +
-							'				<label class="form-check-label" for="flexCheckIndeterminate">' + cate.name + '</label>\n' +
+							'			<input class="form-check-input" value="' + cate.id +
+							'" onclick="selectCate(this)" name="category" type="radio"  >\n' +
+							'				<label class="form-check-label" for="flexCheckIndeterminate">' + cate
+							.name + '</label>\n' +
 							'	    	</li>';
 					});
 					$("#categories").html(html);
 				},
 			});
 		}
-
-		$(document).ready(function () {
+		$(document).ready(function() {
 			// Prevent page scrolling on input focus
-			$("input").on('focus', function () {
+			$("input").on('click', function() {
 				const listProduct = document.getElementById('list_product');
 				if (listProduct) {
-					listProduct.scrollIntoView({ behavior: 'smooth' });
+					const topPos = listProduct.getBoundingClientRect().top + window.pageYOffset - 170;
+					window.scrollTo({
+						top: topPos,
+						behavior: 'smooth'
+					});
 				}
 			});
 		});
-
-		getTotalCart();
-		function getTotalCart() {
-			$.ajax({
-				type: 'GET',
-				url: 'http://localhost:8080/customer/totalofcart',
-				dataType: 'json',
-				contentType: 'application/json',
-				success: function (data) {
-					$("#totalcart").text(data);
-				}
+		document.addEventListener("DOMContentLoaded", function() {
+			// Lắng nghe sự kiện click trên nút
+			document.getElementById("scrollToTopButton").addEventListener("click", function() {
+				// Cuộn lên đầu trang
+				window.scrollTo({
+					top: 0,
+					behavior: 'smooth' // Tạo hiệu ứng cuộn mượt
+				});
 			});
-		}
+		});
 	</script>
 	<div id="alert">
 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 		<strong id="mess">Mess</strong>
 	</div>
 
-	<script>
-
+	<script >
 
 	</script>
 </body>

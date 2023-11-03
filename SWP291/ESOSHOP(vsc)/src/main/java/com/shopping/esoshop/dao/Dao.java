@@ -11,6 +11,10 @@ public interface Dao {
 	// product
 	public List<Product> getAllProduct();//nguyen viet duy
 
+    public List<Product> getAllProductByStatus(int status);
+	
+	public boolean deleteProduct(String productid);
+	
 	public List<Product> getAllProductinPage(int nPage, int sizePage);//nguyenvietduy
 
 	public Page getPage(int npage,int sizePage);//nguyen viet duy
@@ -112,4 +116,7 @@ public interface Dao {
 	public boolean updatePriceProduct(String productid,Double newprice);
 	public boolean updateQuantityProduct(String productid,int newquantity);
 	
+	public boolean updateStatusProduct(String product,int status);
+
+	public Account checkcheckRole(String email);
 }

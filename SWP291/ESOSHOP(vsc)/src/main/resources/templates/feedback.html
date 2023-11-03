@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Zay Shop - Product Detail Page</title>
+    <title>MDB Shop</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -295,7 +295,7 @@ https://templatemo.com/tm-559-zay-shop
         function getAllBill(){
 			$.ajax({
 				type: 'GET',
-				url: 'http://localhost:8080/getbills',
+				url: '/getbills',
 				dataType: 'json',
 				contentType: 'application/json',
 				success: function(data) {

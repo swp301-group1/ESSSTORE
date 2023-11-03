@@ -369,7 +369,7 @@
         function getAllAccount(){
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/admin/user/account/2",
+                url: "/admin/user/account/2",
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {
@@ -406,7 +406,7 @@
         function inforDetail(email){
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/admin/user/staff/"+email,
+                url: "/admin/user/staff/"+email,
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {

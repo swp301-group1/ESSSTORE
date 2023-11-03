@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,8 +34,17 @@ public class AdminController {
     @PostMapping("admin/dashboard/revenue")
     public ResponseEntity<List<Revenue>> getRevenue(
             @RequestParam("from") Date from,
-            @RequestParam("to") Date to) {
-        return ResponseEntity.ok().body(daoServicel.getRevenues(from, to));
+            @RequestParam("to") Date to ) {
+                try {
+                    if(from.before(to)){
+                       return ResponseEntity.ok().body(daoServicel.getRevenues(from, to));
+                    }
+                } catch (Exception e) {
+                  System.out.println("Date input false fomat");
+                  return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+                }
+        System.out.println("Date from must befor or equal date to");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 
     @GetMapping("admin/user/customer/{email}")
@@ -55,23 +65,27 @@ public class AdminController {
         return ResponseEntity.ok().body(daoServicel.getAllAccount(role));
     }
 
-    @GetMapping("admin/user/ban/{email}/{status}")
+    @PostMapping("admin/user/ban")
     public ResponseEntity<Boolean> setStatusAccount(HttpSession session,
-        @PathVariable("email") String email,
-        @PathVariable("status")Integer status){
+        @RequestParam("email") String email,
+        @RequestParam("status")Integer status){
             try {
                 if(status==1 || status==0){
                     boolean resutl = daoServicel.setStatusAccount(email, status);
-                    if(resutl){
-                    session.setAttribute("customer", null);
-                    }
+                    System.out.println("update success");
                    return ResponseEntity.ok().body(resutl);
                 }else{
+                     System.out.println("input status must 0||1");
                     return ResponseEntity.ok().body(false);
                 }
             } catch (Exception e) {
+                 System.out.println("update false");
                  return ResponseEntity.ok().body(false);
             }
+    }
+    @GetMapping("/checkrole/{email}")
+    public  ResponseEntity<Account> cejckRole(@PathVariable("email")String email){
+        return ResponseEntity.ok().body(daoServicel.checkcheckRole(email));
     }
 
 }

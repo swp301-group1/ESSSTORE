@@ -34,3 +34,13 @@ BEGIN
 	where od.OrderID = @orderid
 END;
 drop TRIGGER UpdateProductQuantityOrder
+
+CREATE TRIGGER before_product_delete
+ON products
+after delete as
+BEGIN 
+    DECLARE @orderid varchar(255);
+    SELECT @orderid = order_details.OrderID FROM order_details inner join products on products.ProductID = order_details.ProductID;
+	Delete order_details where order_details.OrderID = @orderid;
+	Delete orders where orders.OrderID = @orderid;
+END;

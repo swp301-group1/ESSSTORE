@@ -40,7 +40,7 @@ public class ViewController {
     String checkSessionStaff(HttpSession session,String url){
         Staff staff = (Staff)session.getAttribute("staff");
         if(staff==null){
-            return "redirect:/staff/login";
+            return "/staff/login";
         }
         return url;
     }

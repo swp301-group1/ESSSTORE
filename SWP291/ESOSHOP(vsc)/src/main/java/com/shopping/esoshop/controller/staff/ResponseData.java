@@ -50,9 +50,9 @@ public class ResponseData {
     }
 
 
-    @GetMapping("staff/listproducts")
-    public ResponseEntity<List<Product>> getListProducts() {
-        return ResponseEntity.ok().body(daoService.getAllProduct());
+    @GetMapping("staff/listproducts/{status}")
+    public ResponseEntity<List<Product>> getListProducts(@PathVariable("status")Integer status) {
+        return ResponseEntity.ok().body(daoService.getAllProductByStatus(status));
     }
 
     @GetMapping("staff/categories")
@@ -244,4 +244,28 @@ public class ResponseData {
         @RequestParam("newquantity")Integer newquantity) {
         return ResponseEntity.ok().body(daoService.updateQuantityProduct(productid, newquantity));
     }
+
+    @GetMapping("/staff/product/{productid}/{status}")
+    public ResponseEntity<Boolean> updateStatusProduct(
+        @PathVariable("productid") String pid,
+        @PathVariable("status")Integer status){
+        return ResponseEntity.ok().body(daoService.updateStatusProduct(pid,status));
+    }
+
+    @PostMapping("/staff/product/delete")
+    public ResponseEntity<String> deleteProduct(
+        @RequestParam("productid")String productid){
+            boolean resutl = daoService.deleteProduct(productid);
+        if(resutl){
+            return ResponseEntity.ok().body("Delete succses!");
+        }
+        else{
+            return ResponseEntity.ok().body("Delete false!");
+        }
+    } 
+    @GetMapping("/colors")
+    public ResponseEntity<String[]> getallColor(){
+        Color c = new Color();
+        return ResponseEntity.ok().body(c.getColors());
+    } 
 }
