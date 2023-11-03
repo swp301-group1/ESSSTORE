@@ -79,6 +79,18 @@ public String saveForLater(Model model, HttpSession session, @PathVariable("cart
     }
     return "redirect:/login";
 }
+@GetMapping("/saved_items")
+public String viewSavedItems(Model model, HttpSession session) {
+    Customer customer = (Customer) session.getAttribute("customer");
+    if (customer != null) {
+        // Retrieve the items saved for later by the customer
+        List<CartItem> savedItems = daoService.getSavedItemsForCustomer(customer.getId());
+        // Add the saved items to the model for the view
+        model.addAttribute("savedItems", savedItems);
+        return "saved_items"; // Create a view for displaying saved items
+    }
+    return "redirect:/login";
+}
 
 }
 
