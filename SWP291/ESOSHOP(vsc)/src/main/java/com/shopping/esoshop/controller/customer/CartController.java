@@ -31,5 +31,15 @@ public class CartController {
 		}
 		return "redirect:/login";
 	}
-	
+	@GetMapping("/cart")
+public String viewCart(Model model, HttpSession session) {
+    Customer customer = (Customer) session.getAttribute("customer");
+    if (customer != null) {
+        List<CartItem> cartItems = daoService.getCartItemsForCustomer(customer.getId());
+        model.addAttribute("cartItems", cartItems);
+        return "view_cart"; // Create a view for displaying cart contents
+    }
+    return "redirect:/login";
+}
+
 }
