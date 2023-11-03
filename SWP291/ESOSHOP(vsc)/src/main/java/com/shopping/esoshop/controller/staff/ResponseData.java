@@ -245,3 +245,4 @@ public class ResponseData {
         return ResponseEntity.ok().body(daoService.updateQuantityProduct(productid, newquantity));
     }
 }
+// hala
