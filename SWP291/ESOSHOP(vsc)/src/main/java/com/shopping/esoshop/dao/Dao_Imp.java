@@ -1573,3 +1573,21 @@ public List<CartItem> getCartItemsForCustomer(String customerId) {
     
     return null; // Return an empty list or handle error as needed
 }
+public String clearCart(String customerId) {
+    String sql = "DELETE FROM cart_items WHERE customer_id = ?";
+    try {
+        Connection conn = dbHelper.makeConnection();
+        PreparedStatement psm = conn.prepareStatement(sql);
+        psm.setString(1, customerId);
+        int result = psm.executeUpdate();
+        if (result > 0) {
+            return "Cart cleared successfully!";
+        }
+    } catch (Exception e) {
+        // Handle exceptions, log errors, or throw custom exceptions
+        e.printStackTrace();
+    }
+    return "Cart clearing failed!";
+}
+
+}
