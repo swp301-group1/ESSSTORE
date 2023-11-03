@@ -119,4 +119,10 @@ public interface Dao {
 	public boolean updateStatusProduct(String product,int status);
 
 	public Account checkcheckRole(String email);
+
+	public Boolean updateStaff(Staff newStaff);
+
+	public Boolean updateCustomer(Customer newCustomer);
+
+	public Boolean deleteAccount(String email,int role);
 }

@@ -174,7 +174,8 @@
                                                 <thead>
                                                     <tr>
                                                         <th><span>User</span></th>
-                                                        <th class="text-center"><span>Status</span></th>
+                                                        <th class="text-center"></th>
+                                                        <th class="text-center"></th>
                                                         <th>&nbsp;</th>
                                                     </tr>
                                                 </thead>
@@ -326,10 +327,10 @@
                         '        <img src="/img/user.png" alt="">\n'+
                         '        <span class="user-link">'+a.email+'</span>\n'+
                         '    </td>\n'+
-                        '\n'+
                         '    <td class="text-center">\n'+
                         '       '+getstatus(a)+
                         '    </td>\n'+
+                        '    <td class="text-center"> <button type="button" id="delete" class="btn btn-danger">Delete</button></td>\n'+
                         '    <td style="width: 10%;">\n'+
                         '        <button type="button" value="'+a.email+'" onclick="inforDetail(this.value)" class="table-link"\n'+
                         '            style="border: none; background-color: transparent; color: rgb(63, 117, 253);"\n'+
@@ -373,7 +374,7 @@
             }
         }
         function doban(email){
-            var userInput = confirm("Are you sure you want to unban "+email.value);
+            var userInput = confirm("Are you sure you want to ban "+email.value);
             var formData = new FormData();
             formData.append("email", email.value);
             formData.append("status", 0);

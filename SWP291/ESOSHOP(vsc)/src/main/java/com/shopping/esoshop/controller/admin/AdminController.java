@@ -72,7 +72,6 @@ public class AdminController {
             try {
                 if(status==1 || status==0){
                     boolean resutl = daoServicel.setStatusAccount(email, status);
-                    System.out.println("update success");
                    return ResponseEntity.ok().body(resutl);
                 }else{
                      System.out.println("input status must 0||1");
@@ -88,4 +87,17 @@ public class AdminController {
         return ResponseEntity.ok().body(daoServicel.checkcheckRole(email));
     }
 
+    @PostMapping("/admin/user/staff/update")
+    public ResponseEntity<Boolean> updateStaff(
+        @RequestParam("email")String email,
+        @RequestParam("name")String name,
+        @RequestParam("phone")String phone,
+        @RequestParam("address")String address){
+            Staff staff = new Staff();
+            staff.setEmail(email);
+            staff.setName(name);
+            staff.setPhone(phone);
+            staff.setAddress(address);
+            return ResponseEntity.ok().body(daoServicel.updateStaff(staff));
+    }
 }

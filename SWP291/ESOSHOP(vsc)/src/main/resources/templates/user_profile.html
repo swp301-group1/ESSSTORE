@@ -96,7 +96,7 @@
                                         <p class="mb-0">Full Name</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <input type="text" id="fullname2" class="text-muted mb-0 input-field" value="Johnatan Smith"/>
+                                        <input type="text" id="fullname2" class="text-muted mb-0 input-field" value="Johnatan Smith"/ >
                                     </div>
                                 </div>
                                 <hr>
@@ -105,7 +105,7 @@
                                         <p class="mb-0">Email</p>
                                     </div>
                                     <div class="col-sm-9">
-                                        <input id="email" class="text-muted mb-0 input-field" value="abc@gmail.com"/>
+                                        <input id="email" class="text-muted mb-0 input-field" value="abc@gmail.com"/ >
                                     </div>
                                 </div>
                                 <hr>
@@ -131,7 +131,7 @@
                                 <div class="row mt-5 ">
                                    
                                     <div class="col-2">
-                                        <button type="button" class="btn btn-primary ">Edit</button>
+                                        <button type="button" onclick=" edit()" class="btn btn-primary ">Edit</button>
                                     </div>
                                     
                                     <div class="col-5 ">
@@ -198,6 +198,24 @@
                 document.getElementById("image").src =  data.picture;
             },
         });
+    }
+    function edit(){
+        var conf = confirm("Dou you want update!");
+        var formData = new FormData();
+        formData.append("phone", $("#phone").val())
+        formData.append("address", $("#address").val());
+        if(conf){
+            $.ajax({
+                url: "/customer/edit/profile",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    getuserprofile();
+                },
+              });
+        }
     }
     </script>
 </body>

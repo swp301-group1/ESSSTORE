@@ -64,8 +64,12 @@ public class MySecurityConfig  {
                                         response.sendRedirect("/register2");
                                     }
                                     else if(acount.getRole()==2){
+                                        if(acount.getStatus()!=0){
                                         session.setAttribute("staff", daoService.getStaffByEmail(acount.getEmail()));
                                         response.sendRedirect("/staff/orders");
+                                        }else if(acount.getStatus()!=1){
+                                             response.sendRedirect("/staff/login");
+                                        }
                                     }
                                 }
                                 else response.sendRedirect("/home");

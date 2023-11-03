@@ -43,7 +43,7 @@ public class OrderController {
 					od.setQuantity(Integer.parseInt(quantitys[i]));
 					od.setColor(c.getColor());
 					orderDelails.add(od);
-					System.out.println(od);
+					System.out.println(od.getColor().getColorId());
 				}
 				String orderId = daoService.orderProduct(customer.getId(), orderDelails, cartIDs);
 				System.out.println(orderId);

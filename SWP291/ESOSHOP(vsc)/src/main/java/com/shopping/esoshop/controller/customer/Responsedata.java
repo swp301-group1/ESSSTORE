@@ -169,4 +169,17 @@ public class Responsedata {
 		}
 		return ResponseEntity.ok().body(orderId);
 	}
+
+	@PostMapping(value = "/customer/edit/profile")
+	public ResponseEntity<Boolean> updateProfile(HttpSession session,
+		@RequestParam("phone")String phone,
+		@RequestParam("address") String address){
+			Customer customer = (Customer)session.getAttribute("customer");
+			Customer newCustomer = new Customer();
+			newCustomer.setEmail(customer.getEmail());
+			newCustomer.setPhone(phone);
+			newCustomer.setAddress(address);
+			session.setAttribute("customer", daoService.getCustomerByEmail(customer.getEmail()));
+		return ResponseEntity.ok().body(daoService.updateCustomer(newCustomer));
+	}
 }
