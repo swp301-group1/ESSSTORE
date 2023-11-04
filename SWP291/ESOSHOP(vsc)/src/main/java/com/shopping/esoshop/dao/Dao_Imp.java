@@ -1605,5 +1605,39 @@ public String moveCartItemToSavedList(String cartItemId) {
     }
     return "Moving item to Saved for Later failed!";
 }
+public List<Bill> getPaymentHistory(Customer customer) {
+    String sql = "SELECT [OrderID]\r\n" + //
+                " ,[OrderDate]\r\n" + //
+                " ,[Status]\r\n" + //
+                " ,[Address]\r\n" + //
+                " FROM [dbo].[orders] where CustomerID=? ORDER BY OrderDate DESC";
+    List<Bill> paymentHistory = new ArrayList<>();
+
+    try {
+        Connection conn = dbHelper.makeConnection();
+        PreparedStatement psm = conn.prepareStatement(sql);
+        psm.setInt(1, customer.getId());
+        ResultSet rs = psm.executeQuery();
+
+        while (rs.next()) {
+            Bill b = new Bill();
+            String orderId = rs.getString("OrderID");
+            b.setOrderId(orderId);
+            b.setCustomer(customer);
+            b.setOrderdetails(getListOrderdetail(orderId));
+            b.setOrderDate(rs.getDate("OrderDate"));
+            b.setStatus(rs.getInt("Status"));
+            b.setAddress(rs.getString("Address"));
+            paymentHistory.add(b);
+        }
+
+        return paymentHistory;
+    } catch (Exception e) {
+        // Handle exceptions, log errors, or throw custom exceptions
+        e.printStackTrace();
+    }
+
+    return paymentHistory;
+}
 
 }
