@@ -39,5 +39,21 @@ public class PayController {
         return "redirect:/bill"+orderId;
     }
 
-    
+   ////////////////////////////////////////////////
+   ///////////////////////////////////////////////////
+   ////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////
+   @GetMapping(value = "/confirmPayment{orderId}")
+public String confirmPayment(Model model, HttpSession session, @PathVariable(value = "orderId") String orderId) {
+    Customer customer = (Customer) session.getAttribute("customer");
+    if (customer != null) {
+        // Thực hiện xác nhận thanh toán ở đây (ví dụ: kiểm tra trạng thái thanh toán).
+        // Nếu thanh toán thành công, bạn có thể cập nhật hóa đơn hoặc thông báo thành công.
+        // Nếu thanh toán không thành công, bạn có thể thông báo lỗi hoặc thực hiện xử lý khác.
+    } else {
+        return "redirect:/login";
+    }
+    return "paymentConfirmation";
+}
+ 
 }
