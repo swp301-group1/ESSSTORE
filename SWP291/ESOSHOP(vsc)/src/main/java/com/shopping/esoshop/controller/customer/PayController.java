@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.shopping.esoshop.model.Customer;
 import com.shopping.esoshop.service.IDaoService;
+import com.twilio.rest.api.v2010.account.call.Payment;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -55,5 +56,17 @@ public String confirmPayment(Model model, HttpSession session, @PathVariable(val
     }
     return "paymentConfirmation";
 }
- 
+ @GetMapping(value = "/paymentHistory")
+public String viewPaymentHistory(Model model, HttpSession session) {
+    Customer customer = (Customer) session.getAttribute("customer");
+    if (customer != null) {
+        // Lấy lịch sử thanh toán của khách hàng từ daoService.
+        List<Payment> paymentHistory = daoService.getPaymentHistory(customer);
+        model.addAttribute("paymentHistory", paymentHistory);
+    } else {
+        return "redirect:/login";
+    }
+    return "paymentHistory";
+}
+
 }
