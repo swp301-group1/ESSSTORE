@@ -78,7 +78,7 @@
                         <div style="border-radius:50%; padding:0px" ><img id="imageuser" src="img/user.png"></img></div>
                         <div class="nav-dropdown flex-column">
                             <a id="alogin" href="/loginpage">Login</a>
-                            <a id="alogout" href="/logout">Logout</a>
+                            <a id="alogout" href="/home">Logout</a>
                             <a href="/user_profile" id="userprofile">User Profile</a>
                             <a  href="/order_history" id="orderhis">Order History</a>
                         </div>
@@ -108,7 +108,7 @@
         </div>
     </nav>
     <script th:inline="javascript">
-        var user = [[${session.customer}]];
+        var user = [[${session.account}]];
         $(document).ready(function(){
             $.ajax({
 				type: 'GET',
@@ -128,7 +128,9 @@
             }
             else{
                 console.log(user);
-                $("#imageuser").attr('src',user.picture);
+                if(user.picture!==null){
+                    $("#imageuser").attr('src',user.picture);
+                }
                 $("#userprofile").text(user.email);
                 $("#alogin").css('display','none');
                 $("#alogout").css('display','block');
@@ -136,9 +138,16 @@
                 $("#orderhis").css('display','block');
             }
             $("#continutegoogle").click('click',function(){
-                window.location="/oauth2/authorization/google";
+               window.location="/login/google/1";
             })
-            
+            function openGoogleLogin() {
+                var authUrl = "/login/google/1";
+                var width = 600;
+                var height = 600;
+                var left = (screen.width - width) / 2;
+                var top = (screen.height - height) / 2;
+                window.open(authUrl, "_blank", "width=" + width + ", height=" + height + ", top=" + top + ", left=" + left);
+            }
         })
         $("#imes").on('click', function() {
             if ($(".message-box").css('display') === 'block') {
@@ -156,6 +165,20 @@
                 document.getElementById("alert").style.display = "none";
             }, time);
         }
+        $(document).ready(function(){
+            $("#alogout").click('click',function(){
+                $.ajax({
+                    type: "GET",
+                    url: "/api/user/logout",
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function(data) {
+                        alert("Logout succes");
+                        window.location.reload();
+                    },
+                });
+            })
+        })
     </script>
 </body>
 </html>

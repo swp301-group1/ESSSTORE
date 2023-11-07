@@ -87,17 +87,21 @@
   <script>
     function login() {
       var formData = new FormData();
-      formData.append('email', $('#email').val());
+      formData.append('email_phone', $('#email').val());
       formData.append('password', $('#password').val());
+      formData.append('role', 2);
       $.ajax({
-        url: '/staff/checklogin',
+        url: '/api/user/login',
         type: 'POST',
         data: formData,
         processData: false,
         contentType: false,
         success: function (data) {
-          alert(data);
-          window.location = "/staff/orders";
+          if(data){
+            alert("login success");
+            window.location = "/staff/orders";
+          }
+          else{ alert("loign false")}
         },
         error: function (error) {
           alert("Log in false");
@@ -106,7 +110,7 @@
       
     }
     $("#continutegoogle").click('click',function(){
-      window.location="/oauth2/authorization/google";
+      window.location="/login/google/2";
   })
   </script>
 </body>

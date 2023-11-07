@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shopping.esoshop.model.Account;
+import com.shopping.esoshop.model_ef.Account;
 
 import jakarta.servlet.http.HttpSession;
 

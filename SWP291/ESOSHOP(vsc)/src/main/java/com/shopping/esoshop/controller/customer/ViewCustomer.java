@@ -13,10 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.shopping.esoshop.model.Account;
-import com.shopping.esoshop.model.Cart;
-import com.shopping.esoshop.model.Customer;
-import com.shopping.esoshop.service.IDaoService;
+import com.shopping.esoshop.model_ef.*;
+import com.shopping.esoshop.service2.IDaoService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,6 +36,7 @@ public class ViewCustomer {
 		return "register";
 	}
 	@GetMapping("/register2")
+
 	public String getRegister2() {
 		return "register2";
 	}
@@ -65,9 +64,9 @@ public class ViewCustomer {
 	}
 	@GetMapping("/cart")
 	public String getCart(Model model, HttpSession session) {
-		Customer customer = (Customer) session.getAttribute("customer");
+		Account customer = (Account) session.getAttribute("account");
 		if (customer != null) {
-			model.addAttribute("carts", daoService.getCartOfCustomer(customer.getId()));
+			model.addAttribute("carts", daoService.getCartOfCustomer(customer.getAid()));
 		}
 		else{
 			List<Cart> carts = (List<Cart>)session.getAttribute("carts");
@@ -111,7 +110,7 @@ public class ViewCustomer {
 
 	@GetMapping("/user_profile")
 	public String userprofile(HttpSession session) {
-		Customer customer = (Customer)session.getAttribute("customer");
+		Account customer = (Account) session.getAttribute("account");
 		if(customer!=null){
 			return "user_profile";
 		}

@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import com.shopping.esoshop.model.Customer;
-import com.shopping.esoshop.service.IDaoService;
+import com.shopping.esoshop.model_ef.*;
+import com.shopping.esoshop.service2.IDaoService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -20,7 +20,7 @@ public class CartController {
 	@GetMapping("/detete_cart{cart_id}")
 	public String deleteProductOfCart(Model model,HttpSession session,
 			@PathVariable("cart_id") String cartId) {
-		Customer customer = (Customer)session.getAttribute("customer");
+		Account customer = (Account)session.getAttribute("account");
 		if(customer!=null) {
 			// delete product of cart
 		   int n = daoService.deletCart(cartId);

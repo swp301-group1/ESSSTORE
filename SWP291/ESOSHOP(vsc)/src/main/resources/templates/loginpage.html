@@ -197,32 +197,28 @@
   });
   function doLoginPassword(){
     var formData = new FormData();
-    formData.append("email", $("#email").val());
+    formData.append("email_phone", $("#email").val());
     formData.append("password", $("#password").val());
+    formData.append('role', 1);
     $.ajax({
-      url: "/dologin",
+      url: "/api/user/login",
       type: "POST",
       data: formData,
       processData: false,
       contentType: false,
       success: function(data) {
-        if(data.loginsucces){
-          showMess(data.mess, 5000);
-         if(url!=null){
-          window.location="/"+url;
-         }
-         else{
+        if(data){
+          showMess("login success", 5000);
           window.location="/home";
-         }
         }
-        else if(!data.loginsucces){
-          showMess(data.mess,5000);
+        else if(!data){
+          showMess("login false", 5000);
         }
       },
     });
   }
   $("#continutegoogle").click('click',function(){
-    window.location="/oauth2/authorization/google";
+    window.location="/login/google/1";
 })
 </script>
 

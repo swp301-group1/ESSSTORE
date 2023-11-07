@@ -316,7 +316,7 @@
         function getAllAccount(){
             $.ajax({
                 type: "GET",
-                url: "/admin/user/account/1",
+                url: "/api/admin/accounts/1",
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {
@@ -324,15 +324,15 @@
                     data.forEach(function(a){
                        html+='<tr>\n'+
                         '    <td>\n'+
-                        '        <img src="/img/user.png" alt="">\n'+
+                        '        <img style="border-radius:50%" src="'+a.picture+'" alt="">\n'+
                         '        <span class="user-link">'+a.email+'</span>\n'+
                         '    </td>\n'+
                         '    <td class="text-center">\n'+
                         '       '+getstatus(a)+
                         '    </td>\n'+
-                        '    <td class="text-center"> <button type="button" id="delete" class="btn btn-danger">Delete</button></td>\n'+
+                        '    <td class="text-center"> <button type="button" id="delete" value="'+a.aid+'" onclick="deleteAccount(this)" class="btn btn-danger">Delete</button></td>\n'+
                         '    <td style="width: 10%;">\n'+
-                        '        <button type="button" value="'+a.email+'" onclick="inforDetail(this.value)" class="table-link"\n'+
+                        '        <button type="button" value="'+a.aid+'" onclick="inforDetail(this.value)" class="table-link"\n'+
                         '            style="border: none; background-color: transparent; color: rgb(63, 117, 253);"\n'+
                         '            data-bs-toggle="modal" data-bs-target="#exampleModal">\n'+
                         '            <span class="fa-stack">\n'+
@@ -343,23 +343,23 @@
                         '        </button>\n'+
                         '\n'+
                         '    </td>\n'+
-                        '</tr>';;
+                        '</tr>';
                     })
                     $("#customers").html(html);
                 },
             });
         }
 
-        function inforDetail(email){
+        function inforDetail(aid){
             $.ajax({
                 type: "GET",
-                url: "/admin/user/customer/"+email,
+                url: "/api/admin/account/"+aid,
                 dataType: "json",
                 contentType: "application/json",
                 success: function(data) {
                     $("#name_detail").html(data.name);
                     $("#email_detail").html(data.email);
-                    $("#phone_detail").html(data.phone);
+                    $("#phone_detail").html(data.phonenumber);
                     $("#address_detail").html(data.address);
                 },
             });
@@ -367,20 +367,26 @@
 
         function getstatus(acount){
             if(acount.status==0){
-                return '<button type="button" value="'+acount.email+'" onclick="unban(this)" class="btn btn-danger">Inactive</button>';
+                return '<button type="button"  onclick="doban_unban('+acount.aid+','+1+')" class="btn btn-danger">Inactive</button>';
             }
             else{
-                return '<button type="button"  value="'+acount.email+'" onclick="doban(this)" class="btn btn-success">Active</button>';
+                return '<button type="button"  onclick="doban_unban('+acount.aid+','+0+')" class="btn btn-success">Active</button>';
             }
         }
-        function doban(email){
-            var userInput = confirm("Are you sure you want to ban "+email.value);
+        function doban_unban(aid,status){
+            var userInput ;
+            if(status===1){
+                userInput = confirm("Are you sure you want to unban ");
+            }
+            if(status===0){
+                userInput = confirm("Are you sure you want to ban ");
+            }
             var formData = new FormData();
-            formData.append("email", email.value);
-            formData.append("status", 0);
+            formData.append("aid", aid);
+            formData.append("status", status);
             if (userInput) {
                 $.ajax({
-                    url: "/admin/user/ban",
+                    url: "/api/admin/user/ban_unban",
                     type: "POST",
                     data: formData,
                     processData: false,
@@ -391,23 +397,29 @@
                   });
             }
         }
-        function unban(email){
-            var userInput = confirm("Are you sure you want to unban "+email.value);
+        function deleteAccount(aid){
+            var conf = confirm("Do you want to delete the account?");
             var formData = new FormData();
-            formData.append("email", email.value);
-            formData.append("status", 1);
-            if (userInput) {
-                $.ajax({
-                    url: "/admin/user/ban",
-                    type: "POST",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(data) {
-                       getAllAccount();
-                    },
-                  });
-            }
+            formData.append("aid",aid.value);
+           if(conf){
+            $.ajax({
+                url: "/api/admin/account/delete",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    console.log(data);
+                    if(data){
+                        getAllAccount();
+                        alert("delete success!");
+                    }else if(!data){
+                        alert("delete false!");
+                    }
+                },
+            });  
+           }
+            
         }
     </script>           
 </body>

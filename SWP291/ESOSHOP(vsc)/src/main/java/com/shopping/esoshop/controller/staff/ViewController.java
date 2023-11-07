@@ -1,9 +1,10 @@
 package com.shopping.esoshop.controller.staff;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.shopping.esoshop.model.Staff;
+import com.shopping.esoshop.model_ef.*;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -14,34 +15,35 @@ public class ViewController {
     
 
     @GetMapping("/staff/orders")
-    public String getViewManages(HttpSession session){
-        return checkSessionStaff(session,"staff/ordercustomer2");
+    public String getViewManages(HttpSession session,Model model){
+        return checkAccout(session,"/staff/ordercustomer2",model);
     }
 
     @GetMapping(value={"/staff/product_management"})
-    public String getMethodName(HttpSession session) {
-        return checkSessionStaff(session,"/staff/product_management");
-    }
-
-    @GetMapping(value={"/staff/ordercustomer"})
-    public String getViewOrder(HttpSession session) {
-        return checkSessionStaff(session,"/staff/ordercustomer");
+    public String getMethodName(HttpSession session,Model model) {
+        return checkAccout(session,"/staff/product_management",model);
     }
 
     @GetMapping(value = {"/staff","staff/login"})
     public String login(HttpSession session){
-        Staff staff = (Staff)session.getAttribute("staff");
+        Account staff = (Account)session.getAttribute("account");
         if(staff!=null){
-            return "redirect:/staff/productmanages";
+            return "redirect:/staff/product_management";
         }
         return "/staff/login";
     }
 
-    String checkSessionStaff(HttpSession session,String url){
-        Staff staff = (Staff)session.getAttribute("staff");
-        if(staff==null){
-            return "/staff/login";
+    String checkAccout(HttpSession session,String url,Model model){
+        Account staff = (Account)session.getAttribute("account");
+        if(staff!=null){
+            if( staff.getRole()>=2) {
+                return url;
+            }
+            else {
+                model.addAttribute("mess", "The account does not have access");
+                return "redirect:/staff/login";
+            }
         }
-        return url;
+        else return "redirect:/staff/login";
     }
 }

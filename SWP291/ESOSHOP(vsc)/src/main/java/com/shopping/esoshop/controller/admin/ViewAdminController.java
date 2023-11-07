@@ -2,56 +2,51 @@ package com.shopping.esoshop.controller.admin;
 
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import com.shopping.esoshop.model.Account;
+import com.shopping.esoshop.model_ef.Account;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class ViewAdminController {
 
-    @GetMapping("/admin/login")
+    @GetMapping(value = {"/admin","/admin/login"})
     public String login(HttpSession session) {
-        Account admin = (Account)session.getAttribute("admin");
-        if(admin==null){
-            return "admin/login";
-        }
-        return "/admin/dashboard";
+        return "/admin/login";
     }
 
     @GetMapping("/admin/dashboard")
-    public String showDashbroad(HttpSession session ) {
-        Account admin = (Account)session.getAttribute("admin");
-        if(admin!=null){
-            return "admin/dashboard";
-        }
-          return "/admin/login";
+    public String showDashbroad(HttpSession session ,Model model) {
+        return checkAccout("/admin/dashboard",session,model);
     }
 
     @GetMapping("/admin/revenue")
-    public String showRevenue(HttpSession session) {
-        Account admin = (Account)session.getAttribute("admin");
-        if(admin==null){
-            return "redirect:/admin/login";
-        }
-        return "/admin/revenue";
+    public String showRevenue(HttpSession session,Model model) {
+       return checkAccout("/admin/revenue",session,model);
     }
 
     @GetMapping("/admin/list_customer")
-    public String showListCustomer(HttpSession session) {
-        Account admin = (Account)session.getAttribute("admin");
-        if(admin==null){
-            return "redirect:/admin/login";
-        }
-        return "/admin/list_customer";
+    public String showListCustomer(HttpSession session,Model model) {
+        return checkAccout("/admin/list_customer",session,model);
     }
 
     @GetMapping("/admin/list_staff")
-    public String showListStaff(HttpSession session) {
-        Account admin = (Account)session.getAttribute("admin");
-        if(admin==null){
-            return "redirect:/admin/login";
+    public String showListStaff(HttpSession session,Model model) {
+        return checkAccout("/admin/list_staff",session,model);
+    }
+
+    private String checkAccout(String url,HttpSession session,Model model){
+        Account admin = (Account)session.getAttribute("account");
+        if(admin!=null){
+            if( admin.getRole()>=3) {
+                return url;
+            }
+            else {
+                model.addAttribute("mess", "The account does not have access");
+                return "redirect:/admin/login";
+            }
         }
-        return "/admin/list_staff";
+        else return "redirect:/admin/login";
     }
 }

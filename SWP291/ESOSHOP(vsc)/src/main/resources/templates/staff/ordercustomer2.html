@@ -32,47 +32,9 @@
 <body>
 
     <div class="container_all">
+        <html xmlns:th="http://www.thymeleaf.org" th:include="staff/nav.html">
 
-        <div class="sidebar" style="overflow: hidden;">
-            <div class="row flex-column" style="margin-top: 150px; ">
-
-                <div class="col-6"><span
-                        style="font-size: 30px; color: white; font-weight: bold; margin-left: 50px;">Miracle</span>
-                </div>
-                <div class="col-6">
-                    <span style="font-size: 30px;color: white;font-weight: bold;margin-left: 50px;">
-                        <button type="button" onclick="getOrders()" class="btn btn-danger">Load</button>
-                    </span>
-                </div>
-                <div class="col mt-5 d-flex sidebar_btn" style="width: 100vw">
-                    <div class="d-flex align-items-center" style="margin-left: 50px; height: 45px">
-                        <div style="width: 30px" class="mr-3">
-                            <i class="fa-solid fa-user" style="color: #ffffff"></i>
-                        </div>
-                        <a href="#" style="color: white; text-decoration: none">User profile</a>
-                    </div>
-                </div>
-                <div class="col-10 mt-4 d-flex sidebar_btn" style="width: 100vw">
-                    <div class="d-flex align-items-center" style="margin-left: 50px; height: 45px">
-                        <div style="width: 30px" class="mr-3">
-                            <i class="fa-solid fa-box-open" style="color: #ffffff"></i>
-                        </div>
-
-                        <a th:href="@{/staff/product_management}" style="color: white; text-decoration: none">Product</a>
-                    </div>
-                </div>
-                <div class="col-10 mt-4 d-flex sidebar_btn" style="width: 100vw">
-                    <div class="d-flex align-items-center" style="margin-left: 50px; height: 45px">
-                        <div style="width: 30px" class="mr-3">
-                            <i class="fa-solid fa-clipboard-list" style="color: #ffffff"></i>
-                        </div>
-
-                        <a th:href="@{/staff/orders}" style="color: white; text-decoration: none">Order</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        </html>
         <div class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
                 <!-- Navbar brand -->
@@ -381,6 +343,20 @@
                 }
             });
         }
+        $(document).ready(function(){
+            $("#logout").click('click',function(){
+                $.ajax({
+                    type: "GET",
+                    url: "/api/user/logout",
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function(data) {
+                       
+                    },
+                });
+                window.location="/staff/login";
+            })
+        })
     </script>
     <script>
         function confirmpacking(orderId){

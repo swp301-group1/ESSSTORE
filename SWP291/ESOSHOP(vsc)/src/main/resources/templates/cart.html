@@ -60,7 +60,7 @@
 							<div class="col">
 								<div class="row d-flex " id="list_carts" style="overflow-x:hidden;">
 									<script th:inline="javascript">
-										var carts = [[${ carts }]];
+										var carts = [[${carts}]];
 										var obj = [];
 										carts.forEach(function(c ){
 											obj.push(c);
@@ -95,7 +95,7 @@
 											// Màu sắc
 											html += '<td class="column-color">';
 											html += '<span style="font-weight: bold;">Color:</span> <span  class="color">' + cart.color.colorname + '</span>';
-											html+='<span><input type="color" value="'+cart.colorid+'" readonly></span>'
+											html+='<span><input type="color" value="'+cart.color.colorId+'" readonly disabled></span>'
 											html += '</td>';
 
 											//Giá

@@ -44,3 +44,16 @@ BEGIN
 	Delete order_details where order_details.OrderID = @orderid;
 	Delete orders where orders.OrderID = @orderid;
 END;
+
+declare @aid int
+declare @oid varchar(255)
+declare @role int
+set @aid = 11
+IF  EXISTS (SELECT AID FROM accounts WHERE AID=@aid and [Role] <=2)
+BEGIN
+select  @oid = OrderID from orders where AID = @aid
+delete from order_details where OrderID = @oid
+delete from orders where OrderID = @oid
+delete from carts where AID = @aid
+delete from accounts where AID = @aid
+END

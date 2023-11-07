@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.shopping.esoshop.model.*;
-import com.shopping.esoshop.service.IDaoService;
+import com.shopping.esoshop.model_ef.*;
+import com.shopping.esoshop.service2.IDaoService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -23,11 +24,11 @@ public class Responsedata {
 
 	@GetMapping("/listcart")
 	public ResponseEntity<List<Cart>> getCart(HttpSession session) {
-		Customer customer = (Customer) session.getAttribute("customer");
+		Account customer = (Account) session.getAttribute("account");
 		List<Cart> carts = (List<Cart>) session.getAttribute("carts");
 		if (customer != null) {
 			if (carts == null) {
-				carts = daoService.getCartOfCustomer(customer.getId());
+				carts = daoService.getCartOfCustomer(customer.getAid());
 			}
 			return ResponseEntity.ok().body(carts);
 		} else {
@@ -55,9 +56,10 @@ public class Responsedata {
 			@RequestParam(name = "product_id") String id,
 			@RequestParam(name = "product_quanity", defaultValue = "1") Integer quantity,
 			@RequestParam(name = "product_color") String color) {
-		Customer customer = (Customer) session.getAttribute("customer");
+		Account customer = (Account) session.getAttribute("account");
 			Cart c = new Cart();
-			c.setCustomerId(customer.getId());
+			c.setAid(customer.getAid());
+			c.setAccount(customer);
 			c.setProduct(daoService.getProductbyId(id));
 			c.setQuantity(quantity);
 			c.setColor(daoService.getColor(id, color));
@@ -80,7 +82,7 @@ public class Responsedata {
 	@GetMapping("/getbill{orderId}")
 	public ResponseEntity<Bill> getBills(HttpSession session,
 			@PathVariable("orderId") String orderID) {
-		Customer customer = (Customer) session.getAttribute("customer");
+		Account customer = (Account) session.getAttribute("account");
 		return ResponseEntity.ok().body(daoService.getBillOfCustomer(customer, orderID));
 	}
 
@@ -92,7 +94,7 @@ public class Responsedata {
 
 	@GetMapping("/getbills")
 	public ResponseEntity<List<Bill>> getAllBills(HttpSession session) {
-		Customer customer = (Customer) session.getAttribute("customer");
+		Account customer = (Account) session.getAttribute("account");
 		return ResponseEntity.ok().body(daoService.getAllBillsOfCustomer(customer));
 	}
 
@@ -116,14 +118,14 @@ public class Responsedata {
 
 	@GetMapping("/customer/cart")
 	public ResponseEntity<List<Cart>> getCart(Model model, HttpSession session) {
-		Customer customer = (Customer) session.getAttribute("customer");
-		return ResponseEntity.ok().body(daoService.getCartOfCustomer(customer.getId()));
+	    Account customer = (Account) session.getAttribute("account");
+		return ResponseEntity.ok().body(daoService.getCartOfCustomer(customer.getAid()));
 	}
 
 	@GetMapping("/customer/totalofcart")
 	public ResponseEntity<Integer> getTotalOfCart(HttpSession session) {
-		Customer customer = (Customer) session.getAttribute("customer");
-		if(customer!=null)return ResponseEntity.ok().body(daoService.getTotalProductOfcart(customer.getId()));
+		Account customer = (Account) session.getAttribute("account");
+		if(customer!=null)return ResponseEntity.ok().body(daoService.getTotalProductOfcart(customer.getAid()));
 		else{
 		    List<Cart> carts = (List<Cart>)session.getAttribute("carts");
 			if(carts!=null){
@@ -133,53 +135,54 @@ public class Responsedata {
 		}
 	}
 
-	@GetMapping("/customer/infor/{from}")
-	public ResponseEntity<Customer> getInforCustomer(HttpSession session, @PathVariable("from") String from) {
-		DefaultOidcUser user = (DefaultOidcUser) SecurityContextHolder.getContext().getAuthentication()
-		.getPrincipal();
-		Customer customer = new Customer();
-		switch (from) {
-			case "database":
-			    customer = (Customer) session.getAttribute("customer");
-				if(user!=null)customer.setPicture(user.getPicture());
-				break;
-			case "google":
-				if (user != null) {
-					customer.setEmail(user.getEmail());
-					customer.setName(user.getFullName());
-					customer.setAddress("");
-					customer.setPhone(user.getPhoneNumber());
-					customer.setPicture(user.getPicture());
-					return ResponseEntity.ok().body(customer);
-				}
-				break;
-			default:
-				break;
+	@GetMapping("/user/infor")
+	public ResponseEntity<Account> getInforCustomer(HttpSession session) {
+		Account user = (Account) session.getAttribute("account");
+        if (user != null) {
+				return ResponseEntity.ok().body(daoService.findAccount(user.getAid()));
 		}
-		return ResponseEntity.ok().body(customer);
+		return ResponseEntity.ok().body(null);
 	}
 
 	@GetMapping(value = "/pay/{orderId}")
 	public ResponseEntity<String> pay(Model model, HttpSession session,
 			@PathVariable("orderId") String orderId) {
-		Customer customer = (Customer) session.getAttribute("customer");
-		if (customer != null) {
+		Account customer = (Account) session.getAttribute("account");
+		if (customer != null && !customer.getPhonenumber().isEmpty()) {
 			daoService.payBill(daoService.getBillOfCustomer(customer, orderId));
 			return ResponseEntity.ok().body(orderId);
 		}
 		return ResponseEntity.ok().body(orderId);
 	}
 
-	@PostMapping(value = "/customer/edit/profile")
+	@PostMapping(value = "/api/customer/edit/profile")
 	public ResponseEntity<Boolean> updateProfile(HttpSession session,
+		@RequestParam("name")String name,
 		@RequestParam("phone")String phone,
-		@RequestParam("address") String address){
-			Customer customer = (Customer)session.getAttribute("customer");
-			Customer newCustomer = new Customer();
-			newCustomer.setEmail(customer.getEmail());
-			newCustomer.setPhone(phone);
-			newCustomer.setAddress(address);
-			session.setAttribute("customer", daoService.getCustomerByEmail(customer.getEmail()));
-		return ResponseEntity.ok().body(daoService.updateCustomer(newCustomer));
+		@RequestParam("address") String address,
+		@RequestParam("password") String password){
+			Account customer = (Account) session.getAttribute("account");
+			Account customerUpdate = new Account(customer.getAid(),customer.getEmail()
+			,phone,password,customer.getRole(),customer.getStatus(),name,address,customer.getPicture());
+		return ResponseEntity.ok().body(daoService.updateAccount(customerUpdate));
 	}
+	@PostMapping("/api/customer/account/add")
+    public ResponseEntity<Boolean> addStaff(HttpSession session,
+        @RequestParam("email")String email,
+        @RequestParam(value = "phone" ,defaultValue = "")String phone,
+        @RequestParam("password")String password,
+        @RequestParam("name")String name,
+        @RequestParam("address")String address){
+            Account account = new Account(0,email,phone,password,1,1,name,address,"null");
+			boolean resutl = daoService.createAccount(account);
+			if(resutl){
+				account = daoService.findAccountByEmail(email);
+				if(account.getAid()==0) account = daoService.findAccountByPhone(phone);
+				if(account.getAid()!=0){
+					session.setAttribute("account", account);
+					return ResponseEntity.ok().body(true);
+				}
+			}
+			return ResponseEntity.ok().body(false);
+    }
 }
