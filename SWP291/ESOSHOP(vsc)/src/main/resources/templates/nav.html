@@ -60,30 +60,34 @@
                 <i class="fas fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <div class="d-flex align-items-center w-100 form-search mr-2">
+                <div class="d-flex align-items-center w-50 form-search mr-2">
                     <div class="input-group">
-                        <input type="text" class="form-control" onchange=" searchByName(this.value)" placeholder="Search"
-                            aria-label="Search" />
+                        <input type="text" class="form-control" onchange=" searchByName(this.value)"
+                            placeholder="Search" aria-label="Search" />
                     </div>
                     <button type="button" id="btdsearch" class="text-white"><i class="fas fa-search ps-3"></i></button>
                 </div>
-                <ul class="navbar-nav ms-3">
+                <ul class="navbar-nav ms-3" style="height: 50px;">
+
+                    <li class="nav-item"
+                        style="position: absolute;right:90px;width:150px;display:flex;justify-content: center;">
+                        <div style="border-radius:50%; padding:0px"><img id="imageuser" src="img/user.png"></img></div>
+                        <div class="nav-dropdown flex-column">
+                            <a id="alogin" href="/loginpage">Login</a>
+                            <a id="alogout" href="/logout">Logout</a>
+                            <a href="/user_profile" id="userprofile">User Profile</a>
+                            <a href="/order_history" id="orderhis">Order History</a>
+                        </div>
+                    </li>
+
                     <li class="nav-item mr-3"
-                        style="width: 45px; height: 45px; display: flex; justify-content: center; align-items: center;">
+                        style="width: 45px; height: 45px; display: flex; justify-content: center; align-items: center;position: absolute;right:70px;">
                         <a class="nav-link" href="/cart"><i class="fa-solid fa-cart-shopping fa-lg"
                                 style="float: right;"></i></a>
                         <span id="totalcart" style="padding:0; margin:0;" class="badge">0</span>
                     </li>
-                    <li class="nav-item" style="position: absolute;right:50px;width:150px;display:flex;justify-content: center;">
-                        <div style="border-radius:50%; padding:0px" ><img id="imageuser" src="img/user.png"></img></div>
-                        <div class="nav-dropdown flex-column">
-                            <a id="alogin" href="/loginpage">Login</a>
-                            <a id="alogout" href="/home">Logout</a>
-                            <a href="/user_profile" id="userprofile">User Profile</a>
-                            <a  href="/order_history" id="orderhis">Order History</a>
-                        </div>
-                    </li>
-                    <li class="nav-item" style="position: absolute;right:10px;margin-top:10px">
+
+                    <li class="nav-item" style="position: absolute;right:40px;margin-top:10px">
                         <button id="imes" style="background:none;border:none">
                             <i class='fas fa-bell ' style='font-size:24px ;color:white'></i>
                         </button>
