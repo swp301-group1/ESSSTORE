@@ -50,6 +50,8 @@ public class GoogleController {
                     if(register){
                         session.setAttribute("account", daoService.findAccountByEmail(user.getEmail()));
                     }
+                }if(role==2){
+                    return "redirect:/staff/login";
                 }
             }
         }

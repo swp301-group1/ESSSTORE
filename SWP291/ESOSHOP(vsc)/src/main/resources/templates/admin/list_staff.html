@@ -201,6 +201,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Update Staff</h1>
+                        <i class="fa fa-check-circle fa1" style="font-size:25px;color:green; display:none"></i>
+                        <i class="fa fa-close fa1_" style="font-size:25px;color:red;display:none"></i>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"  aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -263,6 +265,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Add Staff</h1>
+                    <i class="fa fa-check-circle fa1" style="font-size:25px;color:green; display:none"></i>
+                    <i class="fa fa-close fa1_" style="font-size:25px;color:red;display:none"></i>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="clere()" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -456,11 +460,17 @@
                 processData: false,
                 contentType: false,
                 success: function(data) {
-                    console.log(data);
                     if(data){
-                        alert("update success!");
-                    }else if(!data){
-                        alert("update false!");
+                        $(".fa1").css('display','block');
+                        setTimeout(function(){
+                            $(".fa1").css('display','none');
+                        },5000);
+                    }
+                    else{
+                        $(".fa1_").css('display','block');
+                        setTimeout(function(){
+                            $(".fa1_").css('display','none');
+                        },5000);
                     }
                 },
             });
@@ -541,12 +551,18 @@
                 processData: false,
                 contentType: false,
                 success: function(data) {
-                    console.log(data);
                     if(data){
+                        $(".fa1").css('display','block');
+                        setTimeout(function(){
+                            $(".fa1").css('display','none');
+                        },5000);
                         getAllAccount();
-                        alert("add success!");
-                    }else if(!data){
-                        alert("add false!");
+                    }
+                    else{
+                        $(".fa1_").css('display','block');
+                        setTimeout(function(){
+                            $(".fa1_").css('display','none');
+                        },5000);
                     }
                 },
             });  
