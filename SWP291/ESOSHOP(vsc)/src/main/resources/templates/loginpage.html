@@ -10,10 +10,10 @@
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-  </script>
+    </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   <link rel="stylesheet" href="css/login.css">
-  
+
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
@@ -21,14 +21,40 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <style>
+    .background {
+      background-image: url('/img/poster.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      height: 100vh;
+      /* Đảm bảo nền chiếm toàn bộ chiều cao của trình duyệt */
+      position: relative;
+      /* Đặt phần tử cha là relative */
+    }
+
+    .login-form {
+      border: solid 1px;
+      border-radius: 5px;
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+      position: absolute;
+      /* Đặt form là absolute để nổi lên trên phần tử cha */
+      top: 50%;
+      /* Đặt vị trí theo chiều dọc để căn giữa */
+      left: 50%;
+      /* Đặt vị trí theo chiều ngang để căn giữa */
+      transform: translate(-50%, -50%);
+      /* Dịch chuyển form để căn giữa chính xác */
+      background-color: rgba(255, 255, 255, 0.8);
+      /* Đặt màu nền cho form */
+    }
+
     #alert {
       position: absolute;
       padding: 10px;
       color: white;
-      background-color:rgb(82, 132, 206);
+      background-color: rgb(82, 132, 206);
       width: 400px;
       top: 30px;
-      left:30px;
+      left: 30px;
       text-align: center;
       z-index: 3;
       display: none;
@@ -51,203 +77,202 @@
   </style>
 </head>
 
-<section class="vh-100" style="overflow: hidden;">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-6 text-black mt-5">
-        <div class="flex-column align-items-center h-custom-2 " style="margin-top: 50px; margin-left: 50px;">
-          <form method="POST" style="width: 23rem;" id="formPassword">
-            <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Log in</h3>
+<body class="background">
+  <section class="vh-100" style="overflow: hidden;">
+    <div class="container-fluid mt-3">
+      <div class="row justify-content-center">
+        <div class="col-4 text-black mt-5 login-form">
+          <div class="flex-column align-items-center h-custom-2 " style="margin-top: 50px; margin-left: 50px;">
+            <form method="POST" style="width: 23rem;" id="formPassword">
+              <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Log in</h3>
 
-            <div class="form-outline mb-4">
-              <input name="email" type="email" id="email" class="form-control form-control-lg" />
-              <label class="form-label" for="email" required>Email address</label>
-            </div>
+              <div class="form-outline mb-4">
+                <input name="email" type="email" id="email" class="form-control form-control-lg" />
+                <label class="form-label" for="email" required>Email address</label>
+              </div>
 
-            <div class="form-outline mb-4">
-              <input name="password" type="password" id="password" required class="form-control form-control-lg" />
-              <label class="form-label" for="password">Password</label>
-            </div>
-            <div class="pt-1 mb-4">
-              <button class="btn btn-info btn-lg btn-block" type="button" id="btnLoginPassword">Login</button>
-            </div>
-          </form>
-          <form action="login_otp" method="POST" style="width: 23rem; display: none;" id="formOTP">
-
-            <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Log in</h3>
-
-            <div class="form-outline mb-4">
-              <input name="email" type="email" id="emailOTP" class="form-control form-control-lg" required />
-              <label class="form-label" for="form2Example18">Email address</label>
-            </div>
-
-            <div class="pt-1 mb-4">
-              <button type="button" class="btn btn-info btn-lg btn-block" id="btncheckaccount">
-                Login
-              </button>
-              <button type="button" id="VerifyOtp" style="display:none" class="btn" data-bs-toggle="modal"
-              data-bs-target="#exampleModal">
-              Verify OTP
-            </button>
-            </div>
-          </form>
-          <div>
-            <span class="mr-4">Sign in with: </span>
-            <button type="button" class="btn btn-outline-primary" id="btnGoogle"><i
-                class="fa-brands fa-google"></i></button>
-            <button type="button" class="btn btn-outline-primary" id="btnOTP"><i
-                class="fa-solid fa-comment-sms"></i></button>
-            <button type="button" id="continutegoogle" class="btn btn-danger"><i class="fa-brands fa-google"></i> Continute</button>
-          </div>
-          <p class="small mb-5 pb-lg-2 mt-3"><a class="text-muted" href="#!">Forgot password?</a></p>
-          <p>Don't have an account? <a href="" th:href="@{/register}" class="link-info">Register here</a></p>
-        </div>
-
-      </div>
-      <div class="col-sm-6 px-0 d-none d-sm-block">
-        <img src="img/poster.jpg" alt="Login image" class="w-100 vh-100"
-          style="object-fit: cover; object-position: left;">
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header ">
-          <h5 class="modal-title " id="otpsendin">OTP Verify send in </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="container_modal">
-            <div>
-              <i class="bx bxs-check-shield"></i>
-            </div>
-            <h4>Enter OTP Code</h4>
-            <form action="#" id="otpModal">
-              <div class="input-field">
-                <input type="text" id="otp" />
+              <div class="form-outline mb-4">
+                <input name="password" type="password" id="password" required class="form-control form-control-lg" />
+                <label class="form-label" for="password">Password</label>
+              </div>
+              <div class="pt-1 mb-4">
+                <button class="btn btn-info btn-lg btn-block" type="button" id="btnLoginPassword">Login</button>
               </div>
             </form>
+            <form action="login_otp" method="POST" style="width: 23rem; display: none;" id="formOTP">
+
+              <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Log in</h3>
+
+              <div class="form-outline mb-4">
+                <input name="email" type="email" id="emailOTP" class="form-control form-control-lg" required />
+                <label class="form-label" for="form2Example18">Email address</label>
+              </div>
+
+              <div class="pt-1 mb-4">
+                <button type="button" class="btn btn-info btn-lg btn-block" id="btncheckaccount">
+                  Login
+                </button>
+                <button type="button" id="VerifyOtp" style="display:none" class="btn" data-bs-toggle="modal"
+                  data-bs-target="#exampleModal">
+                  Verify OTP
+                </button>
+              </div>
+            </form>
+            <div>
+              <span class="mr-4">Sign in with: </span>
+              <button type="button" class="btn btn-outline-primary" id="btnGoogle"><i class="fa-solid fa-user"></i></button>
+              
+              <button type="button" id="continutegoogle" class="btn btn-outline-primary"><i class="fa-brands fa-google"></i>
+                </button>
+            </div>
+            <p class="small mb-5 pb-lg-2 mt-3"><a class="text-muted" href="#!">Forgot password?</a></p>
+            <p>Don't have an account? <a href="" th:href="@{/register}" class="link-info">Register here</a></p>
           </div>
+
         </div>
-        <div class="modal-footer">
-          <button type="button" id="btnLoginOTP" class="btn btn-primary">Verify OTP</button>
+
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header ">
+            <h5 class="modal-title " id="otpsendin">OTP Verify send in </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="container_modal">
+              <div>
+                <i class="bx bxs-check-shield"></i>
+              </div>
+              <h4>Enter OTP Code</h4>
+              <form action="#" id="otpModal">
+                <div class="input-field">
+                  <input type="text" id="otp" />
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="btnLoginOTP" class="btn btn-primary">Verify OTP</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<script th:inline="javascript">
-  var otp;
-  var url = [[${session.url}]]
-  $("#btncheckaccount").click("click", function() {
-    var formData = new FormData();
-    formData.append("email",$("#emailOTP").val());
-    $.ajax({
-      url: "/login/checkaccount",
-      type: "POST",
-      data: formData,
-      processData: false,
-      contentType: false,
-      success: function(data) {
-        if(data.email!='null'){
-          $("#otpsendin").text("OTP Verify send in "+data.email);
-          document.getElementById("VerifyOtp").style.display="block";
-          otp=data.otp;
-        }
-        else if(data.email=='null'){
-          showMess("Cannot found account!",5000);
-        }
-      },
-    });
-  });
-  $("#btnLoginOTP").click("click", function() {
-    var formData = new FormData();
-    formData.append("email",$("#emailOTP").val());
-    if($("#otp").val()==otp){
+  <script th:inline="javascript">
+    var otp;
+    var url = [[${ session.url }]]
+    $("#btncheckaccount").click("click", function () {
+      var formData = new FormData();
+      formData.append("email", $("#emailOTP").val());
       $.ajax({
-        url: "/dologin/otp",
+        url: "/login/checkaccount",
         type: "POST",
         data: formData,
         processData: false,
         contentType: false,
-        success: function(data) {
-          showMess("login succes", 5000);
-          window.location="/home";
+        success: function (data) {
+          if (data.email != 'null') {
+            $("#otpsendin").text("OTP Verify send in " + data.email);
+            document.getElementById("VerifyOtp").style.display = "block";
+            otp = data.otp;
+          }
+          else if (data.email == 'null') {
+            showMess("Cannot found account!", 5000);
+          }
+        },
+      });
+    });
+    $("#btnLoginOTP").click("click", function () {
+      var formData = new FormData();
+      formData.append("email", $("#emailOTP").val());
+      if ($("#otp").val() == otp) {
+        $.ajax({
+          url: "/dologin/otp",
+          type: "POST",
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function (data) {
+            showMess("login succes", 5000);
+            window.location = "/home";
+          },
+        });
+      }
+      else if ($("#otp").val() != otp) {
+        showMess("sai otp", 5000);
+      }
+    });
+    $("#password").keypress(function (event) {
+      if (event.which === 13) {
+        doLoginPassword();
+      }
+    });
+    $("#btnLoginPassword").click("click", function () {
+      doLoginPassword();
+    });
+    function doLoginPassword() {
+      var formData = new FormData();
+      formData.append("email_phone", $("#email").val());
+      formData.append("password", $("#password").val());
+      formData.append('role', 1);
+      $.ajax({
+        url: "/api/user/login",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+          if (data) {
+            showMess("login success", 5000);
+            window.location = "/home";
+          }
+          else if (!data) {
+            showMess("login false", 5000);
+          }
         },
       });
     }
-    else if($("#otp").val()!=otp){
-      showMess("sai otp",5000);
-    }
-  });
-  $("#password").keypress(function(event) {
-    if (event.which === 13) {
-      doLoginPassword();
-    }
-  });
-  $("#btnLoginPassword").click("click", function() {
-    doLoginPassword();
-  });
-  function doLoginPassword(){
-    var formData = new FormData();
-    formData.append("email_phone", $("#email").val());
-    formData.append("password", $("#password").val());
-    formData.append('role', 1);
-    $.ajax({
-      url: "/api/user/login",
-      type: "POST",
-      data: formData,
-      processData: false,
-      contentType: false,
-      success: function(data) {
-        if(data){
-          showMess("login success", 5000);
-          window.location="/home";
-        }
-        else if(!data){
-          showMess("login false", 5000);
-        }
-      },
-    });
-  }
-  $("#continutegoogle").click('click',function(){
-    window.location="/login/google/1";
-})
-</script>
+    $("#continutegoogle").click('click', function () {
+      window.location = "/login/google/1";
+    })
+  </script>
 
-<script th:inline="javascript">
-  $(document).ready(function() {
-    // Hide the formOTP initially
-    // When the "btnOTP" button is clicked, toggle the visibility of the forms
-    $("#btnOTP").click(function() {
-      $("#formPassword").hide();
-      $("#formOTP").show();
+  <script th:inline="javascript">
+    $(document).ready(function () {
+      // Hide the formOTP initially
+      // When the "btnOTP" button is clicked, toggle the visibility of the forms
+      $("#btnOTP").click(function () {
+        $("#formPassword").hide();
+        $("#formOTP").show();
+      });
+      // When the "btnGoogle" button is clicked, toggle back to the password form
+      $("#btnGoogle").click(function () {
+        $("#formOTP").hide();
+        $("#formPassword").show();
+      });
     });
-    // When the "btnGoogle" button is clicked, toggle back to the password form
-    $("#btnGoogle").click(function() {
-      $("#formOTP").hide();
-      $("#formPassword").show();
-    });
-  });
-</script>
-<div id="alert">
-  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-  <strong id="mess">Mess</strong>
-</div>
-<script>
-  function showMess(mess, time) {
+  </script>
+  <div id="alert">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <strong id="mess">Mess</strong>
+  </div>
+  <script>
+    function showMess(mess, time) {
       $("#mess").text(mess);
       document.getElementById('alert').style.display = "block";
-      setTimeout(function() {
-          document.getElementById("alert").style.display = "none";
+      setTimeout(function () {
+        document.getElementById("alert").style.display = "none";
       }, time);
-  }
-</script>
+    }
+  </script>
+</body>
+
 </html>
