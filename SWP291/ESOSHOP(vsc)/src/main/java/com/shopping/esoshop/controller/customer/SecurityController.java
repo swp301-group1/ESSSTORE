@@ -73,7 +73,33 @@ public class SecurityController {
 		}
 	}
 
+	// for login
+	
+	@PostMapping("dologin")
+	public ResponseEntity<Mess> loginByPassword(Model model, HttpSession session,
+			@RequestParam(name = "email", required = false, defaultValue = "") String email,
+			@RequestParam(name = "password", required = false, defaultValue = "") String password) {
+		Account account = dao.getAccount(email);
+		Mess mess = new Mess();
+		mess.setEmail(email);
+		if (account != null && account.getStatus()==1) {
+			if (account.getPassword().equals(password)) {
+				session.setAttribute(Account, account);
+				session.setAttribute(Customer, dao.getCustomerByEmail(account.getEmail()));
+				mess.setLoginsucces(true);
+				mess.getMess().add("Login success");
+			} else {
+				mess.getMess().add("Password not true");
+			}
+		}
+		else if(account != null && account.getStatus()==0) {
+			mess.getMess().add("Your account has been banned!");
+		} else{
+			mess.getMess().add("Please input your Email or Password!");
+		}
 
+		return ResponseEntity.ok().body(mess);
+	}
 
 	@PostMapping("login/checkaccount")
 	public ResponseEntity<Mess> sendOTP(
