@@ -427,29 +427,32 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id = "addCategory">
                         <div class="input-group input-group-sm mb-3">
                             <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px;">Name</span>
-                            <input type="text" class="form-control" value="" aria-label="Sizing example input"
-                                aria-describedby="inputGroup-sizing-sm" id="input-namecategory" required>
+                            <input type="text" class="form-control" name='name' value="" aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-sm" required>
                         </div>
                         <div class="input-group input-group-sm mb-3">
                             <span class="input-group-text" id="inputGroup-sizing-sm"
                                 style="width: 150px;">Sescription</span>
                             <input type="text" class="form-control" aria-label="Sizing example input"
-                                aria-describedby="inputGroup-sizing-sm" id="input-descriptionCategory" required>
+                                aria-describedby="inputGroup-sizing-sm" name='description' required>
                         </div>
                         <div>
                             <span class="alert-length" style="color: red;"></span>
                         </div>
                         <div class="mt-4">
-                            <button type="button" class="btn btn-primary" onclick="addNewCategories()">Submit</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                         <script>
-                            function addNewCategories() {
+                            $("#addCategory").submit(function(event) {
+                                event.preventDefault();
+                                var form = document.getElementById("addbrand");
+                                var inputs = form.getElementsByTagName("input"); 
                                 var formData = new FormData();
-                                formData.append("name", $("#input-namecategory").val());
-                                formData.append("description", $("#input-descriptionCategory").val());
+                                formData.append("name",inputs[0].value);
+                                formData.append("description",inputs[1].value);
                                     $.ajax({
                                         url: "/staff/product/category/add",
                                         type: "POST",
@@ -472,7 +475,7 @@
                                             }
                                         },
                                     });
-                            }
+                            }),
                         </script>
                     </form>
                 </div>
@@ -491,22 +494,26 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id = "addbrand">
                         <div class="input-group input-group-sm mb-3">
                             <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px;">Name</span>
-                            <input type="text" class="form-control" value="" aria-label="Sizing example input"
-                                aria-describedby="inputGroup-sizing-sm" id="input-nameBrand" required>
+                            <input type="text" class="form-control" name ="name" value="" aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-sm" required>
                         </div>
                         <div>
                             <span class="alert-length" style="color: red;"></span>
                         </div>
                         <div class="mt-4">
-                            <button type="button" class="btn btn-primary" onclick="addNewBrand()">Submit</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                         <script>
-                            function addNewBrand() {
+                            $("#addbrand").submit(function(event) {
+                                event.preventDefault();
+                                var form = document.getElementById("addbrand");
+                                var inputs = form.getElementsByTagName("input");    
                                 var formData = new FormData();
-                                formData.append("brandName", $("#input-nameBrand").val());
+                                
+                                formData.append("brandName", inputs[0].value);
                                     $.ajax({
                                         url: "/staff/product/brand/add",
                                         type: "POST",
@@ -529,7 +536,7 @@
                                             }
                                         },
                                     });
-                            }
+                            });
                         </script>
                     </form>
                 </div>
@@ -541,54 +548,68 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">New supplier</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">New Supplier</h1>
+                    <i class="fa fa-check-circle fa1" style="font-size:25px;color:green; display:none"></i>
+                    <i class="fa fa-close fa1_" style="font-size:25px;color:red;display:none"></i>
                     <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#addModal">
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <div class="input-group input-group-sm mb-3">
-                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px;">Email</span>
-                            <input type="email" class="form-control" aria-label="Sizing example input"
-                                aria-describedby="inputGroup-sizing-sm" id="input-email" required>
-                        </div>
-
+                    <form id ="addSup">
                         <div class="input-group input-group-sm mb-3">
                             <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px;">Name</span>
-                            <input type="text" class="form-control" aria-label="Sizing example input"
-                                aria-describedby="inputGroup-sizing-sm" id="input-name" required>
+                            <input type="text" class="form-control" name="name" value="" aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-sm"  required>
                         </div>
-
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px;">Address</span>
+                            <input type="text" class="form-control"  name="address" value="" aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-sm"  required>
+                        </div>
                         <div class="input-group input-group-sm mb-3">
                             <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px;">Phone</span>
-                            <input type="text" class="form-control" value="" aria-label="Sizing example input"
-                                aria-describedby="inputGroup-sizing-sm" id="input-phone" required>
+                            <input type="text" class="form-control"  name="phone" value="" aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-sm" required>
                         </div>
-
-                        <div class="input-group input-group-sm mb-3">
-                            <span class="input-group-text" id="inputGroup-sizing-sm"
-                                style="width: 150px;">Address</span>
-                            <input type="text" class="form-control" aria-label="Sizing example input"
-                                aria-describedby="inputGroup-sizing-sm" id="input-address" required>
-                        </div>
-
-                        <div class="input-group input-group-sm mb-3">
-                            <span class="input-group-text" id="inputGroup-sizing-sm"
-                                style="width: 150px;">Password</span>
-                            <input type="password" class="form-control" aria-label="Sizing example input"
-                                aria-describedby="inputGroup-sizing-sm" id="input-password" required>
-                            <button type="button" id="show-password-button"
-                                style="border: none; background-color: none;"><i
-                                    class="fa-solid fa-eye-slash"></i></button>
-                        </div>
-
                         <div>
                             <span class="alert-length" style="color: red;"></span>
                         </div>
-
                         <div class="mt-4">
-                            <button type="button" class="btn btn-primary" id="addstaff">Submit</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
+                        <script>
+                            $("#addSup").submit(function(event) {
+                                event.preventDefault();
+                                var form = document.getElementById("addSup");
+                                var inputs = form.getElementsByTagName("input");    
+                                var formData = new FormData();
+                                formData.append("name", inputs[0].value);
+                                formData.append("address", inputs[1].value);
+                                formData.append("phone", inputs[2].value);
+                                    $.ajax({
+                                        url: "/staff/product/supplier/add",
+                                        type: "POST",
+                                        data: formData,
+                                        processData: false,
+                                        contentType: false,
+                                        success: function(data) {
+                                            if(data){
+                                                $(".fa1").css('display','block');
+                                                setTimeout(function(){
+                                                    $(".fa1").css('display','none');
+                                                },5000);
+                                                getCategories();
+                                            }
+                                            else{
+                                                $(".fa1_").css('display','block');
+                                                setTimeout(function(){
+                                                    $(".fa1_").css('display','none');
+                                                },5000);
+                                            }
+                                        },
+                                    });
+                                });
+                        </script>
                     </form>
                 </div>
 

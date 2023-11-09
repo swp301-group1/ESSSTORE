@@ -320,4 +320,9 @@ public class DaoService implements IDaoService {
 	public Boolean addNewBrand(Brand brand) {
 		return dao.addNewBrand(brand);
 	}
+
+	@Override
+	public Boolean addNewSup(Supplier supplier) {
+		return dao.addNewSup(supplier);
+	}
 }

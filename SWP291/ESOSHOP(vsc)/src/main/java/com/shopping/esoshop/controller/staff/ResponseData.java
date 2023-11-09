@@ -281,4 +281,11 @@ public class ResponseData {
         if(brand.getBrandName().trim().isEmpty())return  ResponseEntity.ok().body(false);
         else return ResponseEntity.ok().body(daoService.addNewBrand(brand));  
     }
+
+    @PostMapping("/staff/product/supplier/add")
+    public ResponseEntity<Boolean> addsupplier(@ModelAttribute Supplier supplier ){
+        if(supplier.getName().trim().isEmpty())return  ResponseEntity.ok().body(false);
+        else return ResponseEntity.ok().body(daoService.addNewSup(supplier));  
+    }
+
 }

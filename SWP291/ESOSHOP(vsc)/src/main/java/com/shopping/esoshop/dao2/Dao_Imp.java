@@ -785,11 +785,12 @@ public class Dao_Imp implements Dao {
 				,rs.getString("Address")
 				,rs.getString("Picture"));
 			}
-			return null;
 		} catch (Exception e) {
 			return null;
 		}
+		return null;
 	}
+
 	@Override
 	public Account findAccountByPhone(String phone ) {
 		String sql = "SELECT [AID]\r\n" + //
@@ -1502,10 +1503,10 @@ public class Dao_Imp implements Dao {
 				revenue.setTotal(rs.getInt(7));
 				revenues.add(revenue);
 			}
+			return revenues;
 		} catch (Exception e) {
 			return null;
 		}
-		return revenues;
 	}
 
 	@Override
@@ -1780,6 +1781,28 @@ public class Dao_Imp implements Dao {
 		try {
 			PreparedStatement psm = dbHelper.makeConnection().prepareStatement(sql);
 			psm.setString(1, brand.getBrandName());
+			int n = psm.executeUpdate();
+			if(n>0) return true;
+		} catch (Exception e) {
+			return false;
+		}
+		return false;
+	}
+
+	@Override
+	public Boolean addNewSup(Supplier supplier) {
+		String sql = "IF NOT EXISTS (SELECT SupplierName  FROM suppliers WHERE SupplierName like '%"+supplier.getName()+"%')\r\n"+
+		        " BEGIN INSERT INTO [dbo].[suppliers]\r\n" + //
+				"   ([SupplierName]\r\n" + //
+				"   ,[Address]\r\n" + //
+				"   ,[Phone])\r\n" + //
+				" VALUES(?,?,?) END";
+		try {
+			Connection con = dbHelper.makeConnection();
+			PreparedStatement psm = con.prepareStatement(sql);
+			psm.setString(1, supplier.getName());
+			psm.setString(2, supplier.getAddress());
+			psm.setString(3, supplier.getPhone());
 			int n = psm.executeUpdate();
 			if(n>0) return true;
 		} catch (Exception e) {

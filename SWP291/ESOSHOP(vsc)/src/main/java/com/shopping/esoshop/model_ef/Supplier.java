@@ -7,27 +7,23 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-@Entity
-@Table(name = "suppliers")
+
 public class Supplier {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Column(name = "SupplierName")
+
 	private String name;
-	@Column(name = "Address")
+
 	private String address;
-	@Column(name = "Phone")
+
 	private String phone;
+	
 	public Supplier(int id, String name, String address, String phone) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.address = address;
 		this.phone = phone;
 	}
 	public Supplier() {
-		super();
 	}
 	public int getId() {
 		return id;
@@ -53,9 +49,6 @@ public class Supplier {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	@Override
-	public String toString() {
-		return "Supplier [id=" + id + ", name=" + name + ", address=" + address + ", phone=" + phone + "]";
-	}
+
 	
 }

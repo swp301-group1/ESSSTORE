@@ -119,4 +119,5 @@ public interface Dao {
 	public Account checkAccount(String email,String phone); 
 	public Boolean addNewCategory(Category category);
 	public Boolean addNewBrand(Brand brand);
+	public Boolean addNewSup(Supplier supplier);
 }

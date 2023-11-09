@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Dao_Imp",
+            "request": "launch",
+            "mainClass": "com.shopping.esoshop.dao2.Dao_Imp",
+            "projectName": "ESOSHOP"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-EsoshopApplication<ESOSHOP>",
             "request": "launch",
             "cwd": "${workspaceFolder}",

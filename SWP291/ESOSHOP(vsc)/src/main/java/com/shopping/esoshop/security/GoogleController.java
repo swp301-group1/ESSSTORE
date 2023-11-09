@@ -21,6 +21,13 @@ public class GoogleController {
     @Autowired
     DaoService daoService;
 
+
+    // @GetMapping("/register/google")
+    // public String confirmRegister(Model model){
+    //     model.addAttribute("", model)
+    //     return "redirect:/register2";
+    // }
+
     @GetMapping("/login/google/{role}")
     public String googleLogin(Authentication authentication, Model model, HttpSession session,
             @PathVariable("role") Integer role) {
@@ -46,10 +53,7 @@ public class GoogleController {
                 }
             }else{
                 if(role==1){
-                    boolean register = daoService.createAccount(new Account(0, user.getEmail(), null, "123456789", 1, 1, user.getFullName(), null, user.getPicture()));
-                    if(register){
-                        session.setAttribute("account", daoService.findAccountByEmail(user.getEmail()));
-                    }
+                   return "redirect:/register";
                 }if(role==2){
                     return "redirect:/staff/login";
                 }

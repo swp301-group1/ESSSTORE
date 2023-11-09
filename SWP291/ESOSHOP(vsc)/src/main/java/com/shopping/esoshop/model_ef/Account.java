@@ -29,7 +29,10 @@ public class Account {
 		this.picture = picture;
 	}
 
-	public int getAid() {
+	public Account(Account accountRepository) {
+    }
+
+    public int getAid() {
 		return aid;
 	}
 	public void setAid(int aid) {
@@ -83,6 +86,10 @@ public class Account {
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
+
+    public Object findAccountByEmail(String string) {
+        return null;
+    }
 
 	
 }

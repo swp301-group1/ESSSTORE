@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriUtils;
+
 import com.shopping.esoshop.model_ef.*;
 import com.shopping.esoshop.service2.IDaoService;
-
+import org.springframework.web.util.UriUtils;
+import java.nio.charset.StandardCharsets;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
@@ -34,15 +37,15 @@ public class AdminController {
     @PostMapping("admin/dashboard/revenue")
     public ResponseEntity<List<Revenue>> getRevenue(
             @RequestParam("from") Date from,
-            @RequestParam("to") Date to ) {
-                try {
-                    if(from.before(to)){
-                       return ResponseEntity.ok().body(daoServicel.getRevenues(from, to));
-                    }
-                } catch (Exception e) {
-                  System.out.println("Date input false fomat");
-                  return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-                }
+            @RequestParam("to") Date to) {
+        try {
+            if (from.before(to)) {
+                return ResponseEntity.ok().body(daoServicel.getRevenues(from, to));
+            }
+        } catch (Exception e) {
+            System.out.println("Date input false fomat");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
         System.out.println("Date from must befor or equal date to");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
@@ -61,64 +64,86 @@ public class AdminController {
 
     @PostMapping("/api/admin/user/ban_unban")
     public ResponseEntity<Boolean> setStatusAccount(HttpSession session,
-        @RequestParam("aid") Integer aid,
-        @RequestParam("status")Integer status){
-            try {
-                if(status==1 || status==0){
-                    boolean resutl = daoServicel.setStatusAccount(aid, status);
-                   return ResponseEntity.ok().body(resutl);
-                }else{
-                     System.out.println("input status must 0||1");
-                    return ResponseEntity.ok().body(false);
-                }
-            } catch (Exception e) {
-                 System.out.println("update false");
-                 return ResponseEntity.ok().body(false);
+            @RequestParam("aid") Integer aid,
+            @RequestParam("status") Integer status) {
+        try {
+            if (status == 1 || status == 0) {
+                boolean resutl = daoServicel.setStatusAccount(aid, status);
+                return ResponseEntity.ok().body(resutl);
+            } else {
+                System.out.println("input status must 0||1");
+                return ResponseEntity.ok().body(false);
             }
+        } catch (Exception e) {
+            System.out.println("update false");
+            return ResponseEntity.ok().body(false);
+        }
     }
+
     @GetMapping("/api/checkrole/{email}")
-    public  ResponseEntity<Account> cejckRole(@PathVariable("email")String email){
-        return ResponseEntity.ok().body(daoServicel.checkcheckRole(email));
+    public ResponseEntity<Account> checkRole(@PathVariable("email") String email) {
+        return ResponseEntity.ok().body(daoServicel.findAccountByEmail(email));
     }
 
     @PostMapping("/api/admin/account/update")
     public ResponseEntity<Boolean> updateStaff(
-        @RequestParam("aid")Integer aid,
-        @RequestParam("email")String email,
-        @RequestParam("name")String name,
-        @RequestParam("phone")String phone,
-        @RequestParam("address")String address,
-        @RequestParam("password")String password
-        ){
-            Account staff = new Account();
-            staff.setAid(aid);
-            staff.setEmail(email);
-            staff.setPhonenumber(phone);
-            staff.setName(name);
-            staff.setAddress(address);
-            staff.setPassword(password);
-            staff.setRole(2);
-            staff.setStatus(1);
-            staff.setPicture("null");
-            return ResponseEntity.ok().body(daoServicel.updateAccount(staff));
+            @RequestParam("aid") Integer aid,
+            @RequestParam("email") String email,
+            @RequestParam("name") String name,
+            @RequestParam("phone") String phone,
+            @RequestParam("address") String address,
+            @RequestParam("password") String password) {
+        Account staff = new Account();
+        staff.setAid(aid);
+        staff.setEmail(email);
+        staff.setPhonenumber(phone);
+        staff.setName(name);
+        staff.setAddress(address);
+        staff.setPassword(password);
+        staff.setRole(2);
+        staff.setStatus(1);
+        staff.setPicture("null");
+        return ResponseEntity.ok().body(daoServicel.updateAccount(staff));
     }
 
     @PostMapping("/api/admin/account/add")
     public ResponseEntity<Boolean> addStaff(
-        @RequestParam("email")String email,
-        @RequestParam(value = "phone" ,defaultValue = "")String phone,
-        @RequestParam("password")String password,
-        @RequestParam("role")Integer role,
-        @RequestParam("status")Integer status,
-        @RequestParam("name")String name,
-        @RequestParam("address")String address){
-            Account account = new Account(0,email,phone,password,role,status,name,address,"null");
-            return ResponseEntity.ok().body(daoServicel.createAccount(account));
+            @RequestParam("email") String email,
+            @RequestParam(value = "phone", defaultValue = "") String phone,
+            @RequestParam("password") String password,
+            @RequestParam("role") Integer role,
+            @RequestParam("status") Integer status,
+            @RequestParam("name") String name,
+            @RequestParam("address") String address) {
+        Account account = new Account(0, email, phone, password, role, status, name, address, "null");
+        return ResponseEntity.ok().body(daoServicel.createAccount(account));
     }
 
     @PostMapping("/api/admin/account/delete")
     public ResponseEntity<Boolean> deleteAccount(
-        @RequestParam("aid")Integer aid){
-            return ResponseEntity.ok().body(daoServicel.deleteAccount(aid));
+            @RequestParam("aid") Integer aid) {
+        return ResponseEntity.ok().body(daoServicel.deleteAccount(aid));
     }
+
+    public static String encodeURL(String url) {
+        return UriUtils.encode(url, StandardCharsets.UTF_8);
+    }
+
+    public static String decodeURL(String encodedUrl) {
+        return UriUtils.decode(encodedUrl, StandardCharsets.UTF_8);
+    }
+
+    @GetMapping("/api/code/url/{c}")
+    public String getCodeUrl(@PathVariable("c") Integer c) {
+
+        String originalURL = "/staff/login";
+        String encodedURL = encodeURL(originalURL);
+        System.out.println("Encoded URL: " + encodedURL);
+        String decodedURL = decodeURL(encodedURL);
+        System.out.println("Decoded URL: " + decodedURL);
+        if(c==1)return encodedURL;
+        else return decodedURL;
+    }
+
+
 }
