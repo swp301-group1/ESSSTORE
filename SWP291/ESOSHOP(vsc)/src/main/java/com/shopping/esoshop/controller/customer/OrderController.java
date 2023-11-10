@@ -65,4 +65,14 @@ public class OrderController {
         model.addAttribute("order", order);
         return "orderDetailsPage"; // Create a corresponding view page
     }
+	public String cancelOrder(HttpSession session, @RequestParam("orderId") String orderId) {
+        Customer customer = (Customer) session.getAttribute("customer");
+        boolean canceled = daoService.cancelOrder(customer.getId(), orderId);
+        if (canceled) {
+            return "redirect:/orders";
+        } else {
+            // Handle cancellation failure
+            return "errorPage"; // Create an error page
+        }
+    }
 }
