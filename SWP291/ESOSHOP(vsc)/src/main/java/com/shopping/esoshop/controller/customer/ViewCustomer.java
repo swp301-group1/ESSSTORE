@@ -75,17 +75,17 @@ public class ViewCustomer {
 		Account customer = (Account) session.getAttribute("account");
 		if (customer != null) {
 			model.addAttribute("carts", daoService.getCartOfCustomer(customer.getAid()));
-		}
-		else{
-			List<Cart> carts = (List<Cart>)session.getAttribute("carts");
-			if(carts!=null){
-				model.addAttribute("carts",carts );
-			}
-			else{
-				model.addAttribute("carts",null );
-			}
+		}else model.addAttribute("carts", null);
+		// else{
+		// 	List<Cart> carts = (List<Cart>)session.getAttribute("carts");
+		// 	if(carts!=null){
+		// 		model.addAttribute("carts",carts );
+		// 	}
+		// 	else{
+		// 		model.addAttribute("carts",null );
+		// 	}
 			
-		}
+		// }
 		return "cart";
 	}
 

@@ -1279,7 +1279,7 @@ public class Dao_Imp implements Dao {
 				"      ,[StaffID]\r\n" + //
 				"      ,[Status]\r\n" + //
 				"      ,[Address]\r\n" + //
-				"  FROM [dbo].[orders] where AID = ? order by OrderDate desc";
+				"  FROM [dbo].[orders] where AID = ? and Status >=-1 order by OrderDate desc";
 		try {
 			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
@@ -1381,7 +1381,7 @@ public class Dao_Imp implements Dao {
 				" ,[StaffID]\r\n" + //
 				" ,[Status]\r\n" + //
 				" ,[Address]\r\n" + //
-				" FROM [dbo].[orders] where AID=? and OrderID=?";
+				" FROM [dbo].[orders] where AID=? and OrderID=? and Status >=-1";
 		try {
 			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
