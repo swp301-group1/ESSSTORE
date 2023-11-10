@@ -84,4 +84,10 @@ public class OrderController {
 
     // ... (existing code)
 }
+public String editOrder(Model model, HttpSession session, @RequestParam("orderId") String orderId) {
+        Customer customer = (Customer) session.getAttribute("customer");
+        Order order = daoService.getOrderByIdAndCustomer(orderId, customer.getId());
+        model.addAttribute("order", order);
+        return "editOrderPage"; // Create a corresponding view page for editing orders
+    }
 }
