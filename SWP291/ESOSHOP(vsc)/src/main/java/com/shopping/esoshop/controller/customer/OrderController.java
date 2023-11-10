@@ -6,6 +6,7 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -90,4 +91,15 @@ public String editOrder(Model model, HttpSession session, @RequestParam("orderId
         model.addAttribute("order", order);
         return "editOrderPage"; // Create a corresponding view page for editing orders
     }
+	public String updateOrder(HttpSession session, @ModelAttribute("order") Order updatedOrder) {
+        Customer customer = (Customer) session.getAttribute("customer");
+        boolean updated = daoService.updateOrder(customer.getId(), updatedOrder);
+        if (updated) {
+            return "redirect:/orders";
+        } else {
+            // Handle update failure
+            return "errorPage"; // Create an error page
+        }
+    }
+
 }
