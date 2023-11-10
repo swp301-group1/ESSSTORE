@@ -133,6 +133,11 @@ public String editOrder(Model model, HttpSession session, @RequestParam("orderId
     }
 
     // ... (existing code)
-}
 
+   public String viewOrderHistory(Model model, HttpSession session) {
+        Customer customer = (Customer) session.getAttribute("customer");
+        List<Order> orderHistory = daoService.getOrderHistory(customer.getId());
+        model.addAttribute("orderHistory", orderHistory);
+        return "orderHistoryPage"; // Create a corresponding view page for order history
+    }
 }
