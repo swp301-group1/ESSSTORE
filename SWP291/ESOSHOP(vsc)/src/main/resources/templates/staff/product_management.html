@@ -427,17 +427,16 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id = "addCategory">
+                    <form id = "addcates">
                         <div class="input-group input-group-sm mb-3">
                             <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px;">Name</span>
-                            <input type="text" class="form-control" name='name' value="" aria-label="Sizing example input"
+                            <input type="text" class="form-control" name ="name" value="" aria-label="Sizing example input"
                                 aria-describedby="inputGroup-sizing-sm" required>
                         </div>
                         <div class="input-group input-group-sm mb-3">
-                            <span class="input-group-text" id="inputGroup-sizing-sm"
-                                style="width: 150px;">Sescription</span>
-                            <input type="text" class="form-control" aria-label="Sizing example input"
-                                aria-describedby="inputGroup-sizing-sm" name='description' required>
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px;">Description</span>
+                            <input type="text" class="form-control" name ="description" value="" aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-sm" required>
                         </div>
                         <div>
                             <span class="alert-length" style="color: red;"></span>
@@ -446,13 +445,13 @@
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                         <script>
-                            $("#addCategory").submit(function(event) {
+                            $("#addcates").submit(function(event) {
                                 event.preventDefault();
-                                var form = document.getElementById("addbrand");
-                                var inputs = form.getElementsByTagName("input"); 
+                                var form = document.getElementById("addcates");
+                                var inputs = form.getElementsByTagName("input");    
                                 var formData = new FormData();
-                                formData.append("name",inputs[0].value);
-                                formData.append("description",inputs[1].value);
+                                formData.append("name", inputs[0].value);
+                                formData.append("description", inputs[1].value);
                                     $.ajax({
                                         url: "/staff/product/category/add",
                                         type: "POST",
@@ -465,7 +464,7 @@
                                                 setTimeout(function(){
                                                     $(".fa1").css('display','none');
                                                 },5000);
-                                                getCategories();
+                                                getBrands();
                                             }
                                             else{
                                                 $(".fa1_").css('display','block');
@@ -475,7 +474,7 @@
                                             }
                                         },
                                     });
-                            }),
+                            });
                         </script>
                     </form>
                 </div>

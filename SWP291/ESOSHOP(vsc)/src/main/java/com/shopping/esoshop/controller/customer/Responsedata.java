@@ -149,8 +149,8 @@ public class Responsedata {
 	@GetMapping(value = "/pay/{orderId}")
 	public ResponseEntity<Boolean> pay(Model model, HttpSession session,
 			@PathVariable("orderId") String orderId) {
-		//Account customer = (Account) session.getAttribute("account");
-		Account customer = daoService.findAccount(15);
+		Account customer = (Account) session.getAttribute("account");
+		//Account customer = daoService.findAccount(15);
 		if (customer != null ) {
 			Bill bill = daoService.getBillOfCustomer(customer, orderId);
 			boolean pay = daoService.payBill(orderId);

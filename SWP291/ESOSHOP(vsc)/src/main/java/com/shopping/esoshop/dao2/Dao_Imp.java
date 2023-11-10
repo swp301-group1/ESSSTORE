@@ -1725,19 +1725,14 @@ public class Dao_Imp implements Dao {
 
 	@Override
 	public Boolean deleteAccount(int aid) {
-		String sql1 = "declare @aid int \r\n" + //
-				"declare @oid varchar(255) \r\n" + //
-				"declare @role int \r\n" + //
-				"set @aid = ? \r\n" + //
-				"IF  EXISTS (SELECT AID FROM accounts WHERE AID=@aid and [Role] <=2)\r\n" + //
-				"BEGIN\r\n" + //
+		String sql1 = "declare @aid int\r\n" + //
+				"declare @oid varchar(255)\r\n" + //
+				"set @aid = ?\r\n" + //
 				"select  @oid = OrderID from orders where AID = @aid\r\n" + //
-				"delete from order_details where AID = @aid\r\n" + //
-				"delete from orders where OrderID = @oid\r\n" + //
+				"delete from order_details where OrderID = @oid\r\n" + //
+				"DELETE FROM dbo.orders WHERE AID IN (SELECT AID FROM dbo.accounts WHERE AID= @aid  )\r\n" + //
 				"delete from carts where AID = @aid\r\n" + //
-				"delete from accounts where AID = @aid\r\n" + //
-				"END\r\n" + //
-				"";
+				"delete from accounts where AID = @aid";
 		try {
 				Connection con = dbHelper.makeConnection();
 				PreparedStatement psm = con.prepareStatement(sql1);
