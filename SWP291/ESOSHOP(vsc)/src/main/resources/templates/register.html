@@ -161,7 +161,8 @@
       </div>
   </section>
 
-  <script>
+  <script th:inline="javascript">
+    var picture = [[${account.picture}]];
     $("#confirm").submit(function(event) {
       event.preventDefault();
       var form = document.getElementById("confirm");
@@ -174,6 +175,7 @@
       formData.append("status", 1);
       formData.append("name",  inputs[1].value);
       formData.append("address",  inputs[3].value);
+      formData.append("picture", picture );
       $.ajax({
         url: "/api/admin/account/add",
         type: "POST",

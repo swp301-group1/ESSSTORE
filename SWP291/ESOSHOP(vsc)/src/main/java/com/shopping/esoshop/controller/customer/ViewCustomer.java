@@ -38,6 +38,7 @@ public class ViewCustomer {
 			 Account newAccount = new Account();
 			 newAccount.setEmail(user.getEmail());
 			 newAccount.setName(user.getFullName());
+			 newAccount.setPicture(user.getPicture());
 			 model.addAttribute("account", newAccount);
 		}
 		return "register";
