@@ -1,14 +1,10 @@
 package com.shopping.esoshop.controller.customer;
 
-import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -155,7 +151,7 @@ public class Responsedata {
 			Bill bill = daoService.getBillOfCustomer(customer, orderId);
 			boolean pay = daoService.payBill(orderId);
 			if(pay){
-				Boolean resoutl = mailService.sendEmailBill(bill);
+				mailService.sendEmailBill(bill);
 			}
 			return ResponseEntity.ok().body(pay);
 		}
