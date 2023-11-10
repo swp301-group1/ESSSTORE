@@ -27,12 +27,19 @@ public class ViewCustomer {
 	private IDaoService daoService;
 	
 	@GetMapping(value = {"/home"})
-	public String getHome(Model model, HttpSession session) {
+	public String getHome(Model model) {
 		return "index";
 	}
 
 	@GetMapping("/register")
-	public String getRegister() {
+	public String getRegister(Model model, Authentication authentication) {
+			 if(authentication.isAuthenticated()){
+			 DefaultOidcUser user = (DefaultOidcUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			 Account newAccount = new Account();
+			 newAccount.setEmail(user.getEmail());
+			 newAccount.setName(user.getFullName());
+			 model.addAttribute("account", newAccount);
+		}
 		return "register";
 	}
 	@GetMapping("/register2")
@@ -81,15 +88,18 @@ public class ViewCustomer {
 		return "cart";
 	}
 
-	@GetMapping("/order_history")
-	public String getOrderStory(Model model, HttpSession session) {
+	@GetMapping("/order_history{orderid}")
+	public String getOrderStory(Model model, HttpSession session,
+	    @PathVariable("orderid")String orderid) {
 		Account account = (Account) session.getAttribute("account");
 		if (account != null) {
+			model.addAttribute("orderid", orderid);
 			return "order_history";
 		}
 		model.addAttribute("url", "order_history");
 		return "redirect:/loginpage";
 	}
+
 
 	@GetMapping("/logout")
 	public String logOut(HttpSession session,HttpServletRequest request, HttpServletResponse response) {

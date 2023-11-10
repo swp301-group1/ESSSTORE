@@ -1437,22 +1437,22 @@ public class Dao_Imp implements Dao {
 	}
 
 	@Override
-	public Bill payBill(Bill bill) {
-		String sql = "UPDATE [dbo].[orders]\r\n" + //
+	public Boolean payBill(String orderid ) {
+		String sql = "UPDATE [dbo].[orders] \r\n" + //
 				"     SET [Status] = 1\r\n" + //
-				"     WHERE OrderID =?";
+				"     WHERE OrderID = ? ";
 		try {
 			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
-			psm.setString(1, bill.getOrderId());
+			psm.setString(1, orderid);
 			int update = psm.executeUpdate();
 			if (update > 0) {
-				return getBillById(bill.getOrderId());
+				return true;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		return bill;
+		return false;
 	}
 
 	@Override
@@ -1732,7 +1732,7 @@ public class Dao_Imp implements Dao {
 				"IF  EXISTS (SELECT AID FROM accounts WHERE AID=@aid and [Role] <=2)\r\n" + //
 				"BEGIN\r\n" + //
 				"select  @oid = OrderID from orders where AID = @aid\r\n" + //
-				"delete from order_details where OrderID = @oid\r\n" + //
+				"delete from order_details where AID = @aid\r\n" + //
 				"delete from orders where OrderID = @oid\r\n" + //
 				"delete from carts where AID = @aid\r\n" + //
 				"delete from accounts where AID = @aid\r\n" + //

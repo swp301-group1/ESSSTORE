@@ -79,7 +79,7 @@ public interface Dao {
 
 	public Bill getBillOfCustomer(Account customer,String orderId);
 
-	public Bill payBill(Bill bill);
+	public Boolean payBill(String orderid);
 	
 	public List<Bill> getAllBill(int status);
 	public List<Bill> getAllBillbyOrderDate(int status,String date);

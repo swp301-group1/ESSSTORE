@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,9 @@ import org.springframework.web.util.UriUtils;
 
 import com.shopping.esoshop.model_ef.*;
 import com.shopping.esoshop.service2.IDaoService;
+import com.shopping.esoshop.service2.MailService;
+import com.shopping.esoshop.utils.OtpGenerator;
+
 import org.springframework.web.util.UriUtils;
 import java.nio.charset.StandardCharsets;
 import jakarta.servlet.http.HttpSession;
@@ -23,6 +27,10 @@ import jakarta.servlet.http.HttpSession;
 public class AdminController {
     @Autowired
     private IDaoService daoServicel;
+    @Autowired
+    private OtpGenerator generator;
+    @Autowired 
+    private MailService mailService;
 
     @GetMapping("admin/dashboard/top-sale-product")
     public ResponseEntity<List<TopSaleProduct>> getTopSaleProduct() {
@@ -107,15 +115,12 @@ public class AdminController {
     }
 
     @PostMapping("/api/admin/account/add")
-    public ResponseEntity<Boolean> addStaff(
-            @RequestParam("email") String email,
-            @RequestParam(value = "phone", defaultValue = "") String phone,
-            @RequestParam("password") String password,
-            @RequestParam("role") Integer role,
-            @RequestParam("status") Integer status,
-            @RequestParam("name") String name,
-            @RequestParam("address") String address) {
-        Account account = new Account(0, email, phone, password, role, status, name, address, "null");
+    public ResponseEntity<Boolean> addStaff(@ModelAttribute Account account) {
+        if(account.getPassword().trim().isEmpty()){
+            String pass = generator.generatePassword();
+            account.setPassword(pass);
+        }
+        mailService.sendEmail(account.getEmail(),"Password to login" , account.getPassword());
         return ResponseEntity.ok().body(daoServicel.createAccount(account));
     }
 
@@ -144,6 +149,10 @@ public class AdminController {
         if(c==1)return encodedURL;
         else return decodedURL;
     }
-
+    @PostMapping("/api/mail/send")
+    public ResponseEntity<Boolean> deleteAccount(
+        @RequestParam("email")String email ) {
+        return ResponseEntity.ok().body(mailService.sendEmail(email, "Password", "123456"));
+    }
 
 }

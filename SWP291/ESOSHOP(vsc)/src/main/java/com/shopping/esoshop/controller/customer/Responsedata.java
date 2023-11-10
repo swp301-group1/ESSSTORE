@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.shopping.esoshop.model_ef.*;
 import com.shopping.esoshop.service2.IDaoService;
+import com.shopping.esoshop.service2.MailService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -21,7 +22,8 @@ import jakarta.servlet.http.HttpSession;
 public class Responsedata {
 	@Autowired
 	private IDaoService daoService;
-
+	@Autowired
+	MailService mailService;
 	@GetMapping("/listcart")
 	public ResponseEntity<List<Cart>> getCart(HttpSession session) {
 		Account customer = (Account) session.getAttribute("account");
@@ -145,14 +147,27 @@ public class Responsedata {
 	}
 
 	@GetMapping(value = "/pay/{orderId}")
-	public ResponseEntity<String> pay(Model model, HttpSession session,
+	public ResponseEntity<Boolean> pay(Model model, HttpSession session,
 			@PathVariable("orderId") String orderId) {
-		Account customer = (Account) session.getAttribute("account");
-		if (customer != null && !customer.getPhonenumber().isEmpty()) {
-			daoService.payBill(daoService.getBillOfCustomer(customer, orderId));
-			return ResponseEntity.ok().body(orderId);
+		//Account customer = (Account) session.getAttribute("account");
+		Account customer = daoService.findAccount(15);
+		if (customer != null ) {
+			Bill bill = daoService.getBillOfCustomer(customer, orderId);
+			boolean pay = daoService.payBill(orderId);
+			if(pay){
+				Boolean resoutl = mailService.sendEmailBill(bill);
+			}
+			return ResponseEntity.ok().body(pay);
 		}
-		return ResponseEntity.ok().body(orderId);
+		return ResponseEntity.ok().body(false);
+	}
+
+	@GetMapping(value = "/api/send/bill/{orderid}")
+	public ResponseEntity<Boolean> sendBillEmail(HttpSession session,
+	@PathVariable("orderid")String orderid){
+		Account account = (Account) session.getAttribute("account");
+		boolean resoutl =mailService.sendEmailBill(daoService.getBillOfCustomer(account, orderid));
+		return ResponseEntity.ok().body(resoutl);
 	}
 
 	@PostMapping(value = "/api/customer/edit/profile")

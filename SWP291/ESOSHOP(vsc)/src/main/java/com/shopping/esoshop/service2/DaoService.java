@@ -197,8 +197,8 @@ public class DaoService implements IDaoService {
 	}
 
 	@Override
-	public Bill payBill(Bill bill) {
-		return dao.payBill(bill);
+	public Boolean payBill(String orderid ) {
+		return dao.payBill(orderid);
 	}
 
 	@Override

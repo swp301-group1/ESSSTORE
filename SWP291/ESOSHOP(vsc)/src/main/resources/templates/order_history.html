@@ -353,11 +353,8 @@ https://templatemo.com/tm-559-zay-shop
                         <li><a class="text-decoration-none" href="#">Contact</a></li>
                     </ul>
                 </div>
-
             </div>
-
         </div>
-
         <div class="w-100 bg-black py-3">
             <div class="container">
                 <div class="row pt-2">
@@ -436,9 +433,13 @@ https://templatemo.com/tm-559-zay-shop
         }
     </script>
 
-    <script>
-        var formData = new FormData();
+    <script th:inline="javascript">
         getBills();
+        var orderid = [[${orderid}]];
+        if(orderid.length!==0){
+            seeMore(orderid);
+        }
+        var formData = new FormData();
         console.log(formData);
 
         function getBills() {
@@ -448,7 +449,9 @@ https://templatemo.com/tm-559-zay-shop
                 dataType: 'json',
                 contentType: 'application/json',
                 success: function(data) {
-                    seeMore(data[0].orderId);
+                    if(orderid.length===0){
+                        seeMore(data[0].orderId);
+                    }
                     var html = '';
                     formData = data;
                     data.forEach(function(bill) {
@@ -529,7 +532,7 @@ https://templatemo.com/tm-559-zay-shop
                     console.log(bill);
                     $("#status").html(getStatus(bill.status));
                     $("#orderId").text(bill.orderId);
-                    $("#address").text(bill.customer.address);
+                    $("#address").text(bill.account.address);
                     $("#orderdate").text(bill.orderTime +"/"+ bill.orderDate);
                     $("#totalamount").text(bill.totalAmount);
                     if(bill.status==0){
@@ -538,20 +541,23 @@ https://templatemo.com/tm-559-zay-shop
                     var html = '';
                     bill.orderdetails.forEach(function(odl) {
                         html+='<tr>\n'+
-                            '    <td class="px-0"><img src="img/' + odl.image +'" alt="Image"\n'+
+                            '    <td class="px-0"><img src="img/' + odl.color.image +'" alt="Image"\n'+
                             '            style="height: 50px;" /></td>\n'+
                             '    <td class="px-0">' + odl.product.name + '</td>\n'+
-                            '    <td class="text-center px-0">' + odl.nameColor + '</td>\n'+
+                            '    <td class="text-center px-0"><input type="color" value="'+ odl.color.colorId+'" readonly disabled></td>\n'+
                             '    <td class="text-center px-0">' + odl.quantity + '</td>\n'+
                             '    <td class="text-center px-0">' + odl.price + '</td>\n'+
                             '    <td class="text-center px-0">' + odl.totalPrice + '</td>\n'+
-                            '    <td class="text-end px-0">\n'+
+                            '    <td class="text-end feedback px-0">\n'+
                             '        <button value="'+odl.product.id+'" onclick="getInforFeedBack(this)" class="btn btn-success" data-bs-toggle="modal"\n'+
                             '            data-bs-target="#exampleModal">FeedBack</button>\n'+
                             '    </td>\n'+
                             '</tr>';
                     })
                     $("#orderdetail").html(html);
+                    if(bill.status<=0){
+                        $(".feedback").css('display','none');
+                    }
                 }
             });
         }
@@ -559,12 +565,22 @@ https://templatemo.com/tm-559-zay-shop
             $("#productId_feedback").val(productId.value);
             $("#fbfor").text(productId.value);
         }
-
+        function filterFeedback(feedback) {
+            // Danh sách các từ tục ngữ cần loại bỏ
+            var badWords = ["fuck", "dcm", "fuk"]; 
+            feedback = feedback.toLowerCase();
+            badWords.forEach(function(word) {
+                var regex = new RegExp('\\b' + word + '\\b', 'gi');
+                feedback = feedback.replace(regex, '');
+            });
+            return feedback;
+        }
+        
         function doFeedback() {
             var formData = new FormData();
             formData.append("productId", $("#productId_feedback").val());
             formData.append("star", $("#rating").val());
-            formData.append("comment", $("#textAreaExample").val());
+            formData.append("comment",filterFeedback($("#textAreaExample").val()) );
             $.ajax({
                 url: "/customer/feedback",
                 type: "POST",
