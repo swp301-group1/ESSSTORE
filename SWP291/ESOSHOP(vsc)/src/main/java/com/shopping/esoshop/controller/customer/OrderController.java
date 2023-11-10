@@ -53,5 +53,16 @@ public class OrderController {
 		}
 		return "redirect:/cart";
 	}
-
+	public String viewOrders(Model model, HttpSession session) {
+        Customer customer = (Customer) session.getAttribute("customer");
+        List<Order> orders = daoService.getOrdersByCustomer(customer.getId());
+        model.addAttribute("orders", orders);
+        return "orderListPage"; // Create a corresponding view page
+    }
+	public String viewOrderDetails(Model model, HttpSession session, @RequestParam("orderId") String orderId) {
+        Customer customer = (Customer) session.getAttribute("customer");
+        Order order = daoService.getOrderByIdAndCustomer(orderId, customer.getId());
+        model.addAttribute("order", order);
+        return "orderDetailsPage"; // Create a corresponding view page
+    }
 }
