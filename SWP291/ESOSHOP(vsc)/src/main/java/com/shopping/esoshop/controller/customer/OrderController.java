@@ -4,6 +4,7 @@ package com.shopping.esoshop.controller.customer;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -100,6 +101,20 @@ public String editOrder(Model model, HttpSession session, @RequestParam("orderId
             // Handle update failure
             return "errorPage"; // Create an error page
         }
+		public ResponseEntity<byte[]> downloadInvoice(@RequestParam("orderId") String orderId) {
+        // Retrieve the invoice data and file name
+        byte[] invoiceData = daoService.getInvoiceData(orderId);
+        String fileName = "invoice_" + orderId + ".pdf";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=" + fileName);
+
+        return ResponseEntity
+            .ok()
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_PDF)
+            .body(invoiceData);
+    
     }
 
 }
