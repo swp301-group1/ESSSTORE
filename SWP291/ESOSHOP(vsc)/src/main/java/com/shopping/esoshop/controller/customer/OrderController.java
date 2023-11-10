@@ -6,6 +6,7 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -75,4 +76,12 @@ public class OrderController {
             return "errorPage"; // Create an error page
         }
     }
+	public String orderDetails(Model model, @PathVariable("orderId") String orderId) {
+        Order order = daoService.getOrderById(orderId);
+        model.addAttribute("order", order);
+        return "orderDetailsPage"; // Create a corresponding view page
+    }
+
+    // ... (existing code)
+}
 }
