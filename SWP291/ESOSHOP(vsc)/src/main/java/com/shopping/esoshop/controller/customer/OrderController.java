@@ -140,4 +140,14 @@ public String editOrder(Model model, HttpSession session, @RequestParam("orderId
         model.addAttribute("orderHistory", orderHistory);
         return "orderHistoryPage"; // Create a corresponding view page for order history
     }
+	public String processReturn(HttpSession session, @RequestParam("orderId") String orderId) {
+        Customer customer = (Customer) session.getAttribute("customer");
+        boolean returned = daoService.processReturn(customer.getId(), orderId);
+        if (returned) {
+            return "redirect:/orderHistory";
+        } else {
+            // Handle return processing failure
+            return "errorPage"; // Create an error page
+        }
+    }
 }
