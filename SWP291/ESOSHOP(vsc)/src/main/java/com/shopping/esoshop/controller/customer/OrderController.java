@@ -121,5 +121,18 @@ public String editOrder(Model model, HttpSession session, @RequestParam("orderId
         model.addAttribute("order", order);
         return "trackOrderPage"; // Create a corresponding view page for order tracking
     }
+	public String confirmDelivery(HttpSession session, @RequestParam("orderId") String orderId) {
+        Customer customer = (Customer) session.getAttribute("customer");
+        boolean confirmed = daoService.confirmDelivery(customer.getId(), orderId);
+        if (confirmed) {
+            return "redirect:/orders";
+        } else {
+            // Handle confirmation failure
+            return "errorPage"; // Create an error page
+        }
+    }
+
+    // ... (existing code)
+}
 
 }
