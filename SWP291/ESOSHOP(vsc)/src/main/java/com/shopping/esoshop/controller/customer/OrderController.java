@@ -116,5 +116,10 @@ public String editOrder(Model model, HttpSession session, @RequestParam("orderId
             .body(invoiceData);
     
     }
+	public String trackOrder(Model model, @RequestParam("orderId") String orderId) {
+        Order order = daoService.getOrderById(orderId);
+        model.addAttribute("order", order);
+        return "trackOrderPage"; // Create a corresponding view page for order tracking
+    }
 
 }
