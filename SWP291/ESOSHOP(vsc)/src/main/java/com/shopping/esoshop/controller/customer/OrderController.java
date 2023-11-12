@@ -9,8 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.shopping.esoshop.model_ef.*;
-import com.shopping.esoshop.service2.*;
+import com.shopping.esoshop.model.*;
+import com.shopping.esoshop.service.*;
 
 import jakarta.servlet.http.HttpSession;
 

@@ -460,6 +460,7 @@
                 processData: false,
                 contentType: false,
                 success: function(data) {
+                    console.log(data);
                     if( $("#formCategory").val()>0){
                         data = data.filter(function(re) {
                             return re.category.id == $("#formCategory").val();

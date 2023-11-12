@@ -4,7 +4,8 @@ package com.shopping.esoshop.controller.admin;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import com.shopping.esoshop.model_ef.Account;
+
+import com.shopping.esoshop.model.Account;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -43,7 +44,6 @@ public class ViewAdminController {
                 return url;
             }
             else {
-                model.addAttribute("mess", "The account does not have access");
                 return "redirect:/admin/login";
             }
         }

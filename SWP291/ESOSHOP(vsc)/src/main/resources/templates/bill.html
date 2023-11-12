@@ -175,8 +175,10 @@
               })
               $("#cancel").click(function(){
                 $(".btnMore").css('z-index','1000');
+                $(".btnMore").css('display','block');
                   setTimeout(function(){
                 $(".btnMore").css('z-index','-100');
+                $(".btnMore").css('display','none');
               },5000)
               })
             })

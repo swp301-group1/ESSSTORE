@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.shopping.esoshop.model_ef.*;
+import com.shopping.esoshop.model.*;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -28,7 +28,7 @@ public class ViewController {
     public String login(HttpSession session){
         Account staff = (Account)session.getAttribute("account");
         if(staff!=null){
-            return "redirect:/staff/product_management";
+            return "redirect:/staff/orders";
         }
         return "/staff/login";
     }

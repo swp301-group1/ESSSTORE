@@ -281,8 +281,8 @@
                     html = html + '<tr>\n' +
                         '             <td>' + (bills.indexOf(bill) + 1) + '</td>\n' +
                         '             <td>' + bill.orderId + '</td>\n' +
-                        '             <td>' + bill.customer.name + '</td>\n' +
-                        '             <td>' + bill.customer.phone + '</td>\n' +
+                        '             <td>' + bill.account.name + '</td>\n' +
+                        '             <td>' + bill.account.phone + '</td>\n' +
                         '             <td>' + bill.orderDate + '</td>\n' +
                         '             <td><button value="' + bill.orderId +
                         '" type="buuton" onclick="getOrderdetail(this)"  class="btn btn-primary" data-bs-toggle="modal"data-bs-target="#updateModal" data-product-id="1">View</button>\n' +
@@ -310,10 +310,10 @@
                 contentType: 'application/json',
                 success: function(data) {
                     $('#orderid_bill').text('Bill code: ' + data.orderId);
-                    $('#full-name').text(data.customer.name);
-                    $('#email').text(data.customer.email) ;
-                    $('#phonenumber').text(data.customer.phone);
-                    $('#address').text(data.customer.address);
+                    $('#full-name').text(data.account.name);
+                    $('#email').text(data.account.email) ;
+                    $('#phonenumber').text(data.account.phone);
+                    $('#address').text(data.account.address);
                     $('#orderdate').text(data.orderDate);
                     $('#totalAmount').text(data.totalAmount + '$');
                     switch (data.status) {

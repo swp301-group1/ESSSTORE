@@ -11,11 +11,11 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.shopping.esoshop.model_ef.*;
-// import com.shopping.esoshop.model.User;
-import com.shopping.esoshop.service2.*;
+import com.shopping.esoshop.model.*;
+import com.shopping.esoshop.service.*;
 import com.shopping.esoshop.utils.OtpGenerator;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -96,10 +96,12 @@ public class SecurityController {
 				session.setAttribute("account", acount);
 				return ResponseEntity.ok().body(true);
 			    }
-			}
+			}else return ResponseEntity.ok().body(false);
 		}
 		return ResponseEntity.ok().body(false);
 	}
+
+
 	@GetMapping("/api/user/logout")
 	public ResponseEntity<Boolean> loginout(HttpSession session,HttpServletRequest request, HttpServletResponse response){
 		session.setAttribute("account", null);
@@ -127,8 +129,50 @@ public class SecurityController {
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Can not send sms to "+p);
    }
+
+
+    @PostMapping("/api/checkaccount")
+    public ResponseEntity<Boolean> checkAccountRegister(
+        @RequestParam("email")String email,
+        @RequestParam("password")String password){
+			Account account = daoService.findAccountByEmail(email);
+			if(account!=null) return ResponseEntity.status(HttpStatus.FOUND).body(false);
+			else if(account==null){
+				if(isPasswordValid(password)){
+					return ResponseEntity.status(HttpStatus.NOT_FOUND).body(true);
+				}
+				else if(!isPasswordValid(password)){
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
+				}
+			}
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(true);
+   }
+
     @GetMapping("/info")
     public String getinfor(OAuth2AuthenticationToken token){
 		return token.getName()+token.getClass();
+    }
+
+	public  boolean isPasswordValid(String password) {
+        if (password.length() < 8 || password.length() > 50) {
+            return false;
+        }
+        if (!containsDigit(password)) {
+            return false;
+        }
+        if (!containsSpecialCharacter(password)) {
+            return false;
+        }
+        else return true;
+    }
+
+    private static boolean containsDigit(String password) {
+        return password.matches(".*\\d.*");
+    }
+
+    private static boolean containsSpecialCharacter(String password) {
+        Pattern specialCharPattern = Pattern.compile("[!@#$%^&*(),.?\":{}|<>]");
+        Matcher matcher = specialCharPattern.matcher(password);
+        return matcher.find();
     }
 }

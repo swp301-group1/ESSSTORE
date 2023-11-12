@@ -1,42 +1,100 @@
 package com.example.ESOSHOP;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.shopping.esoshop.model_ef.Account;
-import com.shopping.esoshop.service2.IDaoService;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 
-@SpringBootTest
+import com.shopping.esoshop.EsoshopApplication;
+import com.shopping.esoshop.model.Account;
+import com.shopping.esoshop.security.SecurityController;
+import com.shopping.esoshop.service.IDaoService;
+
+import jakarta.servlet.http.HttpSession;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = EsoshopApplication.class)
 public class LoginTest {
-    
-    @Autowired
-    private IDaoService daoService;
 
+    @InjectMocks
+    private SecurityController securityController;
+
+    @Mock
+    private IDaoService daoService;
+    
+    @Mock
+    HttpSession session = mock(HttpSession.class);
+
+    private Account mockAccount() {
+        Account account = new Account();
+        account.setAid(1);
+        account.setEmail("ngolinh09032002@gmail.com");
+        account.setPassword("123456");
+        account.setPhonenumber("0974841508");
+        account.setRole(3);
+        account.setStatus(1);
+        account.setAddress("sdffwef");
+        account.setName("admin");
+        account.setPicture(null);
+        return account;
+    }
     @Test
-    void UTCID01(){
+    void UTCID01() {
         String email = "ngolinh09032002@gmail.com";
-        Account expectedAccount = new Account(1, email, "0974841508", "09032002", 3, 1, "admin", "123fpr", null);
-        
-        // Mock IDaoService và thiết lập behavior
-        when(daoService.findAccountByEmail(email)).thenReturn(expectedAccount);
-        
-        Account accountservice = daoService.findAccountByEmail(email);
-        assertNotNull(accountservice);
-        assertEquals(expectedAccount, accountservice);
+        String password = "123456";
+        Account mockAccount = mockAccount();
+        when(daoService.findAccountByEmail(email)).thenReturn(mockAccount);
+        ResponseEntity<Boolean> response = securityController.loginByPassword(null, session, email, password, 3);
+        assertTrue(response.getBody(), () -> "Login success");
+    }
+    
+    
+    
+    @Test
+    void UTCID02 () {
+        String email = "ngolinh09032002@gmail.com";
+        String password = "123";
+        Account mockAccount = mockAccount();
+        when(daoService.findAccountByEmail(email)).thenReturn(mockAccount);
+        ResponseEntity<Boolean> response = securityController.loginByPassword(null, session, email, password, 3);
+        assertFalse("Login false",response.getBody());
     }
 
     @Test
-    void UTCID02(){
+    void UTCID03 () {
         String email = "ngolinh09032002@gmail.com";
-        
-        // Mock IDaoService và thiết lập behavior
-        when(daoService.findAccountByEmail(email)).thenReturn(null);
-        
-        Account accountservice = daoService.findAccountByEmail(email);
-        assertNull(accountservice);
+        String password = "";
+        Account mockAccount = mockAccount();
+        when(daoService.findAccountByEmail(email)).thenReturn(mockAccount);
+        ResponseEntity<Boolean> response = securityController.loginByPassword(null, session, email, password, 3);
+        assertFalse("Login false",response.getBody());
+    }
+
+  
+    @Test
+    void UTCID04 () {
+        String email = "ngolinhgmail.com";
+        String password = "123456";
+        Account mockAccount = mockAccount();
+        when(daoService.findAccountByEmail(email)).thenReturn(mockAccount);
+        ResponseEntity<Boolean> response = securityController.loginByPassword(null, session, email, password, 3);
+        assertFalse("Login false",!response.getBody());
+    }
+    
+    @Test 
+    void UTCID05 () {
+        String email = "";
+        String password = "123456";
+        Account mockAccount = mockAccount();
+        when(daoService.findAccountByEmail(email)).thenReturn(mockAccount);
+        ResponseEntity<Boolean> response = securityController.loginByPassword(null, session, email, password, 3);
+        assertFalse("Login false",!response.getBody());
     }
 }
+
+

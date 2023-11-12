@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
-import com.shopping.esoshop.model_ef.*;
-import com.shopping.esoshop.service2.*;
+import com.shopping.esoshop.model.*;
+import com.shopping.esoshop.service.*;
 
 // import jakarta.servlet.http.HttpSession;
 

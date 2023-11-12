@@ -14,17 +14,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriUtils;
 
-import com.shopping.esoshop.model_ef.*;
-import com.shopping.esoshop.service2.IDaoService;
-import com.shopping.esoshop.service2.MailService;
+import com.shopping.esoshop.model.*;
+import com.shopping.esoshop.service.IDaoService;
+import com.shopping.esoshop.service.MailService;
 import com.shopping.esoshop.utils.OtpGenerator;
-
-import org.springframework.web.util.UriUtils;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.nio.charset.StandardCharsets;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
 public class AdminController {
+
     @Autowired
     private IDaoService daoServicel;
     @Autowired
@@ -42,7 +43,7 @@ public class AdminController {
         return ResponseEntity.ok().body(daoServicel.topFeedbackProducts());
     }
 
-    @PostMapping("admin/dashboard/revenue")
+    @PostMapping("/admin/dashboard/revenue")
     public ResponseEntity<List<Revenue>> getRevenue(
             @RequestParam("from") Date from,
             @RequestParam("to") Date to) {
@@ -94,29 +95,41 @@ public class AdminController {
     }
 
     @PostMapping("/api/admin/account/update")
-    public ResponseEntity<Boolean> updateStaff(
-            @RequestParam("aid") Integer aid,
-            @RequestParam("email") String email,
-            @RequestParam("name") String name,
-            @RequestParam("phone") String phone,
-            @RequestParam("address") String address,
-            @RequestParam("password") String password) {
-        Account staff = new Account();
-        staff.setAid(aid);
-        staff.setEmail(email);
-        staff.setPhonenumber(phone);
-        staff.setName(name);
-        staff.setAddress(address);
-        staff.setPassword(password);
+    public ResponseEntity<Boolean> updateStaff(@ModelAttribute Account staff) {
         staff.setRole(2);
         staff.setStatus(1);
-        staff.setPicture("null");
-        return ResponseEntity.ok().body(daoServicel.updateAccount(staff));
+        if(isPasswordValid(staff.getPassword())&& !staff.getName().trim().isEmpty() && !staff.getAddress().trim().isEmpty()){
+            return ResponseEntity.ok().body(daoServicel.updateAccount(staff));
+        }
+        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
+    }
+
+    public boolean isPasswordValid(String password) {
+        if (password.length() < 8 || password.length() > 50) {
+            return false;
+        }
+        if (!containsDigit(password)) {
+            return false;
+        }
+        if (!containsSpecialCharacter(password)) {
+            return false;
+        }
+        return true;
+    }
+
+    private static boolean containsDigit(String password) {
+        return password.matches(".*\\d.*");
+    }
+
+    private static boolean containsSpecialCharacter(String password) {
+        Pattern specialCharPattern = Pattern.compile("[!@#$%^&*(),.?\":{}|<>]");
+        Matcher matcher = specialCharPattern.matcher(password);
+        return matcher.find();
     }
 
     @PostMapping("/api/admin/account/add")
     public ResponseEntity<Boolean> addStaff(@ModelAttribute Account account) {
-        if(account.getPassword().trim().isEmpty()){
+        if(isPasswordValid(account.getPassword())){
             
             String pass = generator.generatePassword();
             account.setPassword(pass);

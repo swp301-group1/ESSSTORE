@@ -9,9 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import com.shopping.esoshop.model_ef.Account;
-import com.shopping.esoshop.service2.DaoService;
+import com.shopping.esoshop.model.Account;
+import com.shopping.esoshop.service.DaoService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -47,7 +46,7 @@ public class GoogleController {
                     case 1:
                         return "redirect:/home";
                     case 2:
-                        return "redirect:/staff/orders";
+                        return "redirect:/staff/login";
                     case 3:
                         return "redirect:/admin/dashboard";
                 }
@@ -76,5 +75,4 @@ public class GoogleController {
         }
         return pathRequest;
     }
-
 }
