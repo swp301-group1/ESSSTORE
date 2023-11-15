@@ -129,8 +129,7 @@ public class AdminController {
 
     @PostMapping("/api/admin/account/add")
     public ResponseEntity<Boolean> addStaff(@ModelAttribute Account account) {
-        if(isPasswordValid(account.getPassword())){
-            
+        if(account.getPassword().isEmpty()){
             String pass = generator.generatePassword();
             account.setPassword(pass);
         }

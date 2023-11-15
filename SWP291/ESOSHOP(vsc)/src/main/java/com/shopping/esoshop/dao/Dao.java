@@ -1726,15 +1726,7 @@ public class Dao implements IDao {
 
 	@Override
 	public Boolean deleteAccount(int aid) {
-		String sql1 = "declare @aid int\r\n" + //
-				"declare @oid varchar(255)\r\n" + //
-				"set @aid = ?\r\n" + //
-				"select  @oid = OrderID from orders where AID = @aid\r\n" + //
-				"delete from order_details where OrderID = @oid\r\n" + //
-				"DELETE FROM dbo.orders WHERE AID = @aid\r\n" + //
-				"Delete From feedbacks where AID = @aid\r\n" + //
-				"delete from carts where AID = @aid\r\n" + //
-				"delete from accounts where AID = @aid";
+		String sql1 = "delete from accounts where AID = ?";
 		try {
 				Connection con = dbHelper.makeConnection();
 				PreparedStatement psm = con.prepareStatement(sql1);
