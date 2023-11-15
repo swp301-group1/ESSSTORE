@@ -11,7 +11,8 @@
 	<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
 
 	<!-- Load fonts style after rendering the layout styles -->
-
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+		integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous" />
 	<!-- Slick -->
 	<link rel="stylesheet" type="text/css" href="css/slick.min.css">
 	<link rel="stylesheet" type="text/css" href="css/slick-theme.css">
@@ -25,15 +26,15 @@
 		.temp-image {
 			display: none;
 			position: absolute;
-		  }
-		  .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-        }
+		}
 
+		.navbar {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			z-index: 1000;
+		}
 	</style>
 
 
@@ -131,8 +132,10 @@ https://templatemo.com/tm-559-zay-shop
 									<div class="col-12">
 										<span style="font-weight: bold;">
 											<span>Color: </span>
-											<div >
-												<input type="color" th:each="color : ${product.color}" th:value="${color.colorId}" onclick="choseColor(this)" readonly disabled>
+											<div>
+												<input type="color" th:each="color : ${product.color}"
+													th:value="${color.colorId}" onclick="choseColor(this)" readonly
+													disabled>
 											</div>
 											<select name="product_color" id="product_color">
 												<option th:value="${color.colorId}" th:each="color: ${product.color}">
@@ -144,8 +147,8 @@ https://templatemo.com/tm-559-zay-shop
 									<div class="col-auto">
 										<ul class="list-inline pb-3">
 											<li class="list-inline-item text-right">
-												<input style="display: none;" type="text" id="product_id" name="product_id"
-													th:value="${product.id}">
+												<input style="display: none;" type="text" id="product_id"
+													name="product_id" th:value="${product.id}">
 												<span style="font-weight: bold;">Quantity: </span>
 												<input type="number" name="product_quanity" id="product_quanity"
 													style="display:none ;">
@@ -163,7 +166,8 @@ https://templatemo.com/tm-559-zay-shop
 									<div class="col d-grid">
 										<button id="btnAddtocart" type="button" class="btn btn-success btn-lg"
 											value="addtocard">Add To Cart</button>
-											<img src="link-to-your-placeholder-image.jpg" alt="Temporary Image" id="temp-image" class="temp-image">
+										<img src="link-to-your-placeholder-image.jpg" alt="Temporary Image"
+											id="temp-image" class="temp-image">
 
 									</div>
 								</div>
@@ -270,7 +274,8 @@ https://templatemo.com/tm-559-zay-shop
 
 			</div>
 
-			<div class="col-5 mt-5" id="feedbacks" style="border: 1px solid white; border-radius: 10px; background-color: aliceblue;">
+			<div class="col-5 mt-5" id="feedbacks"
+				style="border: 1px solid white; border-radius: 10px; background-color: aliceblue;">
 
 				<div class="review-block ">
 					<div class="row">
@@ -316,7 +321,8 @@ https://templatemo.com/tm-559-zay-shop
 		<div class="row justify-content-center container_hotNews">
 			<div class="col-3 mb-3">
 				<span style="font-size: 30px; font-weight: bold; color: rgb(0, 0, 0); width: 20px; margin-right: 10px;"
-				id="categoryname"> </span> <span  style="font-size: 30px; font-weight: bold; color: rgb(0, 0, 0); width: 20px;">Related</span>
+					id="categoryname"> </span> <span
+					style="font-size: 30px; font-weight: bold; color: rgb(0, 0, 0); width: 20px;">Related</span>
 			</div>
 			<div class="col-md-12">
 				<div class="row justify-content-center mb-2" id="list_product">
@@ -342,44 +348,44 @@ https://templatemo.com/tm-559-zay-shop
 
 	<!-- Start Footer -->
 	<footer class="bg-dark" id="tempaltemo_footer">
-        <div class="container">
-            <div class="row">
+		<div class="container">
+			<div class="row">
 
-                <div class="col-md-4 pt-5">
-                    <h2 class="h2 text-success border-bottom pb-3 border-light logo">EVO Shop</h2>
-                    <ul class="list-unstyled text-light footer-link-list">
-                        <li>
-                            <i class="fas fa-map-marker-alt fa-fw"></i>
-                            FPT University, Hoa Lac, Ha Noi
-                        </li>
-                        <li>
-                            <i class="fa fa-phone fa-fw"></i>
-                            <a class="text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
-                        </li>
-                        <li>
-                            <i class="fa fa-envelope fa-fw"></i>
-                            <a class="text-decoration-none" href="mailto:info@company.com">linhndhe163822@fpt.edu.vn</a>
-                        </li>
-                    </ul>
-                </div>
+				<div class="col-md-4 pt-5">
+					<h2 class="h2 text-success border-bottom pb-3 border-light logo">EVO Shop</h2>
+					<ul class="list-unstyled text-light footer-link-list">
+						<li>
+							<i class="fas fa-map-marker-alt fa-fw"></i>
+							FPT University, Hoa Lac, Ha Noi
+						</li>
+						<li>
+							<i class="fa fa-phone fa-fw"></i>
+							<a class="text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
+						</li>
+						<li>
+							<i class="fa fa-envelope fa-fw"></i>
+							<a class="text-decoration-none" href="mailto:info@company.com">linhndhe163822@fpt.edu.vn</a>
+						</li>
+					</ul>
+				</div>
 
-                <div class="col-md-4 pt-5">
-                    <h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
-                    <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="#">Home</a></li>
-                        <li><a class="text-decoration-none" href="#">About Us</a></li>
-                        <li><a class="text-decoration-none" href="#">Shop Locations</a></li>
+				<div class="col-md-4 pt-5">
+					<h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
+					<ul class="list-unstyled text-light footer-link-list">
+						<li><a class="text-decoration-none" href="#">Home</a></li>
+						<li><a class="text-decoration-none" href="#">About Us</a></li>
+						<li><a class="text-decoration-none" href="#">Shop Locations</a></li>
 
-                    </ul>
-                </div>
+					</ul>
+				</div>
 
-            </div>
+			</div>
 
-        </div>
+		</div>
 
 
 
-    </footer>
+	</footer>
 	<!-- End Footer -->
 
 	<!-- Start Script -->
@@ -454,7 +460,7 @@ https://templatemo.com/tm-559-zay-shop
 		function getItemProduct(product) {
 			var html = '<div class="col-2">\n' +
 				'                        <div class="card mb-4 product-wap rounded-0 product-related-card">\n' +
-				'                            <div class="card rounded-0 card-related-image" style="min-height: 212.67px;">\n' +
+				'                            <div class="card rounded-0 card-related-image" style="min-height: 240px;">\n' +
 				'                                <img class="card-related-img rounded-0 img-fluid" style="max-height=212.67px" src="img/' +
 				product.color[0].image + '">\n' +
 				'                                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">\n' +
@@ -464,9 +470,11 @@ https://templatemo.com/tm-559-zay-shop
 				'                                    </ul>\n' +
 				'                                </div>\n' +
 				'                            </div>\n' +
-				'                            <div class="card-related-body" style="min-height: 100px;">\n' +
-				'                                <a style="margin-left:30px; margin-top:20px;" href="/detail' + product.id + '" class="h3 text-decoration-none">' + product.name + '</a>\n' +
-				'                                <ul class="list-unstyled d-flex justify-content-center mb-1 mt-5">\n' +
+				'                            <div class="card-related-body" style="min-height: 200px;">\n' +
+				'    						<div style="height: 120px;">\n' + // Added div with height set to 70px
+				'        						<a style="margin-left:20px; margin-top:20px;" href="/detail' + product.id + '" class="h3 text-decoration-none">' + product.name + '</a>\n' +
+				'    						</div>\n' +
+				'                                <ul class="list-unstyled d-flex justify-content-center mb-1 ">\n' +
 				'                                    <li>\n' +
 				'                                        <i class="text-warning fa fa-star"></i>\n' +
 				'                                        <i class="text-warning fa fa-star"></i>\n' +
@@ -580,56 +588,56 @@ https://templatemo.com/tm-559-zay-shop
 		}
 
 
-		$("#btnAddtocart").click("click", function() {
-            var formData = new FormData();
-            formData.append("product_id", $("#product_id").val());
-            formData.append("product_color", $("#product_color").val());
-            formData.append("product_quanity", $("#product_quanity").val());
-            $.ajax({
-                url: "/addtocart",
-                type: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(data) {
+		$("#btnAddtocart").click("click", function () {
+			var formData = new FormData();
+			formData.append("product_id", $("#product_id").val());
+			formData.append("product_color", $("#product_color").val());
+			formData.append("product_quanity", $("#product_quanity").val());
+			$.ajax({
+				url: "/addtocart",
+				type: "POST",
+				data: formData,
+				processData: false,
+				contentType: false,
+				success: function (data) {
 					getTotalCart();
-                },
-            });
-        });
+				},
+			});
+		});
 
-		$("#btnAddtocart").click(function() {
+		$("#btnAddtocart").click(function () {
 			// Lấy ảnh sản phẩm gốc
 			var productDetail = $("#product-detail");
-		    var d= $("#btnAddtocart");
+			var d = $("#btnAddtocart");
 			// Tạo một bản sao của ảnh tạm thời
 			var tempImage = $("#temp-image").clone();
-			tempImage.attr("src", productDetail.attr("src")); 
+			tempImage.attr("src", productDetail.attr("src"));
 			tempImage.css({
-			  display: "block",
-			  top: d.offset().top,
-			  left: d.offset().left,
-			  width: productDetail.width(),
-			  height: productDetail.height(),
-			  position: "absolute",
-			  zIndex: 999,
+				display: "block",
+				top: d.offset().top,
+				left: d.offset().left,
+				width: productDetail.width(),
+				height: productDetail.height(),
+				position: "absolute",
+				zIndex: 999,
 			});
-		  
+
 			// Thêm ảnh tạm thời vào body
 			$("body").append(tempImage);
-		  
+
 			// Thực hiện hiệu ứng bay cho ảnh tạm thời
 			tempImage.animate({
-			  top: $(".fa-cart-shopping").offset().top,
-			  left: $(".fa-cart-shopping").offset().left,
-			  width: 0,
-			  height: 0,
-			  opacity: 0,
-			}, 1000, function() {
-			  // Khi hiệu ứng hoàn thành, ẩn ảnh tạm thời
-			  tempImage.hide();
-			  
+				top: $(".fa-cart-shopping").offset().top,
+				left: $(".fa-cart-shopping").offset().left,
+				width: 0,
+				height: 0,
+				opacity: 0,
+			}, 1000, function () {
+				// Khi hiệu ứng hoàn thành, ẩn ảnh tạm thời
+				tempImage.hide();
+
 			});
-			setTimeout(function(){
+			setTimeout(function () {
 				$.ajax({
 					type: 'GET',
 					url: '/customer/totalofcart',
@@ -639,10 +647,10 @@ https://templatemo.com/tm-559-zay-shop
 						$("#totalcart").text(data);
 					}
 				});
-			},1000);
+			}, 1000);
 
-		  });
-		  
+		});
+
 	</script>
 
 </body>
