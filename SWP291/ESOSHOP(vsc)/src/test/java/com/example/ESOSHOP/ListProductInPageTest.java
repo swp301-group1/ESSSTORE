@@ -1,6 +1,5 @@
 package com.example.ESOSHOP;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -26,6 +25,7 @@ public class ListProductInPageTest {
         List <Product> expectedProducts =  daoService.getAllProductinPage(pageIndex, pageSize);
         assertTrue(expectedProducts==null,() -> "List is null");
     }
+    
     @Test
     void UTCID02() {
         int pageIndex = 1;
