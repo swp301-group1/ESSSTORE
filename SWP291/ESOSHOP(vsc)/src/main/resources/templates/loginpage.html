@@ -74,17 +74,22 @@
     .closebtn:hover {
       color: black;
     }
-    .login-form{
+
+    .login-form {
       background-color: #f0f0f0;
     }
+
     .error-input {
-      border-color: red; /* Đổi màu viền thành đỏ */
-      color: red; /* Đổi màu chữ thành đỏ */
-  }
-  
-  .error-label {
-      color: red; /* Đổi màu chữ nhãn thành đỏ */
-  }
+      border-color: red;
+      /* Đổi màu viền thành đỏ */
+      color: red;
+      /* Đổi màu chữ thành đỏ */
+    }
+
+    .error-label {
+      color: red;
+      /* Đổi màu chữ nhãn thành đỏ */
+    }
   </style>
 </head>
 
@@ -95,10 +100,11 @@
         <div class="col-4 text-black mt-5 login-form">
           <div class="flex-column align-items-center h-custom-2 " style="margin-top: 50px; margin-left: 50px;">
             <form method="POST" style="width: 23rem;" id="formPassword">
-              <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Log in <i class="fa fa-warning" style="font-size:25px;color:transparent;"></i> </h3>
+              <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Log in <i class="fa fa-warning"
+                  style="font-size:25px;color:transparent;"></i> </h3>
               <div class="form-outline mb-4">
                 <input name="email" type="email" id="email" required class="form-control form-control-lg" />
-                <label class="form-label" for="email" >Email address</label>
+                <label class="form-label" for="email">Email address</label>
               </div>
 
               <div class="form-outline mb-4">
@@ -122,19 +128,21 @@
                 <button type="button" class="btn btn-info btn-lg btn-block" id="btncheckaccount">
                   Login
                 </button>
-                
+
               </div>
             </form>
             <div>
               <span class="mr-4">Sign in with: </span>
-              <button type="button" class="btn btn-outline-primary" id="btnGoogle"><i class="fa-solid fa-user"></i></button>
-              
-              <button type="button" id="continutegoogle" class="btn btn-outline-primary"><i class="fa-brands fa-google"></i>
-                </button>
+              <button type="button" class="btn btn-outline-primary" id="btnGoogle"><i
+                  class="fa-solid fa-user"></i></button>
+
+              <button type="button" id="continutegoogle" class="btn btn-outline-primary"><i
+                  class="fa-brands fa-google"></i>
+              </button>
             </div>
             <p class="small mb-5 pb-lg-2 mt-3"><a class="text-muted" href="#!">Forgot password?</a></p>
             <p>Don't have an account? <a href="" th:href="@{/register}" class="link-info">Register here</a></p>
-            <button type="button"  onclick="backtohome()" class="btn btn-danger mb-2" >
+            <button type="button" id="backButton" class="btn btn-danger mb-2">
               Back to home
             </button>
           </div>
@@ -144,9 +152,10 @@
       </div>
     </div>
     <script>
-      function backToHome() {
-        window.location = "/home";
-     }
+      document.getElementById("backButton").onclick = function () {
+        // Chuyển hướng đến trang index
+        window.location.href = "/home"; // Thay "index.html" bằng đường dẫn thực tế của trang index
+      };
     </script>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -181,11 +190,11 @@
   </section>
 
   <script th:inline="javascript">
-  
-    $("#formPassword").submit(function(event) {
+
+    $("#formPassword").submit(function (event) {
       event.preventDefault();
       var form = document.getElementById("formPassword");
-      var inputs = form.getElementsByTagName("input"); 
+      var inputs = form.getElementsByTagName("input");
       var formData = new FormData();
       formData.append("email_phone", inputs[0].value);
       formData.append("password", inputs[1].value);
@@ -202,10 +211,10 @@
             window.location = "/home";
           }
           else if (!data) {
-            $(".fa-warning").css('color','red');
-           setTimeout(function(){
-            $(".fa-warning").css('color','transparent');
-           },5000);
+            $(".fa-warning").css('color', 'red');
+            setTimeout(function () {
+              $(".fa-warning").css('color', 'transparent');
+            }, 5000);
           }
         },
       });
