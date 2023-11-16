@@ -119,4 +119,6 @@ public interface IDao {
 	public Boolean addNewCategory(Category category);
 	public Boolean addNewBrand(Brand brand);
 	public Boolean addNewSup(Supplier supplier);
+
+	public Double getAVGStar(String productid);
 }

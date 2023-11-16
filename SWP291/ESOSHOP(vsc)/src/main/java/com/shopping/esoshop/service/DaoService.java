@@ -327,4 +327,8 @@ public class DaoService implements IDaoService {
 	public Boolean addNewSup(Supplier supplier) {
 		return dao.addNewSup(supplier);
 	}
+	@Override
+	public Double getAVGStar(String productid) {
+		return dao.getAVGStar(productid);
+	}
 }

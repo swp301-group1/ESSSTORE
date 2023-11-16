@@ -23,7 +23,7 @@ public class ViewController {
     public String getMethodName(HttpSession session,Model model) {
         return checkAccout(session,"/staff/product_management",model);
     }
-
+    ///staff/login
     @GetMapping(value = {"/staff","staff/login"})
     public String login(HttpSession session){
         Account staff = (Account)session.getAttribute("account");

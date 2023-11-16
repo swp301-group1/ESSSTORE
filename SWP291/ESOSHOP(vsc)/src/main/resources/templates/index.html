@@ -55,6 +55,31 @@
     .fblwti-animated{animation-duration:1.5s;animation-fill-mode:forwards;animation-iteration-count:infinite;animation-name:placeHolderShimmer;animation-timing-function:linear;background:#f6f7f8;background:linear-gradient(to right,#eee 8%,#ddd 18%,#eee 33%);background-size:800px 200px;min-height: 451.67px;position:relative}
     @-webkit-keyframes placeHolderShimmer{0%{background-position:-800px 0}100%{background-position:800px 0}}
     @keyframes placeHolderShimmer{0%{background-position:-800px 0}100%{background-position:800px 0}}
+
+	/* Định nghĩa CSS chung ở đây */
+
+/* Media queries cho màn hình điện thoại */
+@media only screen and (max-width: 768px) {
+    /* Thực hiện điều chỉnh dành cho màn hình có chiều rộng tối đa 768px */
+
+    body {
+        /* Điều chỉnh CSS cho body hoặc bất kỳ phần nào khác cần thiết */
+        font-size: 14px;
+    }
+
+    .container-fluid {
+        /* Điều chỉnh CSS cho các container hoặc phần tử khác */
+        padding: 10px;
+    }
+
+    /* Điều chỉnh các phần tử cụ thể khác cần thiết */
+}
+
+/* Media queries cho màn hình tablet */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    /* Thực hiện điều chỉnh dành cho màn hình có chiều rộng từ 768px đến 1024px */
+}
+
 	</style>
 
 </head>

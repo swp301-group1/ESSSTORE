@@ -26,7 +26,7 @@ public class GoogleController {
     //     model.addAttribute("", model)
     //     return "redirect:/register2";
     // }
-
+   // /login/google/1
     @GetMapping("/login/google/{role}")
     public String googleLogin(Authentication authentication, Model model, HttpSession session,
             @PathVariable("role") Integer role) {
@@ -39,7 +39,6 @@ public class GoogleController {
                 if (account.getRole() == role && account.getStatus() == 1) {
                     session.setAttribute("account", account);
                 } else {
-                    model.addAttribute("role", "The account does not have access");
                     session.setAttribute("account", null);
                 }
                 switch (role) {

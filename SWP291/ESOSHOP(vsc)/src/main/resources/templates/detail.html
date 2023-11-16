@@ -185,7 +185,7 @@ https://templatemo.com/tm-559-zay-shop
 					<div class="col-3">
 						<div class="rating-block">
 							<h4>Average user rating</h4>
-							<h2 class="bold padding-bottom-7">4.3 <small>/ 5</small></h2>
+							<h2 class="bold padding-bottom-7"><th:block th:text="${avgstar}"></th:block> <small>/ 5</small></h2>
 							<div id="avgrating">
 
 							</div>
@@ -272,39 +272,7 @@ https://templatemo.com/tm-559-zay-shop
 
 			<div class="col-5 mt-5" id="feedbacks" style="border: 1px solid white; border-radius: 10px; background-color: aliceblue;">
 
-				<div class="review-block ">
-					<div class="row">
-						<div class="col-sm-3">
-							<img src="/img/user.png" style="height: 40px;" class="img-rounded">
-							<div class="review-block-name"><span style="font-weight: bold;">nktailor</span></div>
-							<div class="review-block-date">January 29, 2016<br /></div>
-						</div>
-						<div class="col-sm-1">
-							<div class="review-block-rate">
-								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
-									<span class="fa-solid fa-star" aria-hidden="true"></span>
-								</button>
-								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
-									<span class="fa-solid fa-star" aria-hidden="true"></span>
-								</button>
-								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
-									<span class="fa-solid fa-star" aria-hidden="true"></span>
-								</button>
-								<button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
-									<span class="fa-solid fa-star" aria-hidden="true"></span>
-								</button>
-								<button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
-									<span class="fa-solid fa-star" aria-hidden="true"></span>
-								</button>
-							</div>
-							<div class="review-block-title">this was nice in buy</div>
-							<div class="review-block-description">this was nice in buy. this was nice in buy. this was
-								nice in buy. this was nice in buy this was nice in buy this was nice in buy this was
-								nice in buy this was nice in buy</div>
-						</div>
-					</div>
-					<hr />
-				</div>
+
 			</div>
 
 
@@ -487,12 +455,12 @@ https://templatemo.com/tm-559-zay-shop
 		function getfeedback() {
 			$.ajax({
 				type: 'GET',
-				url: '/product/feedback/' + ([[${ product }]]).id,
+				url: '/product/feedback/' + ([[${product}]]).id,
 				dataType: 'json',
 				contentType: 'application/json',
 				success: function (data) {
 					$("#feedbacks").html(listFeddback(data));
-
+					
 				}
 			});
 		}
@@ -502,8 +470,8 @@ https://templatemo.com/tm-559-zay-shop
 				html = html + '<div class="review-block p-3 mt-3">\n' +
 					'	<div class="row">\n' +
 					'		<div class="col-4">\n' +
-					'			<img src="/img/user.png" style="height: 40px;" class="img-rounded">\n' +
-					'			<div class="review-block-name"><span style="font-weight: bold;">' + feedback.customer.name + '</span></div>\n' +
+					'			<img src="'+feedback.account.picture+'" style="height: 40px;border-radius:50%" class="img-rounded">\n' +
+					'			<div class="review-block-name"><span style="font-weight: bold;">' + feedback.account.name + '</span></div>\n' +
 					'			<div class="review-block-date">' + feedback.date + '<br />' + feedback.time + '<br /></div>\n' +
 					'		</div>\n' +
 					'		<div class="col-4">\n' +
@@ -534,7 +502,7 @@ https://templatemo.com/tm-559-zay-shop
 				success: function (data) {
 					var html = '';
 					console.log(data);
-					$("#avgrating").html(avgStar(data.rating, data.total));
+					$("#avgrating").html(showstar([[${avgstar}]]));
 
 					for (let i = data.rating.length - 1; i > 0; i--) {
 						html = html + '<div class="row d-flex mt-2">\n' +

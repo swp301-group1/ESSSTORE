@@ -61,6 +61,7 @@ public class ViewCustomer {
 			@PathVariable("id")String id) {
 		// product
 		model.addAttribute("product", daoService.getProductbyId(id));
+		model.addAttribute("avgstar", daoService.getAVGStar(id));
 		// save session url to back add to cart more
 		String urlback = "/detail"+id+"";
 		if((String)session.getAttribute("urlback")==null){

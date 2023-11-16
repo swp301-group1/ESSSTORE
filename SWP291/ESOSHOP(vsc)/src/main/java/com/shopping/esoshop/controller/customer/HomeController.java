@@ -36,6 +36,9 @@ public class HomeController {
 	public ResponseEntity<Page> getPages(@PathVariable("n")Integer n) {
 		return ResponseEntity.ok().body(daoService.getPage(n, sizepage));
 	}
-	
+	@GetMapping("/product/star/avg/{productid}")
+	public ResponseEntity<Double> getAVGStar(@PathVariable("productid")String productid ) {
+		return ResponseEntity.ok().body(daoService.getAVGStar(productid));
+	}
 
 }

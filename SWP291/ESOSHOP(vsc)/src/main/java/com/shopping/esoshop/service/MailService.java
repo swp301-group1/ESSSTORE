@@ -605,7 +605,7 @@ public class MailService {
 				"                                                                    style=\"padding:0;Margin:0\">\r\n" + //
 				"                                                                    <h2\r\n" + //
 				"                                                                        style=\"Margin:0;font-family:arial, 'helvetica neue', helvetica, sans-serif;mso-line-height-rule:exactly;letter-spacing:0;font-size:26px;font-style:normal;font-weight:bold;line-height:31px;color:#333333\">\r\n" + //
-				"                                                                        Bill <a target=\"_blank\" href=\"http://localhost:8080/order_history"+orderdetail.get(0).getOrderId()+"\"\r\n" + //
+				"                                                                        Bill <a target=\"_blank\" href=\"/order_history"+orderdetail.get(0).getOrderId()+"\"\r\n" + //
 				"                                                                            style=\"mso-line-height-rule:exactly;text-decoration:underline;color:#5C68E2;font-size:26px\">#"+orderdetail.get(0).getOrderId()+"</a>\r\n" + //
 				"                                                                    </h2>\r\n" + //
 				"                                                                </td>\r\n" + //

@@ -206,7 +206,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"  aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form id="fromupdatestaff">
                             <div class="input-group input-group-sm mb-3" style="display:none">
                                 <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px;">Email</span>
                                 <input type="email" class="form-control" aria-label="Sizing example input"
@@ -250,7 +250,7 @@
                             </div>
         
                             <div class="mt-4">
-                                <button type="button" class="btn btn-primary" onclick="updateStaff()" >Update</button>
+                                <button type="submit" class="btn btn-primary"  >Update</button>
                             </div>
                         </form>
                     </div>
@@ -270,7 +270,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="clere()" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="fromaddstaff">
                         <div class="input-group input-group-sm mb-3">
                             <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px;">Email</span>
                             <input type="email" class="form-control" aria-label="Sizing example input"
@@ -309,7 +309,7 @@
                         </div>
     
                         <div class="mt-4">
-                            <button type="button" class="btn btn-primary" id="addstaff">Submit</button>
+                            <button type="submit" class="btn btn-primary" >Submit</button>
                         </div>
                     </form>
                 </div>
@@ -443,6 +443,10 @@
                 return '<button type="button"  onclick="doban_unban('+acount.aid+','+0+')" class="btn btn-success">Active</button>';
             }
         }
+        $("#fromupdatestaff").submit(function(event) {
+            event.preventDefault();
+            updateStaff();
+        });
         function updateStaff(){
             var conf = confirm("do you want update!");
             var formData = new FormData();
@@ -535,15 +539,18 @@
         $("#addstaff").click(function(){
             createAccount();
         })
-        function createAccount(){
+        $("#fromaddstaff").submit(function(event) {
+            event.preventDefault();
+            var form = document.getElementById("fromaddstaff");
+            var inputs = form.getElementsByTagName("input");    
             var formData = new FormData();
-            formData.append("email",$("#input-email").val());
-            formData.append("phone",$("#input-phone").val());
-            formData.append("password",$("#input-password").val());
+            formData.append("email",inputs[0].value);
+            formData.append("phone",inputs[2].value);
+            formData.append("password",inputs[4].value);
             formData.append("role",2);
             formData.append("status",1);
-            formData.append("name",$("#input-name").val());
-            formData.append("address",$("#input-address").val());
+            formData.append("name",inputs[1].value);
+            formData.append("address",inputs[3].value);
             $.ajax({
                 url: "/api/admin/account/add",
                 type: "POST",
@@ -566,6 +573,9 @@
                     }
                 },
             });  
+        });
+        function createAccount(){
+            
         }
         function deleteAccount(aid){
             var conf = confirm("Do you want to delete the account?");

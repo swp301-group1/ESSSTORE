@@ -102,9 +102,16 @@
                             class="btn btn-dark btn-lg card-footer-btn text-uppercase-bold-sm hover-lift-light">
                             Cancel now
                         </button>
+
+			<button id="feedback" type="button"
+                            class="btn btn-dark btn-lg card-footer-btn text-uppercase-bold-sm hover-lift-light" style="display: none;">
+                            Feedback
+                        </button>
                     </div>
                 </div>
             </div>
+
+            </script>
           <script th:inline="javascript">
             var orderId = [[${orderId}]];
             getBillById(orderId);
@@ -118,6 +125,7 @@
                   console.log(data);
                   if(data.status!==0){
                     $("#pay").css("display","none");
+		    $("#feedback").css("display","block");
                     $("#cancel").css("display","none");
                     $(".fa1").css("display","block");
                   }
@@ -196,6 +204,10 @@
               })
               return html;
             }
+            document.getElementById("feedback").onclick = function () {
+              // Chuyển hướng đến trang index
+              window.location.href = "/order_history"+orderId; 
+            };
           </script>
         </div>
       </div>

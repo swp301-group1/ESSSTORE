@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -1057,7 +1056,7 @@ public class Dao implements IDao {
 				"           ,[Star]\r\n" + //
 				"           ,[Time]\r\n" + //
 				"           ,[Status])\r\n" + //
-				"     VALUEs(?,?,?,?,GETDATE(),0)";
+				"     VALUEs(?,?,?,?,GETDATE(),1)";
 		try {
 			Connection conn = dbHelper.makeConnection();
 			PreparedStatement psm = conn.prepareStatement(sql);
@@ -1474,11 +1473,30 @@ public class Dao implements IDao {
 		}
 		return false;
 	}
+    
+	@Override
+	public Double getAVGStar(String productid) {
+		String sql="DECLARE @avgs DECIMAL(18, 1);\r\n" + //
+				"SELECT @avgs = ROUND(AVG(CAST(Star AS DECIMAL(18, 1))), 1)\r\n" + //
+				"FROM feedbacks where ProductID = ?;\r\n" + //
+				"SELECT @avgs AS 'avg';";
+		try {
+			PreparedStatement psm = dbHelper.makeConnection().prepareStatement(sql);
+			psm.setString(1, productid);
+			ResultSet rs = psm.executeQuery();
+			if(rs.next()){
+				return (rs.getDouble("avg"));
+			}
+			return 0.0;
+		} catch (Exception e) {
+	    	System.out.println(e.getMessage());
+			return 0.0;
+		}
+	}
 
 	@Override
 	public List<Revenue> getRevenues(Date form, Date to) {
-		String sql = "select p.ProductID ,p.ProductName,br.BrandID ,cate.CategoryID,odl.Price ,sum(odl.Quantity) as 'Sold',(odl.Price*sum(odl.Quantity)) as 'Total' from orders as od\r\n"
-				+ //
+		String sql = "select p.ProductID ,p.ProductName,br.BrandID ,cate.CategoryID,odl.Price ,sum(odl.Quantity) as 'Sold',(odl.Price*sum(odl.Quantity)) as 'Total' from orders as od\r\n"+
 				"inner join order_details as odl on odl.OrderID = od.OrderID\r\n" + //
 				"inner join products as p on p.ProductID = odl.ProductID\r\n" + //
 				"inner join categories as cate on cate.CategoryID = p.CategoryID\r\n" + //
