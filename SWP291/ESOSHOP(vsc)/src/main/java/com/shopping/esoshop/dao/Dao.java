@@ -1501,7 +1501,7 @@ public class Dao implements IDao {
 				"inner join products as p on p.ProductID = odl.ProductID\r\n" + //
 				"inner join categories as cate on cate.CategoryID = p.CategoryID\r\n" + //
 				"inner join brands as br on br.BrandID = p.BrandID\r\n" + //
-				"where  od.OrderDate >= ? and od.OrderDate <= ?\r\n" + //
+				"where  CONVERT(DATE,od.OrderDate) >= ? and CONVERT(DATE,od.OrderDate) <= ?\r\n" + //
 				"group by  p.ProductID ,p.ProductName,br.BrandID ,cate.CategoryID,odl.Price \r\n";
 		List<Revenue> revenues = new ArrayList<>();
 		try {
