@@ -41,12 +41,12 @@
 	<html xmlns:th="http://www.thymeleaf.org" th:include="nav.html">
 
 	</html>
-	<div class=" card-cart" style="margin-top: 70px; margin-bottom: 100px; background-color: white;  overflow: hidden;">
+	<div class=" card-cart" style="margin-top: 170px; margin-bottom: 100px; background-color: white;  overflow: hidden;">
 
 
 
 		<form class="row d-flex " style="margin: 0;" action="/order" method="post">
-			<div class="col-8 p-4">
+			<div class="col-8 p-4" style="overflow-y: scroll; max-height: 600px;">
 				<div class="row flex-column">
 					<div class="col">
 						<a th:href="@{${session.urlback}}"><button type="button" class="btn btn-grey"><i
