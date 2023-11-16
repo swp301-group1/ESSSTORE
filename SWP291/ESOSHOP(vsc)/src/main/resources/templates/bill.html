@@ -125,7 +125,7 @@
                   console.log(data);
                   if(data.status!==0){
                     $("#pay").css("display","none");
-		    $("#feedback").css("display","block");
+		                $("#feedback").css("display","block");
                     $("#cancel").css("display","none");
                     $(".fa1").css("display","block");
                   }
@@ -148,12 +148,10 @@
                 dataType: 'json',
                 contentType: 'application/json',
                 success: function (data) {
-                 
+                  
                 }
               });
-              setTimeout(function() {
-                location.reload();
-            }, 5000);
+              window.location.href="/order_history"+orderId;
             })
             $("#pay").click('click',function(){
               $.ajax({

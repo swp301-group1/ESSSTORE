@@ -549,20 +549,20 @@ https://templatemo.com/tm-559-zay-shop
 
 
 		$("#btnAddtocart").click("click", function() {
-            var formData = new FormData();
-            formData.append("product_id", $("#product_id").val());
-            formData.append("product_color", $("#product_color").val());
-            formData.append("product_quanity", $("#product_quanity").val());
-            $.ajax({
-                url: "/addtocart",
-                type: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(data) {
-					getTotalCart();
-                },
-            });
+		   var formData = new FormData();
+		   formData.append("product_id", $("#product_id").val());
+		   formData.append("product_color", $("#product_color").val());
+		   formData.append("product_quanity", $("#var-value").text());
+		   $.ajax({
+			   url: "/addtocart",
+			   type: "POST",
+			   data: formData,
+			   processData: false,
+			   contentType: false,
+			   success: function(data) {
+				   getTotalCart();
+			   },
+		   });
         });
 
 		$("#btnAddtocart").click(function() {

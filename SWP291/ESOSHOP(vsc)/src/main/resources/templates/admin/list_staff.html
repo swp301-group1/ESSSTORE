@@ -206,7 +206,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"  aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="fromupdatestaff">
+                        <form >
                             <div class="input-group input-group-sm mb-3" style="display:none">
                                 <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px;">Email</span>
                                 <input type="email" class="form-control" aria-label="Sizing example input"
@@ -250,7 +250,7 @@
                             </div>
         
                             <div class="mt-4">
-                                <button type="submit" class="btn btn-primary"  >Update</button>
+                                <button type="button" class="btn btn-primary" onclick="updateStaff()" >Update</button>
                             </div>
                         </form>
                     </div>
@@ -443,10 +443,7 @@
                 return '<button type="button"  onclick="doban_unban('+acount.aid+','+0+')" class="btn btn-success">Active</button>';
             }
         }
-        $("#fromupdatestaff").submit(function(event) {
-            event.preventDefault();
-            updateStaff();
-        });
+        
         function updateStaff(){
             var conf = confirm("do you want update!");
             var formData = new FormData();

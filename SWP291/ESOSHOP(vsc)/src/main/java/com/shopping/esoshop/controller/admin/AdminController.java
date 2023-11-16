@@ -95,15 +95,22 @@ public class AdminController {
     }
 
     @PostMapping("/api/admin/account/update")
-    public ResponseEntity<Boolean> updateStaff(@ModelAttribute Account staff) {
-        staff.setRole(2);
-        staff.setStatus(1);
-        if(isPasswordValid(staff.getPassword())&& !staff.getName().trim().isEmpty() && !staff.getAddress().trim().isEmpty()){
-            return ResponseEntity.ok().body(daoServicel.updateAccount(staff));
-        }
-        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
-    }
+    public ResponseEntity<Boolean> updateStaff(
 
+        @RequestParam("aid")Integer aid,
+        @RequestParam("email")String email,
+        @RequestParam("name")String name,
+		@RequestParam("phonenumber")String phone,
+		@RequestParam("address") String address,
+		@RequestParam("password") String password ) {
+        Account staff =new Account(aid,email,phone,password,2,1,name,address,null);
+        boolean result = daoServicel.updateAccount(staff);
+        if(result){
+            mailService.sendEmail(email, "Password", password);
+            return ResponseEntity.ok().body(true);
+        }
+        return ResponseEntity.ok().body(false);
+        }
     public boolean isPasswordValid(String password) {
         if (password.length() < 8 || password.length() > 50) {
             return false;
